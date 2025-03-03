@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #000; color: #fff; font-family: Arial, sans-serif; }
+        .hero-section { text-align: center; padding: 80px 20px; color: white; }
+        .navbar { background: #111; }
+        .navbar-brand { font-size: 24px; color: white; }
+        .category-card { padding: 20px; border-radius: 10px; background: #222; box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); text-align: center; cursor: pointer; position: relative; color: white; }
+        .category-card:hover { background: #333; transition: 0.3s; }
+        .description { display: none; position: absolute; background: rgba(255, 255, 255, 0.8); color: #000; padding: 10px; border-radius: 5px; bottom: 100%; left: 50%; transform: translateX(-50%); width: 80%; text-align: center; }
+        .category-card:hover .description { display: block; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">Enterprise Hub</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link text-white" href="strategy.html">Strategy</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="innovation.html">Innovation</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="finance.html">Finance</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="operations.html">Operations</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="technology.html">Technology</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="hero-section">
+        <h1>Welcome to Enterprise Hub</h1>
+        <p>Explore cutting-edge strategy, innovation, finance, operations, and technology.</p>
+    </div>
+    <div class="container my-5">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <a href="strategy.html" class="text-decoration-none text-white">
+                    <div class="category-card">Strategy<div class="description">Master the art of business planning and market positioning.</div></div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="innovation.html" class="text-decoration-none text-white">
+                    <div class="category-card">Innovation<div class="description">Drive progress with groundbreaking ideas and transformative thinking.</div></div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="finance.html" class="text-decoration-none text-white">
+                    <div class="category-card">Finance<div class="description">Gain insights into investment, budgeting, and financial management.</div></div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="operations.html" class="text-decoration-none text-white">
+                    <div class="category-card">Operations<div class="description">Optimize business processes and enhance efficiency.</div></div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="technology.html" class="text-decoration-none text-white">
+                    <div class="category-card">Technology<div class="description">Leverage cutting-edge tools for digital transformation.</div></div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

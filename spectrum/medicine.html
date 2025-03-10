@@ -1,73 +1,1300 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Archive of Infinity</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medicine Archive | Archive of Infinity</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      scroll-behavior: smooth;
+    }
+    .gradient-bg {
+      background: linear-gradient(135deg, #8B5CF6 0%, #D946EF 100%);
+    }
+    .card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+    .animate-pulse-slow {
+      animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    .animate-fade-in {
+      animation: fadeIn 1s ease-in;
+    }
+    .timeline-item {
+      position: relative;
+      padding-left: 2rem;
+      padding-bottom: 2rem;
+      border-left: 2px solid #E5E7EB;
+    }
+    .timeline-item:last-child {
+      border-left: 2px solid transparent;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -9px;
+      top: 0;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #8B5CF6;
+    }
+    .stat-card {
+      background: white;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.5s ease-in;
+    }
+    .quote-box {
+      position: relative;
+      padding: 2rem;
+      background-color: #F3F4F6;
+      border-radius: 1rem;
+      margin: 4rem 0;
+    }
+    .quote-box::before {
+      content: '"';
+      position: absolute;
+      top: -1.5rem;
+      left: 1rem;
+      font-size: 6rem;
+      color: #8B5CF6;
+      opacity: 0.2;
+      line-height: 1;
+    }
+    .resource-card {
+      border: 1px solid #E5E7EB;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+    }
+    .resource-card:hover {
+      border-color: #8B5CF6;
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px -3px rgba(139, 92, 246, 0.1), 0 4px 6px -2px rgba(139, 92, 246, 0.05);
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .progress-container {
+      height: 8px;
+      width: 100%;
+      background: #E5E7EB;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #8B5CF6, #D946EF);
+      width: 0;
+      transition: width 1.5s ease;
+    }
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #8B5CF6, #D946EF);
+      z-index: 1000;
+      width: 0%;
+      transition: width 0.2s ease;
+    }
+    .accordion-header {
+      cursor: pointer;
+      padding: 1rem;
+      border-bottom: 1px solid #E5E7EB;
+      position: relative;
+    }
+    .accordion-header::after {
+      content: '+';
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.5rem;
+      color: #8B5CF6;
+      transition: transform 0.3s ease;
+    }
+    .accordion-header.active::after {
+      content: '-';
+    }
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      background-color: #F9FAFB;
+    }
+    .accordion-content.active {
+      max-height: 500px;
+    }
+  </style>
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">Archive of Infinity</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#science">Science</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#philosophy">Philosophy</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#enterprise">Enterprise</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#creativity">Creativity</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#technology">Technology</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#research">Research</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#understanding">Understanding</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#medicine">Medicine</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-primary text-white ms-2" href="#login">Login</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-success text-white ms-2" href="#signup">Sign Up</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+<body class="bg-gray-50">
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress"></div>
 
-    <header class="bg-primary text-white text-center py-5">
-        <div class="container">
-            <h1>Welcome to Archive of Infinity</h1>
-            <p>Discover knowledge across endless domains</p>
+  <!-- Navigation -->
+  <nav class="bg-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex">
+          <a href="/" class="flex-shrink-0 flex items-center">
+            <span class="text-xl font-bold text-purple-600">Archive of Infinity</span>
+          </a>
+          <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+            <a href="/" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Home</a>
+            <a href="#health" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Health</a>
+            <a href="#nutrition" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Nutrition</a>
+            <a href="#psychology" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Psychology</a>
+            <a href="#pharmacology" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Pharmacology</a>
+            <a href="#resources" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Resources</a>
+          </div>
         </div>
-    </header>
+        <!-- Mobile menu button -->
+        <div class="flex items-center sm:hidden">
+          <button type="button" class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500">
+            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Mobile menu, show/hide based on menu state -->
+    <div class="hidden mobile-menu sm:hidden">
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        <a href="/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Home</a>
+        <a href="#health" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Health</a>
+        <a href="#nutrition" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Nutrition</a>
+        <a href="#psychology" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Psychology</a>
+        <a href="#pharmacology" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Pharmacology</a>
+        <a href="#resources" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Resources</a>
+      </div>
+    </div>
+  </nav>
 
-    <section class="container my-5">
-        <div class="row text-center">
-            <div class="col-md-4">
-                <img src="https://via.placeholder.com/300" class="img-fluid rounded" alt="Science">
-                <h3 id="science">Science</h3>
-                <p>Explore Physics, Chemistry, Biology, and more.</p>
-            </div>
-            <div class="col-md-4">
-                <img src="https://via.placeholder.com/300" class="img-fluid rounded" alt="Philosophy">
-                <h3 id="philosophy">Philosophy</h3>
-                <p>Deep thoughts on history, ethics, and logic.</p>
-            </div>
-            <div class="col-md-4">
-                <img src="https://via.placeholder.com/300" class="img-fluid rounded" alt="Enterprise">
-                <h3 id="enterprise">Enterprise</h3>
-                <p>Business, finance, and entrepreneurship.</p>
-            </div>
+  <!-- Hero Section -->
+  <div class="gradient-bg py-16 sm:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h1 class="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl">
+          Medicine Archive
+        </h1>
+        <p class="mt-3 max-w-md mx-auto text-base text-purple-100 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+          Exploring health, nutrition, psychology, and pharmacology through the lens of history and innovation.
+        </p>
+        <div class="mt-8 flex justify-center">
+          <div class="rounded-md shadow">
+            <a href="#health" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-purple-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10">
+              Start Exploring
+            </a>
+          </div>
+          <div class="ml-3 rounded-md shadow">
+            <a href="#resources" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-purple-800 hover:bg-purple-700 md:py-4 md:text-lg md:px-10">
+              View Resources
+            </a>
+          </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Overview Cards -->
+  <div class="relative -mt-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="animate-fade-in bg-white p-5 rounded-lg shadow-lg">
+        <div class="flex items-center">
+          <div class="bg-purple-100 p-3 rounded-full mr-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold">Health & Wellness</h3>
+            <p class="text-sm text-gray-500">Preventative care & medicine</p>
+          </div>
+        </div>
+      </div>
+      <div class="animate-fade-in bg-white p-5 rounded-lg shadow-lg" style="animation-delay: 0.2s">
+        <div class="flex items-center">
+          <div class="bg-green-100 p-3 rounded-full mr-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold">Nutrition Science</h3>
+            <p class="text-sm text-gray-500">Diet, nutrients & metabolism</p>
+          </div>
+        </div>
+      </div>
+      <div class="animate-fade-in bg-white p-5 rounded-lg shadow-lg" style="animation-delay: 0.4s">
+        <div class="flex items-center">
+          <div class="bg-blue-100 p-3 rounded-full mr-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold">Psychology</h3>
+            <p class="text-sm text-gray-500">Mind, behavior & mental health</p>
+          </div>
+        </div>
+      </div>
+      <div class="animate-fade-in bg-white p-5 rounded-lg shadow-lg" style="animation-delay: 0.6s">
+        <div class="flex items-center">
+          <div class="bg-red-100 p-3 rounded-full mr-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold">Pharmacology</h3>
+            <p class="text-sm text-gray-500">Drugs, therapeutics & development</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    
+    <!-- Health Section -->
+    <section id="health" class="mb-24 scroll-mt-24">
+      <div class="flex flex-col md:flex-row items-center">
+        <div class="md:w-1/2 pr-0 md:pr-8 mb-8 md:mb-0">
+          <div class="inline-block py-1 px-3 rounded-full text-sm font-semibold bg-purple-100 text-purple-800 mb-4">
+            Health & Wellness
+          </div>
+          <h2 class="text-3xl font-bold text-gray-900 mb-4">The Science of Health & Wellness</h2>
+          <p class="text-lg text-gray-600 mb-6">
+            Explore the fascinating world of medical advances, preventative care, and holistic wellness approaches 
+            that have shaped our understanding of health throughout history and into the modern era.
+          </p>
+          
+          <div class="quote-box">
+            <p class="italic text-xl text-gray-700">"The art of medicine consists in amusing the patient while nature cures the disease."</p>
+            <p class="mt-2 text-right text-gray-600">— Voltaire</p>
+          </div>
+          
+          <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold text-purple-600 mb-3">Key Research Areas</h3>
+            <ul class="space-y-3 text-gray-700">
+              <li class="flex items-center">
+                <svg class="h-5 w-5 text-purple-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                <span><strong>Preventative Medicine:</strong> Identifying and addressing risk factors before disease onset</span>
+              </li>
+              <li class="flex items-center">
+                <svg class="h-5 w-5 text-purple-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                <span><strong>Epidemiology:</strong> Studying patterns, causes, and effects of health conditions in defined populations</span>
+              </li>
+              <li class="flex items-center">
+                <svg class="h-5 w-5 text-purple-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                <span><strong>Public Health Initiatives:</strong> Organized efforts to improve population health through policy, education, and services</span>
+              </li>
+              <li class="flex items-center">
+                <svg class="h-5 w-5 text-purple-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                <span><strong>Wellness & Lifestyle Medicine:</strong> Holistic approaches to health maintenance and optimization</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="md:w-1/2">
+          <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+               alt="Health and Medicine" 
+               class="rounded-lg shadow-xl w-full h-auto animate-float">
+          
+          <div class="mt-6 grid grid-cols-2 gap-4">
+            <div class="stat-card">
+              <div class="text-purple-600 text-3xl font-bold mb-1">87%</div>
+              <div class="text-gray-700 text-sm">of chronic diseases are preventable through lifestyle changes</div>
+            </div>
+            <div class="stat-card">
+              <div class="text-purple-600 text-3xl font-bold mb-1">68.8</div>
+              <div class="text-gray-700 text-sm">years is the global average life expectancy</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Health Timeline -->
+      <div class="mt-16">
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">The Evolution of Medical Understanding</h3>
+        
+        <div class="space-y-0">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="ml-6">
+              <div class="text-xl font-semibold text-gray-900">Ancient Medicine (3000 BCE - 500 CE)</div>
+              <p class="mt-1 text-gray-600">Early civilizations developed sophisticated medical systems, with Egyptian papyri documenting surgical techniques, Hippocrates establishing ethical medical practice in Greece, and Traditional Chinese Medicine and Ayurveda developing comprehensive holistic approaches.</p>
+            </div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="ml-6">
+              <div class="text-xl font-semibold text-gray-900">Renaissance Medicine (14th-17th centuries)</div>
+              <p class="mt-1 text-gray-600">Anatomical discoveries by Vesalius and Harvey's description of blood circulation transformed understanding of the human body, while the microscope opened new frontiers in observing previously invisible biological structures.</p>
+            </div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="ml-6">
+              <div class="text-xl font-semibold text-gray-900">Modern Medicine (19th-20th centuries)</div>
+              <p class="mt-1 text-gray-600">Pasteur and Koch established germ theory, anesthesia revolutionized surgery, and Fleming's discovery of penicillin began the antibiotic era. Vaccines, diagnostic imaging, and public health measures dramatically improved population health outcomes.</p>
+            </div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="ml-6">
+              <div class="text-xl font-semibold text-gray-900">Digital Health Era (21st century)</div>
+              <p class="mt-1 text-gray-600">Genomic medicine, digital health technologies, AI diagnostics, personalized medicine, telemedicine, and wearable health monitors are transforming healthcare delivery and patient engagement, while bringing new ethical and access challenges.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Research Spotlights -->
+      <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+          <h4 class="text-lg font-semibold text-gray-900 mb-2">Lifestyle as Medicine</h4>
+          <p class="text-gray-600 mb-4">Research increasingly demonstrates the powerful impact of lifestyle factors—including diet, physical activity, sleep, stress management, and social connection—in preventing and treating chronic disease.</p>
+          <div class="flex justify-between text-sm">
+            <span class="text-purple-600">Preventative Medicine</span>
+            <span class="text-gray-500">1,200+ studies</span>
+          </div>
+        </div>
+        
+        <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-blue-500">
+          <h4 class="text-lg font-semibold text-gray-900 mb-2">Social Determinants of Health</h4>
+          <p class="text-gray-600 mb-4">The conditions in which people are born, live, work, and age significantly impact health outcomes, often more powerfully than healthcare interventions or individual behaviors.</p>
+          <div class="flex justify-between text-sm">
+            <span class="text-blue-600">Public Health</span>
+            <span class="text-gray-500">800+ studies</span>
+          </div>
+        </div>
+        
+        <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+          <h4 class="text-lg font-semibold text-gray-900 mb-2">Digital Health Interventions</h4>
+          <p class="text-gray-600 mb-4">Mobile apps, wearables, telehealth, and remote monitoring technologies are showing promise in expanding healthcare access, improving adherence, and enabling earlier interventions.</p>
+          <div class="flex justify-between text-sm">
+            <span class="text-green-600">Healthcare Technology</span>
+            <span class="text-gray-500">650+ studies</span>
+          </div>
+        </div>
+      </div>
     </section>
-
-    <section id="create-account" class="container text-center my-5">
-        <h2>Create an Account</h2>
-        <p>Join the Archive of Infinity to explore and contribute knowledge.</p>
-        <a href="#signup" class="btn btn-success btn-lg">Sign Up</a>
-        <a href="#login" class="btn btn-primary btn-lg">Login</a>
+    
+    <!-- Nutrition Section -->
+    <section id="nutrition" class="mb-24 scroll-mt-24">
+      <div class="flex flex-col md:flex-row-reverse items-center">
+        <div class="md:w-1/2 pl-0 md:pl-8 mb-8 md:mb-0">
+          <div class="inline-block py-1 px-3 rounded-full text-sm font-semibold bg-green-100 text-green-800 mb-4">
+            Nutrition Science
+          </div>
+          <h2 class="text-3xl font-bold text-gray-900 mb-4">The Science of Nutrition</h2>
+          <p class="text-lg text-gray-600 mb-6">
+            Delve into the science of nutrition and discover how food impacts our health, 
+            from macronutrients and micronutrients to dietary patterns and specialized nutritional approaches.
+          </p>
+          
+          <div class="quote-box">
+            <p class="italic text-xl text-gray-700">"Let food be thy medicine and medicine be thy food."</p>
+            <p class="mt-2 text-right text-gray-600">— Hippocrates</p>
+          </div>
+          
+          <!-- Tabs for different nutrition topics -->
+          <div class="mt-6 border rounded-lg overflow-hidden">
+            <div class="flex border-b">
+              <button class="nutrition-tab py-3 px-4 w-1/3 bg-white text-purple-600 border-b-2 border-purple-600 font-medium text-sm focus:outline-none" data-tab="macro">
+                Macronutrients
+              </button>
+              <button class="nutrition-tab py-3 px-4 w-1/3 bg-gray-50 text-gray-600 font-medium text-sm focus:outline-none" data-tab="micro">
+                Micronutrients
+              </button>
+              <button class="nutrition-tab py-3 px-4 w-1/3 bg-gray-50 text-gray-600 font-medium text-sm focus:outline-none" data-tab="diets">
+                Dietary Patterns
+              </button>
+            </div>
+            
+            <div class="tab-content active" id="macro-content">
+              <div class="p-4">
+                <p class="text-gray-700 mb-3"><strong>Proteins:</strong> The building blocks of the body, essential for growth, repair, and immune function. Complete proteins contain all nine essential amino acids.</p>
+                <p class="text-gray-700 mb-3"><strong>Carbohydrates:</strong> The body's primary energy source, ranging from simple sugars to complex starches and fibers.</p>
+                <p class="text-gray-700 mb-3"><strong>Fats:</strong> Essential for hormone production, nutrient absorption, cell membrane integrity, and long-term energy storage.</p>
+                <p class="text-gray-700">Each macronutrient plays specific roles in metabolism and overall health, with optimal ratios varying by individual needs and health goals.</p>
+              </div>
+            </div>
+            
+            <div class="tab-content" id="micro-content">
+              <div class="p-4">
+                <p class="text-gray-700 mb-3"><strong>Vitamins:</strong> Organic compounds required in small amounts for normal metabolism, growth, and vitality. They include fat-soluble (A, D, E, K) and water-soluble (B complex, C) vitamins.</p>
+                <p class="text-gray-700 mb-3"><strong>Minerals:</strong> Inorganic elements essential for physiological functions, including bone development, nerve conduction, muscle contraction, and enzyme activation.</p>
+                <p class="text-gray-700 mb-3"><strong>Phytonutrients:</strong> Plant-derived compounds that provide health benefits beyond basic nutrition, including antioxidant, anti-inflammatory, and cell-protective effects.</p>
+                <p class="text-gray-700">Micronutrient deficiencies can lead to specific health conditions, while optimal levels support robust health and disease resistance.</p>
+              </div>
+            </div>
+            
+            <div class="tab-content" id="diets-content">
+              <div class="p-4">
+                <p class="text-gray-700 mb-3"><strong>Mediterranean Diet:</strong> Emphasizes fruits, vegetables, whole grains, legumes, olive oil, and moderate fish consumption, associated with cardiovascular and cognitive benefits.</p>
+                <p class="text-gray-700 mb-3"><strong>Plant-Based Diets:</strong> From flexible vegetarian approaches to strict vegan diets, associated with reduced risks of certain chronic diseases.</p>
+                <p class="text-gray-700 mb-3"><strong>Ketogenic Diet:</strong> Very low-carbohydrate, high-fat approach that shifts metabolism toward fat utilization, with applications in neurological conditions.</p>
+                <p class="text-gray-700">Research suggests dietary pattern quality matters more than specific restrictive approaches, with whole foods and plant predominance showing consistent benefits.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="md:w-1/2">
+          <img src="https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+               alt="Nutrition Science" 
+               class="rounded-lg shadow-xl w-full h-auto animate-float">
+          
+          <div class="mt-6 grid grid-cols-2 gap-4">
+            <div class="stat-card">
+              <div class="text-green-600 text-3xl font-bold mb-1">25-30%</div>
+              <div class="text-gray-700 text-sm">of total calories should come from high-quality fats</div>
+            </div>
+            <div class="stat-card">
+              <div class="text-green-600 text-3xl font-bold mb-1">30g</div>
+              <div class="text-gray-700 text-sm">of fiber recommended daily for adults</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Nutrition Facts -->
+      <div class="mt-16">
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">Essential Nutrients Overview</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div class="stat-card">
+            <div class="text-purple-600 text-3xl font-bold mb-2">60+</div>
+            <div class="text-gray-800 font-medium mb-1">Essential Nutrients</div>
+            <div class="text-gray-600 text-sm">Required for normal physiological function that the body cannot synthesize in sufficient quantities</div>
+            <div class="mt-3 progress-container">
+              <div class="progress-bar" style="width: 100%"></div>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="text-purple-600 text-3xl font-bold mb-2">13</div>
+            <div class="text-gray-800 font-medium mb-1">Essential Vitamins</div>
+            <div class="text-gray-600 text-sm">Including fat-soluble (A, D, E, K) and water-soluble (B complex, C) vitamins</div>
+            <div class="mt-3 progress-container">
+              <div class="progress-bar" style="width: 22%"></div>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="text-purple-600 text-3xl font-bold mb-2">16</div>
+            <div class="text-gray-800 font-medium mb-1">Essential Minerals</div>
+            <div class="text-gray-600 text-sm">Including macrominerals (Ca, P, K, S, Na, Cl, Mg) and trace minerals (Fe, I, Zn, etc.)</div>
+            <div class="mt-3 progress-container">
+              <div class="progress-bar" style="width: 27%"></div>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="text-purple-600 text-3xl font-bold mb-2">9</div>
+            <div class="text-gray-800 font-medium mb-1">Essential Amino Acids</div>
+            <div class="text-gray-600 text-sm">Protein building blocks that must be obtained from diet: His, Ile, Leu, Lys, Met, Phe, Thr, Trp, Val</div>
+            <div class="mt-3 progress-container">
+              <div class="progress-bar" style="width: 15%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Nutrition Research -->
+      <div class="mt-16">
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">Current Research in Nutrition Science</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="bg-green-500 h-3"></div>
+            <div class="p-6">
+              <h4 class="text-xl font-semibold text-gray-900 mb-3">Nutrigenomics</h4>
+              <p class="text-gray-600 mb-4">The study of how food influences gene expression and how genetic variations affect response to nutrients, enabling personalized nutrition recommendations based on genetic profiles.</p>
+              <div class="flex items-center">
+                <div class="text-green-600 font-semibold">Key finding:</div>
+                <div class="ml-2 text-gray-700">Specific gene variants (like MTHFR, APOE, FTO) significantly influence how individuals metabolize and respond to certain nutrients.</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="bg-blue-500 h-3"></div>
+            <div class="p-6">
+              <h4 class="text-xl font-semibold text-gray-900 mb-3">Gut Microbiome</h4>
+              <p class="text-gray-600 mb-4">The trillions of microorganisms in our digestive tract influence nutrient metabolism, immune function, and even mood and cognitive function. Diet strongly shapes microbiome composition.</p>
+              <div class="flex items-center">
+                <div class="text-blue-600 font-semibold">Key finding:</div>
+                <div class="ml-2 text-gray-700">Dietary fiber and fermented foods promote beneficial gut bacteria associated with lower inflammation and improved metabolic health.</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="bg-purple-500 h-3"></div>
+            <div class="p-6">
+              <h4 class="text-xl font-semibold text-gray-900 mb-3">Chrononutrition</h4>
+              <p class="text-gray-600 mb-4">The study of how meal timing affects metabolism and health, based on circadian rhythms that regulate many physiological processes including nutrient metabolism.</p>
+              <div class="flex items-center">
+                <div class="text-purple-600 font-semibold">Key finding:</div>
+                <div class="ml-2 text-gray-700">Eating in alignment with circadian rhythms (e.g., earlier in the day) may improve metabolic outcomes even with identical caloric intake.</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="bg-red-500 h-3"></div>
+            <div class="p-6">
+              <h4 class="text-xl font-semibold text-gray-900 mb-3">Food Matrix Effects</h4>
+              <p class="text-gray-600 mb-4">The physical and chemical interactions between nutrients within whole foods significantly impact bioavailability and health effects compared to isolated nutrients.</p>
+              <div class="flex items-center">
+                <div class="text-red-600 font-semibold">Key finding:</div>
+                <div class="ml-2 text-gray-700">Whole food sources often provide health benefits that cannot be replicated by nutritional supplements containing equivalent nutrients.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
+    
+    <!-- Psychology Section -->
+    <section id="psychology" class="mb-24 scroll-mt-24">
+      <div class="flex flex-col md:flex-row items-center">
+        <div class="md:w-1/2 pr-0 md:pr-8 mb-8 md:mb-0">
+          <div class="inline-block py-1 px-3 rounded-full text-sm font-semibold bg-blue-100 text-blue-800 mb-4">
+            Psychology
+          </div>
+          <h2 class="text-3xl font-bold text-gray-900 mb-4">The Science of Mind & Behavior</h2>
+          <p class="text-lg text-gray-600 mb-6">
+            Explore the human mind and behavior through various psychological perspectives, 
+            from cognitive processes to emotional development and mental health interventions.
+          </p>
+          
+          <div class="quote-box">
+            <p class="italic text-xl text-gray-700">"The mind is not a vessel to be filled, but a fire to be kindled."</p>
+            <p class="mt-2 text-right text-gray-600">— Plutarch</p>
+          </div>
+          
+          <!-- Accordion for different psychology perspectives -->
+          <div class="mt-6 border rounded-lg overflow-hidden">
+            <div class="accordion-header">
+              <div class="font-medium">Cognitive Psychology</div>
+            </div>
+            <div class="accordion-content">
+              <div class="p-4">
+                <p class="text-gray-700">The scientific study of mental processes such as attention, language use, memory, perception, problem solving, and thinking. This field examines how people acquire, process, and store information.</p>
+                <div class="mt-2 text-sm font-medium text-blue-600">Key concepts: Working memory, cognitive bias, attention, pattern recognition</div>
+              </div>
+            </div>
+            
+            <div class="accordion-header">
+              <div class="font-medium">Clinical Psychology</div>
+            </div>
+            <div class="accordion-content">
+              <div class="p-4">
+                <p class="text-gray-700">Focuses on the assessment, diagnosis, treatment, and prevention of mental illness and psychological distress. Clinical psychologists integrate science, theory, and practice to address psychological issues and promote well-being.</p>
+                <div class="mt-2 text-sm font-medium text-blue-600">Key concepts: Psychotherapy, evidence-based practice, psychological assessment, mental health diagnosis</div>
+              </div>
+            </div>
+            
+            <div class="accordion-header">
+              <div class="font-medium">Developmental Psychology</div>
+            </div>
+            <div class="accordion-content">
+              <div class="p-4">
+                <p class="text-gray-700">Studies how humans grow and change throughout the lifespan, examining physical, cognitive, social, intellectual, perceptual, personality, and emotional growth from infancy through old age.</p>
+                <div class="mt-2 text-sm font-medium text-blue-600">Key concepts: Attachment theory, developmental stages, neuroplasticity, critical periods</div>
+              </div>
+            </div>
+            
+            <div class="accordion-header">
+              <div class="font-medium">Social Psychology</div>
+            </div>
+            <div class="accordion-content">
+              <div class="p-4">
+                <p class="text-gray-700">Examines how people's thoughts, feelings, and behaviors are influenced by the actual, imagined, or implied presence of others, including topics like group behavior, social influence, and interpersonal relationships.</p>
+                <div class="mt-2 text-sm font-medium text-blue-600">Key concepts: Social influence, group dynamics, attitudes, stereotyping</div>
+              </div>
+            </div>
+            
+            <div class="accordion-header">
+              <div class="font-medium">Neuropsychology</div>
+            </div>
+            <div class="accordion-content">
+              <div class="p-4">
+                <p class="text-gray-700">Explores the relationship between brain function and behavior, examining how psychological processes relate to neural mechanisms and how brain injuries or conditions affect cognitive function.</p>
+                <div class="mt-2 text-sm font-medium text-blue-600">Key concepts: Brain-behavior relationships, cognitive assessment, neuroplasticity, neural correlates</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="md:w-1/2">
+          <img src="https://images.unsplash.com/photo-1507413245164-6160d8298b31?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+               alt="Psychology" 
+               class="rounded-lg shadow-xl w-full h-auto animate-float">
+          
+          <div class="mt-6 bg-white p-6 rounded-lg shadow-md">
+            <h4 class="text-xl font-semibold text-gray-900 mb-3">The Brain by Numbers</h4>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <div class="text-blue-600 text-3xl font-bold">86B</div>
+                <div class="text-gray-700 text-sm">Neurons in the adult human brain</div>
+              </div>
+              <div>
+                <div class="text-blue-600 text-3xl font-bold">100T</div>
+                <div class="text-gray-700 text-sm">Synaptic connections between neurons</div>
+              </div>
+              <div>
+                <div class="text-blue-600 text-3xl font-bold">20%</div>
+                <div class="text-gray-700 text-sm">Of body's energy used by the brain</div>
+              </div>
+              <div>
+                <div class="text-blue-600 text-3xl font-bold">70,000</div>
+                <div class="text-gray-700 text-sm">Thoughts processed per day</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Mental Health Section -->
+      <div class="mt-16">
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">Current Understanding of Mental Health</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="p-6">
+              <h4 class="text-xl font-semibold text-gray-900 mb-3">The Biopsychosocial Model</h4>
+              <p class="text-gray-600 mb-4">Modern understanding recognizes mental health as influenced by biological factors (genetics, brain chemistry), psychological factors (thoughts, emotions, behaviors), and social factors (relationships, cultural influences, socioeconomic status).</p>
+              <div class="flex items-center justify-center">
+                <img src="https://images.unsplash.com/photo-1581092160607-ee22b878fa02?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&h=200&q=80" alt="Biopsychosocial model illustration" class="rounded-md">
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="p-6">
+              <h4 class="text-xl font-semibold text-gray-900 mb-3">Evidence-Based Treatments</h4>
+              <p class="text-gray-600 mb-4">Psychological interventions with strong research support include cognitive-behavioral therapy (CBT), dialectical behavior therapy (DBT), acceptance and commitment therapy (ACT), and psychodynamic approaches.</p>
+              <ul class="space-y-2 text-gray-700">
+                <li class="flex items-center">
+                  <svg class="h-4 w-4 text-blue-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                  CBT: 60-80% effectiveness for anxiety disorders
+                </li>
+                <li class="flex items-center">
+                  <svg class="h-4 w-4 text-blue-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                  DBT: Reduces self-harm by 50%
+                </li>
+                <li class="flex items-center">
+                  <svg class="h-4 w-4 text-blue-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                  ACT: Effective for chronic pain management
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="p-6">
+              <h4 class="text-xl font-semibold text-gray-900 mb-3">Emerging Research</h4>
+              <p class="text-gray-600 mb-4">Cutting-edge psychological research includes neuroplasticity, psychedelic-assisted therapy, digital mental health interventions, and precision psychiatry approaches.</p>
+              <div class="text-sm text-gray-700 space-y-2">
+                <div class="flex justify-between">
+                  <span>Neuroplasticity research</span>
+                  <span class="text-blue-600">↑ 215% since 2010</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Digital mental health</span>
+                  <span class="text-blue-600">↑ 400% since 2015</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Psychedelic therapy trials</span>
+                  <span class="text-blue-600">↑ 280% since 2018</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Psychology and Wellbeing -->
+      <div class="mt-16">
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">Psychological Wellbeing Practices</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div class="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-lg shadow-md">
+            <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center mb-4 shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h4 class="text-lg font-semibold text-gray-900 mb-2">Mindfulness</h4>
+            <p class="text-gray-600">Present-moment awareness without judgment, shown to reduce stress, anxiety, and rumination while improving attention and emotional regulation.</p>
+          </div>
+          
+          <div class="bg-gradient-to-br from-green-50 to-blue-50 p-6 rounded-lg shadow-md">
+            <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center mb-4 shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <h4 class="text-lg font-semibold text-gray-900 mb-2">Physical Activity</h4>
+            <p class="text-gray-600">Regular exercise enhances mood, cognitive function, and stress resilience through multiple mechanisms including endorphin release and neurogenesis.</p>
+          </div>
+          
+          <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-lg shadow-md">
+            <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center mb-4 shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </div>
+            <h4 class="text-lg font-semibold text-gray-900 mb-2">Social Connection</h4>
+            <p class="text-gray-600">Meaningful relationships and social support provide crucial buffers against stress and contribute significantly to psychological wellbeing and longevity.</p>
+          </div>
+          
+          <div class="bg-gradient-to-br from-yellow-50 to-orange-50 p-6 rounded-lg shadow-md">
+            <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center mb-4 shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+            </div>
+            <h4 class="text-lg font-semibold text-gray-900 mb-2">Lifelong Learning</h4>
+            <p class="text-gray-600">Cognitive engagement and learning new skills throughout life support neural health, cognitive reserve, and sense of purpose and accomplishment.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Pharmacology Section -->
+    <section id="pharmacology" class="mb-24 scroll-mt-24">
+      <div class="flex flex-col md:flex-row-reverse items-center">
+        <div class="md:w-1/2 pl-0 md:pl-8 mb-8 md:mb-0">
+          <div class="inline-block py-1 px-3 rounded-full text-sm font-semibold bg-red-100 text-red-800 mb-4">
+            Pharmacology
+          </div>
+          <h2 class="text-3xl font-bold text-gray-900 mb-4">The Science of Drugs & Therapeutics</h2>
+          <p class="text-lg text-gray-600 mb-6">
+            Discover the science of drugs and their effects on biological systems, 
+            including the history of medicinal compounds, drug development, and therapeutic applications.
+          </p>
+          
+          <div class="quote-box">
+            <p class="italic text-xl text-gray-700">"The dose makes the poison."</p>
+            <p class="mt-2 text-right text-gray-600">— Paracelsus</p>
+          </div>
+          
+          <div class="bg-white p-6 rounded-lg shadow-md mt-6">
+            <h3 class="text-xl font-semibold text-purple-600 mb-3">Drug Development Process</h3>
+            <div class="space-y-4">
+              <div class="flex items-center">
+                <div class="bg-purple-100 rounded-full h-10 w-10 flex items-center justify-center mr-4 flex-shrink-0">
+                  <span class="text-purple-600 font-semibold">1</span>
+                </div>
+                <div>
+                  <div class="font-medium">Discovery and Development</div>
+                  <div class="text-sm text-gray-600">Identification of drug candidates through target identification, high-throughput screening, and lead optimization.</div>
+                </div>
+              </div>
+              <div class="flex items-center">
+                <div class="bg-purple-100 rounded-full h-10 w-10 flex items-center justify-center mr-4 flex-shrink-0">
+                  <span class="text-purple-600 font-semibold">2</span>
+                </div>
+                <div>
+                  <div class="font-medium">Preclinical Research</div>
+                  <div class="text-sm text-gray-600">Laboratory and animal testing to evaluate safety, efficacy, and pharmacokinetic properties.</div>
+                </div>
+              </div>
+              <div class="flex items-center">
+                <div class="bg-purple-100 rounded-full h-10 w-10 flex items-center justify-center mr-4 flex-shrink-0">
+                  <span class="text-purple-600 font-semibold">3</span>
+                </div>
+                <div>
+                  <div class="font-medium">Clinical Research</div>
+                  <div class="text-sm text-gray-600">Human trials in three phases to assess safety, efficacy, dosing, and adverse effects in increasingly larger populations.</div>
+                </div>
+              </div>
+              <div class="flex items-center">
+                <div class="bg-purple-100 rounded-full h-10 w-10 flex items-center justify-center mr-4 flex-shrink-0">
+                  <span class="text-purple-600 font-semibold">4</span>
+                </div>
+                <div>
+                  <div class="font-medium">FDA Review</div>
+                  <div class="text-sm text-gray-600">Regulatory evaluation of clinical data to determine if benefits outweigh risks for the intended population.</div>
+                </div>
+              </div>
+              <div class="flex items-center">
+                <div class="bg-purple-100 rounded-full h-10 w-10 flex items-center justify-center mr-4 flex-shrink-0">
+                  <span class="text-purple-600 font-semibold">5</span>
+                </div>
+                <div>
+                  <div class="font-medium">Post-Market Safety Monitoring</div>
+                  <div class="text-sm text-gray-600">Ongoing surveillance to identify rare or long-term adverse effects not detected during clinical trials.</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-4 text-sm text-gray-600 bg-gray-50 p-3 rounded">
+              <span class="font-medium">Average development timeline:</span> 10-15 years from discovery to approval
+              <br>
+              <span class="font-medium">Average cost:</span> $1-2+ billion per approved drug
+              <br>
+              <span class="font-medium">Success rate:</span> Less than 12% of drugs entering clinical trials receive approval
+            </div>
+          </div>
+        </div>
+        <div class="md:w-1/2">
+          <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+               alt="Pharmacology" 
+               class="rounded-lg shadow-xl w-full h-auto animate-float">
+          
+          <!-- Key Pharmacology Concepts -->
+          <div class="mt-6 grid grid-cols-2 gap-4">
+            <div class="stat-card bg-gradient-to-br from-purple-50 to-pink-50">
+              <h5 class="font-semibold text-gray-900">Pharmacokinetics</h5>
+              <p class="text-sm text-gray-600 mt-1">How the body affects a drug through absorption, distribution, metabolism, and excretion (ADME).</p>
+            </div>
+            <div class="stat-card bg-gradient-to-br from-blue-50 to-cyan-50">
+              <h5 class="font-semibold text-gray-900">Pharmacodynamics</h5>
+              <p class="text-sm text-gray-600 mt-1">How drugs affect the body through molecular, biochemical, and physiological mechanisms.</p>
+            </div>
+            <div class="stat-card bg-gradient-to-br from-green-50 to-emerald-50">
+              <h5 class="font-semibold text-gray-900">Half-Life</h5>
+              <p class="text-sm text-gray-600 mt-1">Time required for drug concentration to decrease by half, determining dosing frequency.</p>
+            </div>
+            <div class="stat-card bg-gradient-to-br from-orange-50 to-amber-50">
+              <h5 class="font-semibold text-gray-900">Therapeutic Index</h5>
+              <p class="text-sm text-gray-600 mt-1">Ratio between effective dose and toxic dose, indicating drug safety margin.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Pharmacology Classification -->
+      <div class="mt-16">
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">Major Drug Classes</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-white p-6 rounded-lg shadow-md">
+            <div class="flex items-center mb-4">
+              <div class="h-10 w-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </div>
+              <h4 class="text-lg font-semibold text-gray-900">Cardiovascular Agents</h4>
+            </div>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex items-center">
+                <svg class="h-4 w-4 text-red-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span>Antihypertensives</span>
+              </li>
+              <li class="flex items-center">
+                <svg class="h-4 w-4 text-red-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span>Anticoagulants</span>
+              </li>
+              <li class="flex items-center">
+                <svg class="h-4 w-4 text-red-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span>Lipid-lowering agents</span>
+              </li>
+              <li class="flex items-center">
+                <svg class="h-4 w-4 text-red-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span>Antiarrhythmics</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="bg-white p-6 rounded-lg shadow-md">
+            <div class="flex items-center mb-4">
+              <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+              </div>
+              <h4 class="text-lg font-semibold text-gray-900">Psychotropic Drugs</h4>
+            </div>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex items-center">
+                <svg class="h-4 w-4 text-blue-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span>Antidepressants</span>
+              </li>
+              <li class="flex items-center">
+                <svg class="h-4 w-4 text-blue-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span>Anxiolytics</span>
+              </li>
+              <li class="flex items-center">
+                <svg class="h-4 w-4 text-blue-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span>Antipsychotics</span>
+              </li>
+              <li class="flex items-center">
+                <svg class="h-4 w-4 text-blue-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span>Mood stabilizers</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="bg-white p-6 rounded-lg shadow-md">
+            <div class="flex items-center mb-4">
+              <div class="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <h4 class="text-lg font-semibold text-gray-900">Anti-infectives</h4>
+            </div>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex items-center">
+                <svg class="h-4 w-4 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span>Antibiotics</span>
+              </li>
+              <li class="flex items-center">
+                <svg class="h-4 w-4 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span>Antivirals</span>
+              </li>
+              <li class="flex items-center">
+                <svg class="h-4 w-4 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span>Antifungals</span>
+              </li>
+              <li class="flex items-center">
+                <svg class="h-4 w-4 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span>Antiparasitics</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Pharmacology Innovation -->
+      <div class="mt-16">
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">Frontiers in Pharmacological Research</h3>
+        
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h4 class="text-xl font-semibold text-purple-600 mb-4">Precision Medicine</h4>
+              <p class="text-gray-600 mb-3">The development of therapeutics tailored to individual genetic, environmental, and lifestyle factors, enabling more effective treatment with fewer adverse effects.</p>
+              <div class="mt-4 mb-2 font-medium text-gray-900">Impact Areas:</div>
+              <ul class="space-y-1">
+                <li class="flex items-start">
+                  <svg class="h-5 w-5 text-purple-500 mr-2 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="text-gray-700">Oncology: Matching therapies to tumor genetic profiles</span>
+                </li>
+                <li class="flex items-start">
+                  <svg class="h-5 w-5 text-purple-500 mr-2 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="text-gray-700">Pharmacogenomics: Predicting drug response based on genetic variants</span>
+                </li>
+                <li class="flex items-start">
+                  <svg class="h-5 w-5 text-purple-500 mr-2 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="text-gray-700">Biomarker-guided therapies: Using molecular indicators to guide treatment</span>
+                </li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 class="text-xl font-semibold text-purple-600 mb-4">Novel Drug Delivery Systems</h4>
+              <p class="text-gray-600 mb-3">Advanced technologies that optimize how drugs reach their targets, improving efficacy, reducing side effects, and enhancing patient adherence.</p>
+              <div class="mt-4 mb-2 font-medium text-gray-900">Technologies:</div>
+              <ul class="space-y-1">
+                <li class="flex items-start">
+                  <svg class="h-5 w-5 text-purple-500 mr-2 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="text-gray-700">Nanoparticle carriers for targeted delivery to specific tissues</span>
+                </li>
+                <li class="flex items-start">
+                  <svg class="h-5 w-5 text-purple-500 mr-2 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="text-gray-700">Controlled-release formulations for extended drug action</span>
+                </li>
+                <li class="flex items-start">
+                  <svg class="h-5 w-5 text-purple-500 mr-2 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="text-gray-700">Implantable devices for consistent long-term medication delivery</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h4 class="text-xl font-semibold text-purple-600 mb-4">Biologics & Advanced Therapies</h4>
+              <p class="text-gray-600 mb-3">Complex medications derived from biological sources or utilizing biological mechanisms to treat disease in ways traditional small-molecule drugs cannot.</p>
+              <div class="mt-4 mb-2 font-medium text-gray-900">Examples:</div>
+              <ul class="space-y-1">
+                <li class="flex items-start">
+                  <svg class="h-5 w-5 text-purple-500 mr-2 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="text-gray-700">Monoclonal antibodies for targeted immunotherapy</span>
+                </li>
+                <li class="flex items-start">
+                  <svg class="h-5 w-5 text-purple-500 mr-2 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="text-gray-700">Gene therapies to correct underlying genetic defects</span>
+                </li>
+                <li class="flex items-start">
+                  <svg class="h-5 w-5 text-purple-500 mr-2 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="text-gray-700">Cell-based therapies including CAR-T for cancer treatment</span>
+                </li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 class="text-xl font-semibold text-purple-600 mb-4">AI-Driven Drug Discovery</h4>
+              <p class="text-gray-600 mb-3">Using artificial intelligence and machine learning to accelerate and optimize the drug development process, from identifying potential therapeutic targets to predicting efficacy and toxicity.</p>
+              <div class="mt-4 mb-2 font-medium text-gray-900">Applications:</div>
+              <ul class="space-y-1">
+                <li class="flex items-start">
+                  <svg class="h-5 w-5 text-purple-500 mr-2 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="text-gray-700">Virtual screening of billions of compounds for potential activity</span>
+                </li>
+                <li class="flex items-start">
+                  <svg class="h-5 w-5 text-purple-500 mr-2 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="text-gray-700">Predictive modeling of drug-target interactions and side effects</span>
+                </li>
+                <li class="flex items-start">
+                  <svg class="h-5 w-5 text-purple-500 mr-2 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="text-gray-700">Repurposing existing drugs for new therapeutic applications</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Resources Section -->
+    <section id="resources" class="mb-12 scroll-mt-24">
+      <div class="text-center mb-12">
+        <div class="inline-block py-1 px-3 rounded-full text-sm font-semibold bg-gray-100 text-gray-800 mb-4">
+          Learning Resources
+        </div>
+        <h2 class="text-3xl font-bold text-gray-900 mb-3">Explore Medical Knowledge</h2>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+          Discover our curated collection of resources for deepening your understanding of health, nutrition, psychology, and pharmacology.
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="resource-card">
+          <div class="flex items-center mb-4">
+            <div class="bg-purple-100 p-3 rounded-full mr-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold">Open Access Journals</h3>
+          </div>
+          <p class="text-gray-600 mb-4">Access peer-reviewed research without barriers or paywalls.</p>
+          <ul class="space-y-2 text-gray-700 mb-4">
+            <li class="flex items-center">
+              <svg class="h-4 w-4 text-purple-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+              </svg>
+              <a href="#" class="hover:text-purple-600">PLOS Medicine</a>
+            </li>
+            <li class="flex items-center">
+              <svg class="h-4 w-4 text-purple-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+              </svg>
+              <a href="#" class="hover:text-purple-600">BMC Psychology</a>
+            </li>
+            <li class="flex items-center">
+              <svg class="h-4 w-4 text-purple-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+              </svg>
+              <a href="#" class="hover:text-purple-600">Nutrients (MDPI)</a>
+            </li>
+          </ul>
+          <a href="#" class="text-purple-600 font-medium hover:text-purple-700 flex items-center">
+            View all journals
+            <svg class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        </div>
+      </div>
+      </section>
+      </div>
+      </body>
+      
+        
 
-    <footer class="bg-dark text-white text-center py-3">
-        <p>&copy; 2025 Archive of Infinity. All rights reserved.</p>
-    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="md:flex md:justify-between">
+        <div class="mb-8 md:mb-0">
+          <h3 class="text-xl font-bold">Archive of Infinity</h3>
+          <p class="mt-2 text-gray-400">Exploring and preserving the vast knowledge of humanity</p>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+          <div>
+            <h4 class="text-sm font-semibold uppercase text-gray-400 mb-3">Archives</h4>
+            <ul class="space-y-2">
+              <li><a href="/science.html" class="text-gray-300 hover:text-white">Science</a></li>
+              <li><a href="/philosophy.html" class="text-gray-300 hover:text-white">Philosophy</a></li>
+              <li><a href="/enterprise.html" class="text-gray-300 hover:text-white">Enterprise</a></li>
+              <li><a href="/creativity.html" class="text-gray-300 hover:text-white">Creativity</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-sm font-semibold uppercase text-gray-400 mb-3">More Archives</h4>
+            <ul class="space-y-2">
+              <li><a href="/technology.html" class="text-gray-300 hover:text-white">Technology</a></li>
+              <li><a href="/research.html" class="text-gray-300 hover:text-white">Research</a></li>
+              <li><a href="/understanding.html" class="text-gray-300 hover:text-white">Understanding</a></li>
+              <li><a href="/medicine.html" class="text-gray-300 hover:text-white">Medicine</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-sm font-semibold uppercase text-gray-400 mb-3">Connect</h4>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-300 hover:text-white">Contact Us</a></li>
+              <li><a href="#" class="text-gray-300 hover:text-white">About</a></li>
+              <li><a href="#" class="text-gray-300 hover:text-white">Privacy Policy</a></li>
+              <li><a href="#" class="text-gray-300 hover:text-white">Terms of Service</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="mt-8 border-t border-gray-700 pt-8 flex flex-col md:flex-row md:justify-between">
+        <p class="text-gray-400">&copy; 2023 Archive of Infinity. All rights reserved.</p>
+        <div class="flex space-x-6 mt-4 md:mt-0">
+          <a href="#" class="text-gray-400 hover:text-white">
+            <span class="sr-only">Facebook</span>
+            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+            </svg>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white">
+            <span class="sr-only">Twitter</span>
+            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+            </svg>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white">
+            <span class="sr-only">GitHub</span>
+            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Simple vanilla JavaScript to handle smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80, // Accounting for fixed header
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
 </body>
 </html>

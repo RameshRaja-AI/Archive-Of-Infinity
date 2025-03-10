@@ -1,73 +1,760 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Archive of Infinity</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research Archive | Archive of Infinity</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8f9fa;
+      color: #141c2e;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    header {
+      background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      padding: 3rem 0;
+      text-align: center;
+      position: relative;
+      color: white;
+    }
+    
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    
+    h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      color: white;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      font-weight: 300;
+      max-width: 700px;
+      margin: 0 auto 1.5rem;
+      opacity: 0.9;
+    }
+    
+    .back-home {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      background-color: rgba(255,255,255,0.15);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .back-home:hover {
+      background-color: rgba(255,255,255,0.25);
+      transform: translateY(-2px);
+    }
+    
+    nav {
+      background-color: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      padding: 0 2rem;
+    }
+    
+    .nav-button {
+      padding: 1.2rem 1.5rem;
+      background: none;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #141c2e;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-button:hover {
+      color: #3366cc;
+    }
+    
+    .nav-button.active {
+      color: #3366cc;
+    }
+    
+    .nav-button.active::after {
+      content: "";
+      position: absolute;
+      bottom: 0.8rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 3px;
+      background-color: #3366cc;
+      border-radius: 2px;
+    }
+    
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+    
+    .section {
+      display: none;
+      animation: fadeIn 0.6s ease-out;
+    }
+    
+    .section.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.8rem;
+      margin-bottom: 2rem;
+      position: relative;
+      display: inline-block;
+      color: #141c2e;
+    }
+    
+    h2::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, #3366cc, #5583d7);
+    }
+    
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 2rem;
+    }
+    
+    .text-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .text-content p {
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+    
+    .image-container {
+      height: 100%;
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .image-container:hover img {
+      transform: scale(1.05);
+    }
+    
+    .topic-container {
+      background-color: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-top: 3rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .topic-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+    
+    h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: #141c2e;
+    }
+    
+    .topic-container p {
+      margin-bottom: 1.2rem;
+      font-size: 1.05rem;
+    }
+    
+    .topic-container ul {
+      list-style-position: inside;
+      margin-bottom: 1.5rem;
+    }
+    
+    .topic-container li {
+      margin-bottom: 0.7rem;
+      padding-left: 1rem;
+    }
+    
+    .highlight {
+      background: linear-gradient(90deg, rgba(51, 102, 204, 0.1), rgba(85, 131, 215, 0.1));
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+    
+    .data-point {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+    
+    .data-point-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #3366cc;
+      margin-right: 1rem;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .download-btn {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      background: linear-gradient(90deg, #3366cc, #5583d7);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      margin-top: 1rem;
+    }
+    
+    .download-btn:hover {
+      background: linear-gradient(90deg, #2855b1, #3366cc);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(51, 102, 204, 0.4);
+    }
+    
+    .quote {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.6rem;
+      font-style: italic;
+      line-height: 1.4;
+      color: #3366cc;
+      text-align: center;
+      max-width: 800px;
+      margin: 4rem auto;
+      padding: 2rem;
+      position: relative;
+    }
+    
+    .quote::before,
+    .quote::after {
+      content: "";
+      font-size: 5rem;
+      position: absolute;
+      opacity: 0.2;
+      color: #3366cc;
+    }
+    
+    .quote::before {
+      top: -20px;
+      left: 0;
+    }
+    
+    .quote::after {
+      bottom: -60px;
+      right: 0;
+      content: "";
+    }
+    
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    
+    .gallery-item {
+      border-radius: 8px;
+      overflow: hidden;
+      height: 250px;
+      position: relative;
+    }
+    
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+    
+    .gallery-title {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(transparent, rgba(20, 28, 46, 0.8));
+      color: white;
+      padding: 1rem;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+    
+    .gallery-item:hover .gallery-title {
+      transform: translateY(0);
+    }
+    
+    .milestone {
+      position: relative;
+      padding-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .milestone::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: #3366cc;
+    }
+    
+    .milestone:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      left: 5px;
+      top: 26px;
+      width: 2px;
+      height: calc(100% - 18px);
+      background-color: #d0d0d0;
+    }
+    
+    .milestone-year {
+      font-weight: 700;
+      color: #3366cc;
+      margin-right: 0.5rem;
+    }
+    
+    footer {
+      background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      color: white;
+      padding: 3rem 0;
+      margin-top: 5rem;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 0 2rem;
+    }
+    
+    .footer-content p {
+      margin: 1rem 0;
+      opacity: 0.8;
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .nav-button {
+        padding: 1rem 0.8rem;
+        font-size: 0.9rem;
+      }
+      
+      .quote {
+        font-size: 1.3rem;
+        padding: 1.5rem;
+      }
+      
+      .quote::before,
+      .quote::after {
+        font-size: 3rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+      
+      h2 {
+        font-size: 2rem;
+      }
+      
+      .nav-container {
+        flex-wrap: wrap;
+      }
+      
+      .subtitle {
+        font-size: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">Archive of Infinity</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#science">Science</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#philosophy">Philosophy</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#enterprise">Enterprise</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#creativity">Creativity</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#technology">Technology</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#research">Research</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#understanding">Understanding</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#medicine">Medicine</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-primary text-white ms-2" href="#login">Login</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-success text-white ms-2" href="#signup">Sign Up</a></li>
-                </ul>
-            </div>
+  <header>
+    <div class="header-content">
+      <h1>Research Archive</h1>
+      <p class="subtitle">Explore the frontiers of human knowledge through pioneering research and discovery</p>
+      <a href="/" class="back-home">Back to Home</a>
+    </div>
+  </header>
+  
+  <nav>
+    <div class="nav-container">
+      <button class="nav-button active" data-section="exploration">Exploration</button>
+      <button class="nav-button" data-section="space-science">Space Science</button>
+      <button class="nav-button" data-section="aeronautics">Aeronautics</button>
+      <button class="nav-button" data-section="deep-sea-studies">Deep-Sea Studies</button>
+    </div>
+  </nav>
+  
+  <main>
+    <!-- Exploration Section -->
+    <section id="exploration" class="section active">
+      <h2>Exploration</h2>
+      
+      <div class="content-grid">
+        <div class="text-content">
+          <p>Exploration represents humanity's enduring quest to venture beyond known frontiers, driven by an innate curiosity to understand our world and beyond. From the earliest seafaring voyages to modern space missions, exploration has <span class="highlight">expanded our knowledge</span> and reshaped our understanding of what's possible.</p>
+          
+          <p>Today's exploration combines cutting-edge technology with human ingenuity to reach places previously inaccessible, from the deepest ocean trenches to distant planets. These journeys of discovery continue to <span class="highlight">inspire scientific breakthroughs</span> and capture the collective imagination of people worldwide.</p>
         </div>
-    </nav>
-
-    <header class="bg-primary text-white text-center py-5">
-        <div class="container">
-            <h1>Welcome to Archive of Infinity</h1>
-            <p>Discover knowledge across endless domains</p>
+        
+        <div class="image-container">
+          <img src="https://images.unsplash.com/photo-1532640531950-55d79a1ab9f8" alt="Explorer walking across a vast mountainous landscape">
         </div>
-    </header>
-
-    <section class="container my-5">
-        <div class="row text-center">
-            <div class="col-md-4">
-                <img src="https://via.placeholder.com/300" class="img-fluid rounded" alt="Science">
-                <h3 id="science">Science</h3>
-                <p>Explore Physics, Chemistry, Biology, and more.</p>
-            </div>
-            <div class="col-md-4">
-                <img src="https://via.placeholder.com/300" class="img-fluid rounded" alt="Philosophy">
-                <h3 id="philosophy">Philosophy</h3>
-                <p>Deep thoughts on history, ethics, and logic.</p>
-            </div>
-            <div class="col-md-4">
-                <img src="https://via.placeholder.com/300" class="img-fluid rounded" alt="Enterprise">
-                <h3 id="enterprise">Enterprise</h3>
-                <p>Business, finance, and entrepreneurship.</p>
-            </div>
+      </div>
+      
+      <div class="quote">
+        "We shall not cease from exploration, and the end of all our exploring will be to arrive where we started and know the place for the first time."
+      </div>
+      
+      <div class="topic-container">
+        <h3>Key Areas of Modern Exploration</h3>
+        <p>Contemporary exploration encompasses multiple domains, each pushing boundaries in different ways:</p>
+        
+        <ul>
+          <li><strong>Polar Exploration:</strong> Studying Earth's polar regions to understand climate patterns and preserve fragile ecosystems.</li>
+          <li><strong>Space Exploration:</strong> Expanding human presence beyond Earth through robotic and crewed missions.</li>
+          <li><strong>Deep Ocean Exploration:</strong> Investigating marine environments that remain largely unexplored despite covering most of our planet.</li>
+          <li><strong>Subterranean Exploration:</strong> Mapping cave systems and underground structures to reveal Earth's hidden geology.</li>
+          <li><strong>Cultural Exploration:</strong> Documenting and preserving diverse human cultures and their knowledge systems.</li>
+        </ul>
+        
+        <p>Modern explorers combine specialized scientific expertise with technological innovation, often working in interdisciplinary teams to tackle complex challenges in extreme environments.</p>
+        
+        <div class="stats-grid">
+          <div class="data-point">
+            <div class="data-point-number">71%</div>
+            <div>of Earth's surface is covered by oceans, with less than 20% fully explored</div>
+          </div>
+          <div class="data-point">
+            <div class="data-point-number">4%</div>
+            <div>of the observable universe has been directly studied by scientific instruments</div>
+          </div>
+          <div class="data-point">
+            <div class="data-point-number">12</div>
+            <div>humans have walked on the lunar surface to date</div>
+          </div>
         </div>
+        
+        <a href="#" class="download-btn">Download Exploration Resources</a>
+      </div>
     </section>
-
-    <section id="create-account" class="container text-center my-5">
-        <h2>Create an Account</h2>
-        <p>Join the Archive of Infinity to explore and contribute knowledge.</p>
-        <a href="#signup" class="btn btn-success btn-lg">Sign Up</a>
-        <a href="#login" class="btn btn-primary btn-lg">Login</a>
+    
+    <!-- Space Science Section -->
+    <section id="space-science" class="section">
+      <h2>Space Science</h2>
+      
+      <div class="content-grid">
+        <div class="image-container">
+          <img src="https://images.unsplash.com/photo-1470813740244-df37b8c1edcb" alt="Star-filled night sky with visible nebula">
+        </div>
+        
+        <div class="text-content">
+          <p>Space science encompasses the study of everything beyond Earth's atmosphere, from our neighboring planets to the most distant galaxies. This multidisciplinary field combines astronomy, physics, and engineering to <span class="highlight">unlock the mysteries of the cosmos</span> and develop technologies for space exploration.</p>
+          
+          <p>Our understanding of space has evolved dramatically over the past century, revealing a universe far more vast and dynamic than previously imagined. From the discovery of exoplanets to the detection of gravitational waves, space science continues to <span class="highlight">revolutionize our cosmic perspective</span> and inspire questions about our place in the universe.</p>
+        </div>
+      </div>
+      
+      <div class="quote">
+        "The universe is a pretty big place. If it's just us, seems like an awful waste of space."
+      </div>
+      
+      <div class="topic-container">
+        <h3>Frontiers of Space Research</h3>
+        <p>Contemporary space science explores multiple frontiers that push the boundaries of human knowledge:</p>
+        
+        <ul>
+          <li><strong>Planetary Science:</strong> Studying the formation, geology, and potential habitability of planets in our solar system and beyond.</li>
+          <li><strong>Astrophysics:</strong> Investigating cosmic phenomena including black holes, dark matter, and the fundamental physics governing the universe.</li>
+          <li><strong>Astrobiology:</strong> Searching for and studying the potential for life beyond Earth, including its origins and distribution.</li>
+          <li><strong>Cosmology:</strong> Examining the origin, evolution, and ultimate fate of the entire universe.</li>
+          <li><strong>Space Technology:</strong> Developing instruments, spacecraft, and methodologies for exploring and utilizing space.</li>
+        </ul>
+        
+        <p>Space science research relies on observations from ground-based telescopes, space observatories, and planetary missions, combined with theoretical modeling and laboratory experiments to validate findings.</p>
+        
+        <div class="milestone">
+          <span class="milestone-year">1957:</span> Launch of Sputnik 1, the first artificial satellite
+        </div>
+        <div class="milestone">
+          <span class="milestone-year">1969:</span> Apollo 11 mission lands humans on the Moon
+        </div>
+        <div class="milestone">
+          <span class="milestone-year">1990:</span> Hubble Space Telescope deployed
+        </div>
+        <div class="milestone">
+          <span class="milestone-year">2015:</span> First detection of gravitational waves
+        </div>
+        <div class="milestone">
+          <span class="milestone-year">2022:</span> James Webb Space Telescope begins operations
+        </div>
+        
+        <a href="#" class="download-btn">Access Space Science Data</a>
+      </div>
+      
+      <div class="gallery">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564" alt="Telescope observatory">
+          <div class="gallery-title">Radio Telescope Array</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa" alt="Galaxy formation">
+          <div class="gallery-title">Galaxy Clusters</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1454789548928-9efd52dc4031" alt="Planetary nebula">
+          <div class="gallery-title">Planetary Nebula</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1614732414444-096e5f1122d5" alt="Rocket launch">
+          <div class="gallery-title">Rocket Launch</div>
+        </div>
+      </div>
     </section>
-
-    <footer class="bg-dark text-white text-center py-3">
-        <p>&copy; 2025 Archive of Infinity. All rights reserved.</p>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Aeronautics Section -->
+    <section id="aeronautics" class="section">
+      <h2>Aeronautics</h2>
+      
+      <div class="content-grid">
+        <div class="text-content">
+          <p>Aeronautics is the science and engineering of flight within Earth's atmosphere, encompassing the design, construction, and operation of aircraft. From the Wright brothers' first powered flight to today's supersonic jets and autonomous drones, aeronautics has <span class="highlight">transformed transportation</span> and expanded human mobility across the globe.</p>
+          
+          <p>Modern aeronautical research focuses on improving safety, efficiency, and sustainability while reducing environmental impact. Innovations in materials, propulsion, and flight control systems continue to <span class="highlight">push the boundaries</span> of what's possible in the air, setting the stage for a new era of aerial mobility.</p>
+        </div>
+        
+        <div class="image-container">
+          <img src="https://images.unsplash.com/photo-1487887235947-a955ef187fcc" alt="Modern drone flying over a landscape">
+        </div>
+      </div>
+      
+      <div class="quote">
+        "The airplane stays up because it doesn't have the time to fall."
+      </div>
+      
+      <div class="topic-container">
+        <h3>Current Research Directions</h3>
+        <p>Aeronautics research spans several innovative areas that are transforming aviation:</p>
+        
+        <ul>
+          <li><strong>Sustainable Aviation:</strong> Developing electric aircraft, hydrogen propulsion, and sustainable aviation fuels to reduce carbon emissions.</li>
+          <li><strong>Advanced Air Mobility:</strong> Creating systems for urban air taxis, cargo drones, and regional electric aircraft to transform transportation networks.</li>
+          <li><strong>Autonomous Flight:</strong> Implementing AI and advanced sensors to enable aircraft to operate with varying levels of autonomy.</li>
+          <li><strong>Hypersonic Flight:</strong> Researching technologies for aircraft that can travel at five times the speed of sound or faster.</li>
+          <li><strong>Aerodynamic Efficiency:</strong> Optimizing aircraft design for reduced drag, improved fuel efficiency, and enhanced performance.</li>
+        </ul>
+        
+        <p>Aeronautical engineers utilize computational fluid dynamics, wind tunnel testing, and advanced materials science to develop and validate new technologies before implementation in full-scale aircraft.</p>
+        
+        <div class="stats-grid">
+          <div class="data-point">
+            <div class="data-point-number">39,000</div>
+            <div>commercial aircraft currently in service worldwide</div>
+          </div>
+          <div class="data-point">
+            <div class="data-point-number">80%</div>
+            <div>reduction in aircraft fuel consumption per passenger since the 1960s</div>
+          </div>
+          <div class="data-point">
+            <div class="data-point-number">250+</div>
+            <div>companies currently developing electric vertical takeoff and landing aircraft</div>
+          </div>
+        </div>
+        
+        <a href="#" class="download-btn">Browse Aeronautics Research</a>
+      </div>
+    </section>
+    
+    <!-- Deep-Sea Studies Section -->
+    <section id="deep-sea-studies" class="section">
+      <h2>Deep-Sea Studies</h2>
+      
+      <div class="content-grid">
+        <div class="image-container">
+          <img src="https://images.unsplash.com/photo-1580019542155-247062e19ce4" alt="Deep sea research vessel">
+        </div>
+        
+        <div class="text-content">
+          <p>Deep-sea studies investigate the most remote and extreme environments on our planet—ocean depths beyond 200 meters where light barely penetrates and pressure can exceed 1,000 times that at sea level. Despite being Earth's largest habitat, the deep ocean remains <span class="highlight">largely unexplored</span>, with many species and geological features yet to be discovered.</p>
+          
+          <p>Research in this field combines biology, geology, chemistry, and physics to understand deep-sea ecosystems and their role in global processes. The unique adaptations of deep-sea organisms to extreme conditions continue to <span class="highlight">inspire scientific breakthroughs</span> with applications ranging from medicine to materials science.</p>
+        </div>
+      </div>
+      
+      <div class="quote">
+        "The sea, once it casts its spell, holds one in its net of wonder forever."
+      </div>
+      
+      <div class="topic-container">
+        <h3>Key Research Areas</h3>
+        <p>Deep-sea research encompasses several specialized areas that reveal insights about our planet:</p>
+        
+        <ul>
+          <li><strong>Hydrothermal Vent Ecology:</strong> Studying the unique ecosystems that thrive on chemical energy near underwater volcanic vents.</li>
+          <li><strong>Abyssal Plain Biodiversity:</strong> Cataloging and understanding life forms that inhabit the vast flat areas covering much of the deep ocean floor.</li>
+          <li><strong>Marine Geology:</strong> Investigating underwater mountains, trenches, and other features to understand Earth's geological processes.</li>
+          <li><strong>Ocean Circulation:</strong> Tracking deep currents that influence global climate and nutrient distribution.</li>
+          <li><strong>Deep-Sea Conservation:</strong> Developing strategies to protect vulnerable deep-sea habitats from human impacts like mining and fishing.</li>
+        </ul>
+        
+        <p>Deep-sea research relies on specialized equipment including remotely operated vehicles (ROVs), autonomous underwater vehicles (AUVs), manned submersibles, and seafloor observatories that can withstand extreme pressure and provide data over extended periods.</p>
+        
+        <div class="milestone">
+          <span class="milestone-year">1872:</span> HMS Challenger expedition conducts first global marine research voyage
+        </div>
+        <div class="milestone">
+          <span class="milestone-year">1960:</span> Bathyscaphe Trieste reaches bottom of Mariana Trench (10,911 meters)
+        </div>
+        <div class="milestone">
+          <span class="milestone-year">1977:</span> Discovery of hydrothermal vents and their unique ecosystems
+        </div>
+        <div class="milestone">
+          <span class="milestone-year">2012:</span> Deepsea Challenger solo dive to Challenger Deep
+        </div>
+        <div class="milestone">
+          <span class="milestone-year">2019:</span> Five Deeps Expedition completes dives to deepest points in all five oceans
+        </div>
+        
+        <a href="#" class="download-btn">Access Deep-Sea Research</a>
+      </div>
+      
+      <div class="gallery">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1551244072-5d12893278ab" alt="Jellyfish in deep ocean">
+          <div class="gallery-title">Bioluminescent Organisms</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1555963153-11576d9b494f" alt="Coral reef">
+          <div class="gallery-title">Marine Ecosystems</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1544552866-d3ed42536cfd" alt="Underwater research vessel">
+          <div class="gallery-title">Research Submersible</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1533713692156-f70938dc0d54" alt="Ocean floor terrain">
+          <div class="gallery-title">Abyssal Landscape</div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <footer>
+    <div class="footer-content">
+      <h3>Archive of Infinity</h3>
+      <p>Exploring the boundless realms of human knowledge and discovery</p>
+      <p>&copy; 2023 Archive of Infinity. All rights reserved.</p>
+    </div>
+  </footer>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const navButtons = document.querySelectorAll('.nav-button');
+      const sections = document.querySelectorAll('.section');
+      
+      navButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Remove active class from all buttons and sections
+          navButtons.forEach(btn => btn.classList.remove('active'));
+          sections.forEach(section => section.classList.remove('active'));
+          
+          // Add active class to clicked button
+          this.classList.add('active');
+          
+          // Show corresponding section
+          const sectionId = this.getAttribute('data-section');
+          document.getElementById(sectionId).classList.add('active');
+        });
+      });
+    });
+  </script>
 </body>
 </html>

@@ -1,72 +1,647 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creative Hub</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { background: linear-gradient(to right, #ff7e5f, #feb47b); color: #fff; font-family: 'Courier New', Courier, monospace; text-align: center; padding: 20px; }
-        .hero-section { text-align: center; padding: 60px 20px; }
-        .navbar { background: #333; }
-        .navbar-brand { font-size: 24px; color: white; }
-        .category-card { padding: 20px; border-radius: 10px; background: rgba(255, 255, 255, 0.2); box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); text-align: center; cursor: pointer; position: relative; overflow: hidden; }
-        .typing-text { white-space: nowrap; overflow: hidden; border-right: 2px solid white; display: inline-block; font-size: 16px; animation: typing 3s steps(40, end) forwards, blink 0.75s step-end infinite; }
-        @keyframes typing { from { width: 0; } to { width: 100%; } }
-        @keyframes blink { 50% { border-color: transparent; } }
-        .hidden-description { display: none; position: absolute; background: rgba(0, 0, 0, 0.8); color: #fff; padding: 10px; border-radius: 5px; bottom: 100%; left: 50%; transform: translateX(-50%); width: 90%; text-align: center; }
-        .category-card:hover .hidden-description { display: block; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creativity Archive | Archive of Infinity</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #fdf6f0;
+      color: #333;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    header {
+      background: linear-gradient(to right, #e6b980 0%, #eacda3 100%);
+      padding: 2rem 0;
+      text-align: center;
+      position: relative;
+    }
+    
+    header::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #ff719a, #ffa99f, #ffe29f);
+    }
+    
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      color: #1A1F2C;
+      line-height: 1.2;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      font-weight: 300;
+      max-width: 700px;
+      margin: 0 auto 1.5rem;
+    }
+    
+    .back-home {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      background-color: #1A1F2C;
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .back-home:hover {
+      background-color: #9b87f5;
+      transform: translateY(-2px);
+    }
+    
+    nav {
+      background-color: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      padding: 0 2rem;
+    }
+    
+    .nav-button {
+      padding: 1.2rem 1.5rem;
+      background: none;
+      border: none;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #333;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-button:hover {
+      color: #9b87f5;
+    }
+    
+    .nav-button.active {
+      color: #9b87f5;
+    }
+    
+    .nav-button.active::after {
+      content: "";
+      position: absolute;
+      bottom: 0.8rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 3px;
+      background-color: #9b87f5;
+      border-radius: 2px;
+    }
+    
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+    
+    .section {
+      display: none;
+      animation: fadeIn 0.6s ease-out;
+    }
+    
+    .section.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      margin-bottom: 2rem;
+      position: relative;
+      display: inline-block;
+    }
+    
+    h2::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, #9b87f5, #D6BCFA);
+    }
+    
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 2rem;
+    }
+    
+    .text-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .text-content p {
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+    
+    .image-container {
+      height: 100%;
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .image-container:hover img {
+      transform: scale(1.05);
+    }
+    
+    .topic-container {
+      background-color: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-top: 3rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .topic-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+    
+    h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: #1A1F2C;
+    }
+    
+    .topic-container p {
+      margin-bottom: 1.2rem;
+      font-size: 1.05rem;
+    }
+    
+    .topic-container ul {
+      list-style-position: inside;
+      margin-bottom: 1.5rem;
+    }
+    
+    .topic-container li {
+      margin-bottom: 0.7rem;
+      padding-left: 1rem;
+    }
+    
+    .highlight {
+      background: linear-gradient(90deg, rgba(155, 135, 245, 0.2), rgba(214, 188, 250, 0.2));
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+    
+    .download-btn {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      background: linear-gradient(90deg, #9b87f5, #7E69AB);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      margin-top: 1rem;
+    }
+    
+    .download-btn:hover {
+      background: linear-gradient(90deg, #8B5CF6, #9b87f5);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(155, 135, 245, 0.4);
+    }
+    
+    .quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-style: italic;
+      line-height: 1.4;
+      color: #6E59A5;
+      text-align: center;
+      max-width: 800px;
+      margin: 4rem auto;
+      padding: 2rem;
+      position: relative;
+    }
+    
+    .quote::before,
+    .quote::after {
+      content: '"';
+      font-size: 5rem;
+      position: absolute;
+      opacity: 0.2;
+      color: #9b87f5;
+    }
+    
+    .quote::before {
+      top: -20px;
+      left: 0;
+    }
+    
+    .quote::after {
+      bottom: -60px;
+      right: 0;
+    }
+    
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    
+    .gallery-item {
+      border-radius: 8px;
+      overflow: hidden;
+      height: 250px;
+      position: relative;
+    }
+    
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+    
+    .gallery-title {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(transparent, rgba(26, 31, 44, 0.8));
+      color: white;
+      padding: 1rem;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+    
+    .gallery-item:hover .gallery-title {
+      transform: translateY(0);
+    }
+    
+    footer {
+      background: linear-gradient(to right, #1A1F2C, #403E43);
+      color: white;
+      padding: 3rem 0;
+      margin-top: 5rem;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 0 2rem;
+    }
+    
+    .footer-content p {
+      margin: 1rem 0;
+      opacity: 0.8;
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .nav-button {
+        padding: 1rem 0.8rem;
+        font-size: 0.9rem;
+      }
+      
+      .quote {
+        font-size: 1.3rem;
+        padding: 1.5rem;
+      }
+      
+      .quote::before,
+      .quote::after {
+        font-size: 3rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+      
+      h2 {
+        font-size: 2rem;
+      }
+      
+      .nav-container {
+        flex-wrap: wrap;
+      }
+      
+      .subtitle {
+        font-size: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="#">Creative Hub</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link text-white" href="design.html">Design</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="art.html">Art</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="writing.html">Writing</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="photography.html">Photography</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div class="hero-section">
-        <h1>Welcome to Creative Hub</h1>
-        <p>Explore the world of design, art, writing, and photography.</p>
+  <header>
+    <div class="header-content">
+      <h1>Creativity Archive</h1>
+      <p class="subtitle">Explore the boundless realms of human imagination and artistic expression</p>
+      <a href="/" class="back-home">Back to Home</a>
     </div>
-    <div class="container my-5">
-        <div class="row g-4">
-            <div class="col-md-3">
-                <div class="category-card">
-                    Design
-                    <div class="hidden-description"><span class="typing-text">Unleash your imagination and craft stunning visuals.</span></div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="category-card">
-                    Art
-                    <div class="hidden-description"><span class="typing-text">Discover the beauty of colors, forms, and creative expression.</span></div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="category-card">
-                    Writing
-                    <div class="hidden-description"><span class="typing-text">Pen down your thoughts and create stories that inspire.</span></div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="category-card">
-                    Photography
-                    <div class="hidden-description"><span class="typing-text">Capture moments and tell stories through your lens.</span></div>
-                </div>
-            </div>
-        </div>
+  </header>
+  
+  <nav>
+    <div class="nav-container">
+      <button class="nav-button active" data-section="design">Design</button>
+      <button class="nav-button" data-section="art">Art</button>
+      <button class="nav-button" data-section="writing">Writing</button>
+      <button class="nav-button" data-section="photography">Photography</button>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </nav>
+  
+  <main>
+    <!-- Design Section -->
+    <section id="design" class="section active">
+      <h2>Design</h2>
+      
+      <div class="content-grid">
+        <div class="text-content">
+          <p>Design is the deliberate creation of meaningful experiences through thoughtful planning, problem-solving, and aesthetic decision-making. At its core, design is about <span class="highlight">communication and connection</span>—creating products, spaces, and experiences that resonate with people on functional, emotional, and intellectual levels.</p>
+          
+          <p>From the digital interfaces we interact with daily to the physical spaces we inhabit, good design shapes our relationship with the world around us. It balances <span class="highlight">form and function</span>, creating solutions that are both beautiful and useful.</p>
+        </div>
+        
+        <div class="image-container">
+          <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158" alt="Designer working on a creative project">
+        </div>
+      </div>
+      
+      <div class="quote">
+        "Design is not just what it looks like and feels like. Design is how it works."
+      </div>
+      
+      <div class="topic-container">
+        <h3>Key Design Disciplines</h3>
+        <p>The field of design encompasses multiple specialized disciplines, each with its own methodologies, principles, and applications:</p>
+        
+        <ul>
+          <li><strong>Graphic Design:</strong> Visual communication using typography, imagery, color, and form to convey messages and ideas.</li>
+          <li><strong>UI/UX Design:</strong> Creating intuitive, accessible, and engaging digital interfaces and experiences.</li>
+          <li><strong>Industrial Design:</strong> Developing physical products that balance aesthetics, functionality, and manufacturability.</li>
+          <li><strong>Architecture:</strong> Designing structures and spaces that harmonize beauty, utility, and sustainability.</li>
+          <li><strong>Fashion Design:</strong> Creating apparel and accessories that blend aesthetic expression with wearability.</li>
+        </ul>
+        
+        <p>Modern design practices emphasize human-centered approaches, sustainability, and inclusivity, recognizing the profound impact design decisions have on individuals and communities.</p>
+        
+        <a href="#" class="download-btn">Download Design Resources</a>
+      </div>
+    </section>
+    
+    <!-- Art Section -->
+    <section id="art" class="section">
+      <h2>Art</h2>
+      
+      <div class="content-grid">
+        <div class="image-container">
+          <img src="https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b" alt="Creative art installation with light bulb">
+        </div>
+        
+        <div class="text-content">
+          <p>Art is the expression of human creativity and imagination, taking form through visual, auditory, and performative mediums. It serves as a universal language that transcends cultural and linguistic boundaries, allowing for the <span class="highlight">communication of ideas, emotions, and experiences</span> that might otherwise remain unexpressed.</p>
+          
+          <p>Throughout history, art has been a mirror reflecting society, challenging conventions, and inspiring change. It invites viewers to see the world through different perspectives, fostering <span class="highlight">empathy, critical thinking, and cultural understanding</span>.</p>
+        </div>
+      </div>
+      
+      <div class="quote">
+        "Art enables us to find ourselves and lose ourselves at the same time."
+      </div>
+      
+      <div class="topic-container">
+        <h3>Forms of Artistic Expression</h3>
+        <p>Art manifests in countless forms across different cultures and time periods:</p>
+        
+        <ul>
+          <li><strong>Painting:</strong> From prehistoric cave paintings to contemporary abstracts, using pigments to create visual expressions on surfaces.</li>
+          <li><strong>Sculpture:</strong> Three-dimensional art forms that occupy physical space, created through carving, modeling, or assembling.</li>
+          <li><strong>Digital Art:</strong> Contemporary art created or presented using digital technology, including digital paintings, installations, and interactive experiences.</li>
+          <li><strong>Performance Art:</strong> Live presentations where the artist's body, actions, or presence form the medium of expression.</li>
+          <li><strong>Mixed Media:</strong> Works combining multiple materials or techniques to create hybrid forms of expression.</li>
+        </ul>
+        
+        <p>The boundaries of art continue to expand with technological advancements and evolving cultural contexts, challenging traditional definitions and creating new possibilities for creativity.</p>
+        
+        <a href="#" class="download-btn">Explore Art Collections</a>
+      </div>
+      
+      <div class="gallery">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1472396961693-142e6e269027" alt="Abstract painting">
+          <div class="gallery-title">Abstract Expressionism</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07" alt="Sculpture">
+          <div class="gallery-title">Contemporary Sculpture</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158" alt="Digital art">
+          <div class="gallery-title">Digital Composition</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b" alt="Installation art">
+          <div class="gallery-title">Light Installation</div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Writing Section -->
+    <section id="writing" class="section">
+      <h2>Writing</h2>
+      
+      <div class="content-grid">
+        <div class="text-content">
+          <p>Writing is the art of capturing thoughts, stories, and ideas in written language. It serves as both a tool for <span class="highlight">preserving knowledge</span> and a medium for creative expression, allowing writers to construct worlds, share perspectives, and connect with readers across time and space.</p>
+          
+          <p>From ancient tablets to digital screens, written words have been fundamental to human civilization, enabling the <span class="highlight">transmission of culture, history, and imagination</span> across generations. Writing gives shape to our collective memory and individual experiences.</p>
+        </div>
+        
+        <div class="image-container">
+          <img src="https://images.unsplash.com/photo-1472396961693-142e6e269027" alt="Peaceful nature scene inspiring writing">
+        </div>
+      </div>
+      
+      <div class="quote">
+        "Writing is the painting of the voice; the closer to life, the better."
+      </div>
+      
+      <div class="topic-container">
+        <h3>Literary Forms and Traditions</h3>
+        <p>Writing encompasses diverse forms and genres, each with its own conventions, techniques, and purposes:</p>
+        
+        <ul>
+          <li><strong>Fiction:</strong> Narrative literature including novels, short stories, and novellas that create imagined worlds and characters.</li>
+          <li><strong>Poetry:</strong> Concentrated language that employs rhythm, imagery, and metaphor to evoke emotion and meaning.</li>
+          <li><strong>Drama:</strong> Literature written for performance, using dialogue and action to tell stories on stage, screen, or radio.</li>
+          <li><strong>Non-fiction:</strong> Factual writing including essays, memoirs, journalism, and academic texts that engage with real events and ideas.</li>
+          <li><strong>Experimental Forms:</strong> Works that challenge traditional boundaries, including hybrid genres, graphic novels, and digital interactive narratives.</li>
+        </ul>
+        
+        <p>The craft of writing involves mastering language, structure, and storytelling techniques while finding one's unique voice and perspective. Great writing often reveals the familiar in unfamiliar ways, inviting readers to see themselves and their world anew.</p>
+        
+        <a href="#" class="download-btn">Access Writing Resources</a>
+      </div>
+    </section>
+    
+    <!-- Photography Section -->
+    <section id="photography" class="section">
+      <h2>Photography</h2>
+      
+      <div class="content-grid">
+        <div class="image-container">
+          <img src="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07" alt="Close-up nature photography of flowers">
+        </div>
+        
+        <div class="text-content">
+          <p>Photography is the art and practice of creating images by recording light, resulting in visual documents that capture moments, tell stories, and preserve memories. Since its invention in the 19th century, photography has revolutionized <span class="highlight">how we see and remember the world</span>, democratizing image-making and expanding visual literacy.</p>
+          
+          <p>A photograph can function as evidence, art, memory, or communication—often serving multiple purposes simultaneously. The photographer's choices of subject, framing, timing, and technique imbue each image with <span class="highlight">layers of meaning and intention</span>.</p>
+        </div>
+      </div>
+      
+      <div class="quote">
+        "Photography is the story I fail to put into words."
+      </div>
+      
+      <div class="topic-container">
+        <h3>Photographic Genres and Approaches</h3>
+        <p>Photography encompasses numerous specialized fields and aesthetic traditions:</p>
+        
+        <ul>
+          <li><strong>Documentary Photography:</strong> Recording events, social conditions, and daily life as visual evidence and historical record.</li>
+          <li><strong>Portrait Photography:</strong> Capturing the personality, mood, and essence of individuals or groups.</li>
+          <li><strong>Landscape Photography:</strong> Depicting spaces in the natural world, emphasizing environmental beauty or significance.</li>
+          <li><strong>Street Photography:</strong> Candid images of public places that reveal human behavior and urban environments.</li>
+          <li><strong>Conceptual Photography:</strong> Images created to represent specific ideas, often with symbolic or metaphorical content.</li>
+        </ul>
+        
+        <p>Digital technology has transformed photography, making image creation and sharing accessible to billions of people worldwide. Yet the fundamental power of photography remains: its ability to freeze time, direct attention, and illuminate aspects of our existence that might otherwise go unnoticed.</p>
+        
+        <a href="#" class="download-btn">Browse Photography Collections</a>
+      </div>
+      
+      <div class="gallery">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158" alt="Urban photography">
+          <div class="gallery-title">Urban Landscapes</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1472396961693-142e6e269027" alt="Nature photography">
+          <div class="gallery-title">Natural World</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07" alt="Macro photography">
+          <div class="gallery-title">Macro Details</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b" alt="Abstract photography">
+          <div class="gallery-title">Light & Shadow</div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <footer>
+    <div class="footer-content">
+      <h3>Archive of Infinity</h3>
+      <p>Exploring the boundless realms of human knowledge and creativity</p>
+      <p>&copy; 2023 Archive of Infinity. All rights reserved.</p>
+    </div>
+  </footer>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const navButtons = document.querySelectorAll('.nav-button');
+      const sections = document.querySelectorAll('.section');
+      
+      navButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Remove active class from all buttons and sections
+          navButtons.forEach(btn => btn.classList.remove('active'));
+          sections.forEach(section => section.classList.remove('active'));
+          
+          // Add active class to clicked button
+          this.classList.add('active');
+          
+          // Show corresponding section
+          const sectionId = this.getAttribute('data-section');
+          document.getElementById(sectionId).classList.add('active');
+        });
+      });
+    });
+  </script>
 </body>
 </html>

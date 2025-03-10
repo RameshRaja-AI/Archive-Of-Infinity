@@ -1,72 +1,528 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enterprise Hub</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Enterprise Knowledge - Archive of Infinity</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <style>
-        body { background: #000; color: #fff; font-family: Arial, sans-serif; }
-        .hero-section { text-align: center; padding: 80px 20px; color: white; }
-        .navbar { background: #111; }
-        .navbar-brand { font-size: 24px; color: white; }
-        .category-card { padding: 20px; border-radius: 10px; background: #222; box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); text-align: center; cursor: pointer; position: relative; color: white; }
-        .category-card:hover { background: #333; transition: 0.3s; }
-        .description { display: none; position: absolute; background: rgba(255, 255, 255, 0.8); color: #000; padding: 10px; border-radius: 5px; bottom: 100%; left: 50%; transform: translateX(-50%); width: 80%; text-align: center; }
-        .category-card:hover .description { display: block; }
+        :root {
+            --primary: #1a365d;
+            --secondary: #2a4365;
+            --accent: #3182ce;
+            --text: #2d3748;
+            --light-text: #718096;
+            --background: #f7fafc;
+            --card-bg: #ffffff;
+            --strategy: #3182ce;
+            --innovation: #805ad5;
+            --finance: #38a169;
+            --operations: #e53e3e;
+            --technology: #dd6b20;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem 0;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tab {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            background-color: var(--card-bg);
+            color: var(--text);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab.active {
+            font-weight: 600;
+        }
+
+        .tab[data-tab="strategy"].active {
+            border-bottom-color: var(--strategy);
+            color: var(--strategy);
+        }
+
+        .tab[data-tab="innovation"].active {
+            border-bottom-color: var(--innovation);
+            color: var(--innovation);
+        }
+
+        .tab[data-tab="finance"].active {
+            border-bottom-color: var(--finance);
+            color: var(--finance);
+        }
+
+        .tab[data-tab="operations"].active {
+            border-bottom-color: var(--operations);
+            color: var(--operations);
+        }
+
+        .tab[data-tab="technology"].active {
+            border-bottom-color: var(--technology);
+            color: var(--technology);
+        }
+
+        .content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            border-radius: 3px;
+        }
+
+        .strategy h2::after {
+            background-color: var(--strategy);
+        }
+
+        .innovation h2::after {
+            background-color: var(--innovation);
+        }
+
+        .finance h2::after {
+            background-color: var(--finance);
+        }
+
+        .operations h2::after {
+            background-color: var(--operations);
+        }
+
+        .technology h2::after {
+            background-color: var(--technology);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--text);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--light-text);
+        }
+
+        ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: var(--light-text);
+        }
+
+        .download-btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--accent);
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .strategy .download-btn {
+            background-color: var(--strategy);
+        }
+
+        .innovation .download-btn {
+            background-color: var(--innovation);
+        }
+
+        .finance .download-btn {
+            background-color: var(--finance);
+        }
+
+        .operations .download-btn {
+            background-color: var(--operations);
+        }
+
+        .technology .download-btn {
+            background-color: var(--technology);
+        }
+
+        .breadcrumbs {
+            display: flex;
+            margin-bottom: 2rem;
+        }
+
+        .breadcrumbs a {
+            color: var(--light-text);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--accent);
+        }
+
+        .breadcrumbs span {
+            margin: 0 0.5rem;
+            color: var(--light-text);
+        }
+
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                margin-bottom: 0.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.75rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="#">Enterprise Hub</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link text-white" href="strategy.html">Strategy</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="innovation.html">Innovation</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="finance.html">Finance</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="operations.html">Operations</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="technology.html">Technology</a></li>
+    <div class="container">
+        <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>/</span>
+            <a href="enterprise.html">Enterprise</a>
+        </div>
+        
+        <header>
+            <h1>Enterprise Knowledge</h1>
+            <p class="subtitle">Explore the fundamentals of business success and organizational excellence</p>
+        </header>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="strategy">Strategy</div>
+            <div class="tab" data-tab="innovation">Innovation</div>
+            <div class="tab" data-tab="finance">Finance</div>
+            <div class="tab" data-tab="operations">Operations</div>
+            <div class="tab" data-tab="technology">Technology</div>
+        </div>
+        
+        <div class="content strategy active" id="strategy">
+            <div class="content-card">
+                <h2>Strategy</h2>
+                <p>Master the art of business planning and market positioning. Strategic management involves the formulation and implementation of major goals and initiatives taken by an organization's top management on behalf of owners, based on consideration of resources and an assessment of the internal and external environments in which the organization operates.</p>
+                
+                <h3>Core Strategic Concepts</h3>
+                <ul>
+                    <li><strong>Vision and Mission:</strong> Defining the organization's purpose and long-term aspirations.</li>
+                    <li><strong>Competitive Advantage:</strong> Creating unique value propositions that differentiate from competitors.</li>
+                    <li><strong>Market Analysis:</strong> Understanding industry dynamics, customer needs, and competitive landscapes.</li>
+                    <li><strong>Strategic Planning:</strong> Developing actionable plans to achieve organizational objectives.</li>
+                    <li><strong>Resource Allocation:</strong> Optimizing the distribution of assets, capital, and talent.</li>
                 </ul>
+                
+                <h3>Strategic Frameworks</h3>
+                <p>Various frameworks guide strategic thinking and implementation:</p>
+                <ul>
+                    <li><strong>Porter's Five Forces:</strong> Analyzing competitive forces that shape industry profitability.</li>
+                    <li><strong>SWOT Analysis:</strong> Evaluating Strengths, Weaknesses, Opportunities, and Threats.</li>
+                    <li><strong>Balanced Scorecard:</strong> Measuring performance across financial, customer, internal process, and learning perspectives.</li>
+                    <li><strong>Blue Ocean Strategy:</strong> Creating uncontested market space rather than competing in existing markets.</li>
+                    <li><strong>Scenario Planning:</strong> Preparing for alternative futures through structured analysis.</li>
+                </ul>
+                
+                <h3>Strategic Implementation</h3>
+                <p>The best strategy is meaningless without effective execution. Key implementation factors include:</p>
+                <ul>
+                    <li>Alignment of organizational structure with strategic goals</li>
+                    <li>Clear communication and stakeholder buy-in</li>
+                    <li>Performance measurement and feedback mechanisms</li>
+                    <li>Adaptability to changing market conditions</li>
+                    <li>Integration of strategy across all business functions</li>
+                </ul>
+                
+                <button class="download-btn">Download Strategy Resources</button>
             </div>
         </div>
-    </nav>
-    <div class="hero-section">
-        <h1>Welcome to Enterprise Hub</h1>
-        <p>Explore cutting-edge strategy, innovation, finance, operations, and technology.</p>
-    </div>
-    <div class="container my-5">
-        <div class="row g-4">
-            <div class="col-md-4">
-                <a href="strategy.html" class="text-decoration-none text-white">
-                    <div class="category-card">Strategy<div class="description">Master the art of business planning and market positioning.</div></div>
-                </a>
+        
+        <div class="content innovation" id="innovation">
+            <div class="content-card">
+                <h2>Innovation</h2>
+                <p>Innovation is the process of creating value through the implementation of new ideas, products, services, or methods. In today's rapidly changing business environment, innovation has become a critical driver of competitive advantage and sustainable growth.</p>
+                
+                <h3>Types of Innovation</h3>
+                <ul>
+                    <li><strong>Incremental Innovation:</strong> Small, progressive improvements to existing products or processes.</li>
+                    <li><strong>Disruptive Innovation:</strong> Innovations that transform markets by introducing simplicity, convenience, accessibility, or affordability.</li>
+                    <li><strong>Architectural Innovation:</strong> Reconfiguring existing system components in new ways.</li>
+                    <li><strong>Radical Innovation:</strong> Breakthrough discoveries or inventions that fundamentally change how businesses operate.</li>
+                    <li><strong>Business Model Innovation:</strong> Creating entirely new ways to deliver and capture value.</li>
+                </ul>
+                
+                <h3>Building an Innovation Culture</h3>
+                <p>Creating an environment that fosters creativity and innovation requires:</p>
+                <ul>
+                    <li>Leadership that champions innovation and tolerates well-intentioned failures</li>
+                    <li>Organizational structures that encourage cross-functional collaboration</li>
+                    <li>Resource allocation for experimentation and R&D</li>
+                    <li>Recognition and reward systems aligned with innovation goals</li>
+                    <li>Processes for capturing, evaluating, and implementing new ideas</li>
+                </ul>
+                
+                <h3>Innovation Methodologies</h3>
+                <p>Structured approaches to drive innovation include:</p>
+                <ul>
+                    <li><strong>Design Thinking:</strong> A human-centered approach to problem-solving and innovation.</li>
+                    <li><strong>Lean Startup:</strong> Building, measuring, and learning through rapid experimentation.</li>
+                    <li><strong>Open Innovation:</strong> Leveraging external sources of ideas and technologies.</li>
+                    <li><strong>Agile Development:</strong> Iterative and incremental approaches to product development.</li>
+                    <li><strong>Jobs-to-be-Done:</strong> Understanding the fundamental tasks customers are trying to accomplish.</li>
+                </ul>
+                
+                <button class="download-btn">Download Innovation Resources</button>
             </div>
-            <div class="col-md-4">
-                <a href="innovation.html" class="text-decoration-none text-white">
-                    <div class="category-card">Innovation<div class="description">Drive progress with groundbreaking ideas and transformative thinking.</div></div>
-                </a>
+        </div>
+        
+        <div class="content finance" id="finance">
+            <div class="content-card">
+                <h2>Finance</h2>
+                <p>Finance is the lifeblood of any enterprise, encompassing the management of money, investments, and capital. Effective financial management ensures organizational sustainability, growth, and the ability to create value for stakeholders.</p>
+                
+                <h3>Financial Management Principles</h3>
+                <ul>
+                    <li><strong>Capital Budgeting:</strong> Evaluating and selecting long-term investment opportunities.</li>
+                    <li><strong>Working Capital Management:</strong> Optimizing current assets and liabilities for operational efficiency.</li>
+                    <li><strong>Capital Structure:</strong> Determining the optimal mix of debt and equity financing.</li>
+                    <li><strong>Dividend Policy:</strong> Deciding how much profit to distribute to shareholders versus reinvest in the business.</li>
+                    <li><strong>Risk Management:</strong> Identifying, assessing, and mitigating financial risks.</li>
+                </ul>
+                
+                <h3>Financial Analysis Tools</h3>
+                <p>Key methods for evaluating business performance and financial health:</p>
+                <ul>
+                    <li><strong>Ratio Analysis:</strong> Using financial ratios to assess profitability, liquidity, solvency, and efficiency.</li>
+                    <li><strong>Cash Flow Analysis:</strong> Tracking the movement of cash into and out of the business.</li>
+                    <li><strong>Break-even Analysis:</strong> Determining the point at which revenue equals costs.</li>
+                    <li><strong>NPV and IRR:</strong> Evaluating the present value of future cash flows and return on investments.</li>
+                    <li><strong>Financial Modeling:</strong> Creating mathematical representations of business operations for forecasting and decision-making.</li>
+                </ul>
+                
+                <h3>Financial Markets and Institutions</h3>
+                <p>Understanding the broader financial ecosystem:</p>
+                <ul>
+                    <li>Equity and debt markets for raising capital</li>
+                    <li>Banking relationships and loan structures</li>
+                    <li>Private equity and venture capital</li>
+                    <li>Mergers, acquisitions, and corporate restructuring</li>
+                    <li>Financial regulations and compliance requirements</li>
+                </ul>
+                
+                <button class="download-btn">Download Finance Resources</button>
             </div>
-            <div class="col-md-4">
-                <a href="finance.html" class="text-decoration-none text-white">
-                    <div class="category-card">Finance<div class="description">Gain insights into investment, budgeting, and financial management.</div></div>
-                </a>
+        </div>
+        
+        <div class="content operations" id="operations">
+            <div class="content-card">
+                <h2>Operations</h2>
+                <p>Operations management focuses on designing, controlling, and optimizing business processes to efficiently convert inputs into outputs. It encompasses the systems and functions that create and deliver an organization's products or services.</p>
+                
+                <h3>Operations Strategy</h3>
+                <ul>
+                    <li><strong>Operational Excellence:</strong> Achieving cost-efficiency, quality, and reliability in all processes.</li>
+                    <li><strong>Customer Intimacy:</strong> Tailoring operations to meet specific customer needs and preferences.</li>
+                    <li><strong>Product Leadership:</strong> Focusing operations on innovation and rapid development of market-leading offerings.</li>
+                    <li><strong>Capacity Planning:</strong> Aligning operational capabilities with demand forecasts.</li>
+                    <li><strong>Location Strategy:</strong> Optimizing the geographical placement of facilities.</li>
+                </ul>
+                
+                <h3>Process Design and Improvement</h3>
+                <p>Key methodologies for creating and refining operational processes:</p>
+                <ul>
+                    <li><strong>Lean Management:</strong> Eliminating waste and focusing on value-adding activities.</li>
+                    <li><strong>Six Sigma:</strong> Reducing process variation and defects through statistical methods.</li>
+                    <li><strong>Theory of Constraints:</strong> Identifying and addressing system bottlenecks.</li>
+                    <li><strong>Business Process Reengineering:</strong> Radically redesigning processes for dramatic improvements.</li>
+                    <li><strong>Total Quality Management:</strong> Organization-wide focus on continuous quality improvement.</li>
+                </ul>
+                
+                <h3>Supply Chain Management</h3>
+                <p>Coordinating the flow of goods, services, and information across the value chain:</p>
+                <ul>
+                    <li>Sourcing and procurement strategies</li>
+                    <li>Inventory management and optimization</li>
+                    <li>Logistics and distribution networks</li>
+                    <li>Supplier relationship management</li>
+                    <li>Supply chain risk management and resilience</li>
+                </ul>
+                
+                <button class="download-btn">Download Operations Resources</button>
             </div>
-            <div class="col-md-4">
-                <a href="operations.html" class="text-decoration-none text-white">
-                    <div class="category-card">Operations<div class="description">Optimize business processes and enhance efficiency.</div></div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="technology.html" class="text-decoration-none text-white">
-                    <div class="category-card">Technology<div class="description">Leverage cutting-edge tools for digital transformation.</div></div>
-                </a>
+        </div>
+        
+        <div class="content technology" id="technology">
+            <div class="content-card">
+                <h2>Technology</h2>
+                <p>Technology has become a critical enabler of business strategy and operations. Effective technology management involves leveraging digital tools and systems to create competitive advantage, enhance efficiency, and drive innovation.</p>
+                
+                <h3>Digital Transformation</h3>
+                <ul>
+                    <li><strong>Business Model Innovation:</strong> Using technology to reimagine how value is created and delivered.</li>
+                    <li><strong>Customer Experience:</strong> Enhancing interactions through digital touchpoints and personalization.</li>
+                    <li><strong>Operational Processes:</strong> Automating and optimizing internal workflows and systems.</li>
+                    <li><strong>Data-Driven Decision Making:</strong> Leveraging analytics for improved strategic and tactical choices.</li>
+                    <li><strong>Workforce Enablement:</strong> Equipping employees with digital tools and capabilities.</li>
+                </ul>
+                
+                <h3>Emerging Technologies</h3>
+                <p>Key technologies reshaping business and society:</p>
+                <ul>
+                    <li><strong>Artificial Intelligence and Machine Learning:</strong> Systems that can perform tasks requiring human-like intelligence.</li>
+                    <li><strong>Internet of Things (IoT):</strong> Connected devices generating data and enabling new capabilities.</li>
+                    <li><strong>Blockchain:</strong> Distributed ledger technology for secure, transparent transactions.</li>
+                    <li><strong>Cloud Computing:</strong> Scalable, on-demand computing resources and services.</li>
+                    <li><strong>Edge Computing:</strong> Processing data closer to where it's generated for faster response times.</li>
+                    <li><strong>Augmented and Virtual Reality:</strong> Technologies that enhance or replace our experience of the physical world.</li>
+                </ul>
+                
+                <h3>IT Strategy and Governance</h3>
+                <p>Aligning technology investments with business objectives:</p>
+                <ul>
+                    <li>IT portfolio management and prioritization</li>
+                    <li>Technology architecture and standards</li>
+                    <li>Cybersecurity and risk management</li>
+                    <li>Data governance and privacy compliance</li>
+                    <li>Vendor and partner ecosystem management</li>
+                </ul>
+                
+                <button class="download-btn">Download Technology Resources</button>
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab functionality
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabName = tab.getAttribute('data-tab');
+                    document.getElementById(tabName).classList.add('active');
+                });
+            });
+            
+            // Download buttons
+            const downloadButtons = document.querySelectorAll('.download-btn');
+            
+            downloadButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const section = this.closest('.content').id;
+                    alert(`Download initiated for ${section} resources. This is a placeholder. Actual download functionality will be implemented later.`);
+                });
+            });
+        });
+    </script>
 </body>
 </html>

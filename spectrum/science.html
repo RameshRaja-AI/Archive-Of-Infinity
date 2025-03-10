@@ -3,75 +3,514 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Science Hub</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Science Archive of Infinity</title>
     <style>
-        body { background-color: #1a62aa; }
-        .hero-section { text-align: center; padding: 80px 20px; background: url('#background-image') center/cover; color: white; }
-        .navbar { background: #007bff; }
-        .navbar-brand { font-size: 24px; color: white; }
-        .category-card { padding: 20px; border-radius: 10px; background: white; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); text-align: center; cursor: pointer; position: relative; }
-        .category-card:hover .description { display: block; }
-        .description { display: none; position: absolute; background: rgba(0, 0, 0, 0.7); color: white; padding: 10px; border-radius: 5px; bottom: 100%; left: 50%; transform: translateX(-50%); width: 80%; text-align: center; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f1f1f1;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .intro {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .subjects {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .subject-btn {
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            background-color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .subject-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Subject-specific colors */
+        .physics { border-left: 4px solid #FF5722; }
+        .chemistry { border-left: 4px solid #9C27B0; }
+        .biology { border-left: 4px solid #4CAF50; }
+        .mathematics { border-left: 4px solid #2196F3; }
+        .astronomy { border-left: 4px solid #673AB7; }
+        .earth-sciences { border-left: 4px solid #795548; }
+        
+        .content-section {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f1f1f1;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            margin: 20px 0 10px;
+            color: #444;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+        
+        ul, ol {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 5px;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #0FA0CE;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .download-btn:hover {
+            background-color: #0A8AAF;
+        }
+        
+        .physics-color { color: #FF5722; }
+        .chemistry-color { color: #9C27B0; }
+        .biology-color { color: #4CAF50; }
+        .mathematics-color { color: #2196F3; }
+        .astronomy-color { color: #673AB7; }
+        .earth-sciences-color { color: #795548; }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            .subjects {
+                flex-direction: column;
+            }
+            .subject-btn {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="../index new.html">Archive Of Infinity</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link text-white" href="physics.html">Physics</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="chemistry.html">Chemistry</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="biology.html">Biology</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="mathematics.html">Mathematics</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="astronomy.html">Astronomy</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="earth_sciences.html">Earth Sciences</a></li>
-                </ul>
-            </div>
+    <div class="container">
+        <header>
+            <h1>Science Archive of Infinity</h1>
+            <p class="intro">Explore the fundamental sciences that help us understand our universe</p>
+        </header>
+        
+        <div class="subjects">
+            <button class="subject-btn physics" onclick="showContent('physics')">Physics</button>
+            <button class="subject-btn chemistry" onclick="showContent('chemistry')">Chemistry</button>
+            <button class="subject-btn biology" onclick="showContent('biology')">Biology</button>
+            <button class="subject-btn mathematics" onclick="showContent('mathematics')">Mathematics</button>
+            <button class="subject-btn astronomy" onclick="showContent('astronomy')">Astronomy</button>
+            <button class="subject-btn earth-sciences" onclick="showContent('earth-sciences')">Earth Sciences</button>
         </div>
-    </nav>
-    <div class="hero-section">
-        <h1>Welcome to Science Hub</h1>
-        <p>Explore the wonders of Physics, Chemistry, Biology, Mathematics, Astronomy, and Earth Sciences.</p>
-    </div>
-    <div class="container my-5">
-        <div class="row g-4">
-            <div class="col-md-4">
-                <a href="physics.html" class="text-decoration-none text-dark">
-                    <div class="category-card">Physics<div class="description">The study of matter, energy, and their interactions, explaining natural forces and the universe.</div></div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="chemistry.html" class="text-decoration-none text-dark">
-                    <div class="category-card">Chemistry<div class="description">Explores substances, their properties, compositions, reactions, and how they interact.</div></div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="biology.html" class="text-decoration-none text-dark">
-                    <div class="category-card">Biology<div class="description">The study of living organisms, their structures, processes, evolution, and ecosystems.</div></div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="mathematics.html" class="text-decoration-none text-dark">
-                    <div class="category-card">Mathematics<div class="description">A field dealing with numbers, quantities, shapes, and patterns to understand relationships.</div></div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="astronomy.html" class="text-decoration-none text-dark">
-                    <div class="category-card">Astronomy<div class="description">The study of celestial objects, space phenomena, and the vast universe beyond Earth.</div></div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="earth_sciences.html" class="text-decoration-none text-dark">
-                    <div class="category-card">Earth Sciences<div class="description">Examines Earth's processes, geology, climate, and natural systems shaping our planet.</div></div>
-                </a>
-            </div>
+        
+        <!-- Physics Section -->
+        <div id="physics" class="content-section">
+            <h2 class="physics-color">Physics</h2>
+            <p>Physics is the natural science that studies matter, its fundamental constituents, its motion and behavior through space and time, and the related entities of energy and force. Physics is one of the most fundamental scientific disciplines, with its main goal being to understand how the universe behaves.</p>
+            
+            <h3>Classical Mechanics</h3>
+            <p>Classical mechanics describes the motion of macroscopic objects, from projectiles to parts of machinery, and astronomical objects, such as spacecraft, planets, stars, and galaxies.</p>
+            <ul>
+                <li>Newton's Laws of Motion</li>
+                <li>Conservation of Energy and Momentum</li>
+                <li>Rotational Dynamics</li>
+                <li>Harmonic Motion</li>
+            </ul>
+            
+            <h3>Thermodynamics</h3>
+            <p>Thermodynamics studies the effects of changes in temperature, pressure, and volume on physical systems at the macroscopic scale by analyzing the collective motion of their particles using statistics.</p>
+            <ul>
+                <li>Laws of Thermodynamics</li>
+                <li>Heat Transfer</li>
+                <li>Entropy and Disorder</li>
+                <li>Thermal Equilibrium</li>
+            </ul>
+            
+            <h3>Electromagnetism</h3>
+            <p>Electromagnetism is a branch of physics involving the study of the electromagnetic force, a type of physical interaction that occurs between electrically charged particles.</p>
+            <ul>
+                <li>Electric Fields and Charges</li>
+                <li>Magnetic Fields and Forces</li>
+                <li>Electromagnetic Waves</li>
+                <li>Maxwell's Equations</li>
+            </ul>
+            
+            <h3>Quantum Mechanics</h3>
+            <p>Quantum mechanics is a fundamental theory in physics that provides a description of the physical properties of nature at the scale of atoms and subatomic particles.</p>
+            <ul>
+                <li>Wave-Particle Duality</li>
+                <li>Heisenberg Uncertainty Principle</li>
+                <li>Quantum Entanglement</li>
+                <li>Quantum Field Theory</li>
+            </ul>
+            
+            <h3>Relativity</h3>
+            <p>The theory of relativity usually encompasses two interrelated theories by Albert Einstein: special relativity and general relativity.</p>
+            <ul>
+                <li>Special Relativity: Time Dilation and Length Contraction</li>
+                <li>General Relativity: Gravity as Spacetime Curvature</li>
+                <li>Relativistic Effects on Time and Space</li>
+                <li>Black Holes and Gravitational Waves</li>
+            </ul>
+            
+            <a href="#" class="download-btn" download>Download Physics Resources</a>
+        </div>
+        
+        <!-- Chemistry Section -->
+        <div id="chemistry" class="content-section">
+            <h2 class="chemistry-color">Chemistry</h2>
+            <p>Chemistry is the scientific study of the properties and behavior of matter. It is a physical science that covers the elements that make up matter to the compounds made of atoms, molecules and ions: their composition, structure, properties, behavior and the changes they undergo during a reaction with other substances.</p>
+            
+            <h3>Atomic Structure</h3>
+            <p>Atomic structure refers to the structure of an atom comprising a nucleus (center) in which the protons (positively charged) and neutrons (neutral) are present. The negatively charged particles called electrons revolve around the center of the nucleus.</p>
+            <ul>
+                <li>Atomic Models: Bohr, Quantum Mechanical</li>
+                <li>Electron Configuration</li>
+                <li>Periodic Trends</li>
+                <li>Isotopes and Nuclear Chemistry</li>
+            </ul>
+            
+            <h3>Chemical Bonding</h3>
+            <p>Chemical bonding is the formation of a chemical bond between two or more atoms, molecules, or ions to give rise to a chemical compound. These chemical bonds are what keep atoms together in molecules.</p>
+            <ul>
+                <li>Ionic Bonding</li>
+                <li>Covalent Bonding</li>
+                <li>Metallic Bonding</li>
+                <li>Intermolecular Forces</li>
+            </ul>
+            
+            <h3>Organic Chemistry</h3>
+            <p>Organic chemistry is the study of the structure, properties, composition, reactions, and preparation of carbon-containing compounds.</p>
+            <ul>
+                <li>Hydrocarbons and Functional Groups</li>
+                <li>Organic Reactions and Mechanisms</li>
+                <li>Stereochemistry</li>
+                <li>Biomolecules: Proteins, Lipids, Carbohydrates</li>
+            </ul>
+            
+            <h3>Biochemistry</h3>
+            <p>Biochemistry is the branch of science that explores the chemical processes within and related to living organisms. It is a laboratory-based science that brings together biology and chemistry.</p>
+            <ul>
+                <li>Enzymes and Metabolism</li>
+                <li>DNA, RNA and Protein Synthesis</li>
+                <li>Cellular Respiration</li>
+                <li>Photosynthesis</li>
+            </ul>
+            
+            <h3>Analytical Chemistry</h3>
+            <p>Analytical chemistry studies and uses instruments and methods to separate, identify, and quantify matter. It involves the study of the chemical composition of materials.</p>
+            <ul>
+                <li>Spectroscopy Methods</li>
+                <li>Chromatography Techniques</li>
+                <li>Mass Spectrometry</li>
+                <li>Electrochemical Analysis</li>
+            </ul>
+            
+            <a href="#" class="download-btn" download>Download Chemistry Resources</a>
+        </div>
+        
+        <!-- Biology Section -->
+        <div id="biology" class="content-section">
+            <h2 class="biology-color">Biology</h2>
+            <p>Biology is the natural science that studies life and living organisms, including their physical structure, chemical processes, molecular interactions, physiological mechanisms, development, and evolution.</p>
+            
+            <h3>Cell Biology</h3>
+            <p>Cell biology is the study of cell structure and function, and it revolves around the concept that the cell is the fundamental unit of life.</p>
+            <ul>
+                <li>Cell Structure and Organelles</li>
+                <li>Cell Membrane and Transport</li>
+                <li>Cell Division: Mitosis and Meiosis</li>
+                <li>Cellular Respiration and Energy Production</li>
+            </ul>
+            
+            <h3>Genetics</h3>
+            <p>Genetics is the study of genes, genetic variation, and heredity in organisms. It is an important branch in biology because heredity is vital to organisms' evolution.</p>
+            <ul>
+                <li>DNA Structure and Replication</li>
+                <li>Gene Expression: Transcription and Translation</li>
+                <li>Mendelian Genetics and Inheritance Patterns</li>
+                <li>Genetic Engineering and Biotechnology</li>
+            </ul>
+            
+            <h3>Evolution</h3>
+            <p>Evolution is the process by which different kinds of living organisms developed and diversified from earlier forms during the history of the Earth.</p>
+            <ul>
+                <li>Natural Selection and Adaptation</li>
+                <li>Speciation and Biodiversity</li>
+                <li>Evolutionary History of Life</li>
+                <li>Human Evolution</li>
+            </ul>
+            
+            <h3>Ecology</h3>
+            <p>Ecology is the study of the relationships between living organisms, including humans, and their physical environment.</p>
+            <ul>
+                <li>Ecosystems and Biomes</li>
+                <li>Population Dynamics</li>
+                <li>Food Webs and Energy Flow</li>
+                <li>Environmental Conservation</li>
+            </ul>
+            
+            <h3>Physiology</h3>
+            <p>Physiology is the scientific study of functions and mechanisms in a living system.</p>
+            <ul>
+                <li>Nervous System and Brain Function</li>
+                <li>Circulatory and Respiratory Systems</li>
+                <li>Immune System and Disease Defense</li>
+                <li>Hormones and Endocrine Regulation</li>
+            </ul>
+            
+            <a href="#" class="download-btn" download>Download Biology Resources</a>
+        </div>
+        
+        <!-- Mathematics Section -->
+        <div id="mathematics" class="content-section">
+            <h2 class="mathematics-color">Mathematics</h2>
+            <p>Mathematics is the science of structure, order, and relation that has evolved from counting, measuring, and describing the shapes of objects. It deals with logical reasoning and quantitative calculation.</p>
+            
+            <h3>Algebra</h3>
+            <p>Algebra is a branch of mathematics dealing with symbols and the rules for manipulating these symbols. It is central to all areas of mathematics.</p>
+            <ul>
+                <li>Equations and Inequalities</li>
+                <li>Functions and Their Graphs</li>
+                <li>Polynomials and Rational Expressions</li>
+                <li>Linear Algebra and Matrices</li>
+            </ul>
+            
+            <h3>Calculus</h3>
+            <p>Calculus is the mathematical study of continuous change, in the same way that geometry is the study of shape and algebra is the study of generalizations of arithmetic operations.</p>
+            <ul>
+                <li>Limits and Continuity</li>
+                <li>Differentiation: Rates of Change</li>
+                <li>Integration: Area and Accumulation</li>
+                <li>Differential Equations</li>
+            </ul>
+            
+            <h3>Geometry</h3>
+            <p>Geometry is a branch of mathematics that studies the sizes, shapes, positions, and dimensions of things.</p>
+            <ul>
+                <li>Euclidean Geometry</li>
+                <li>Coordinate Geometry</li>
+                <li>Trigonometry</li>
+                <li>Non-Euclidean Geometries</li>
+            </ul>
+            
+            <h3>Statistics and Probability</h3>
+            <p>Statistics is the discipline that concerns the collection, organization, analysis, interpretation, and presentation of data. Probability is the branch of mathematics concerning numerical descriptions of how likely an event is to occur.</p>
+            <ul>
+                <li>Descriptive Statistics</li>
+                <li>Probability Distributions</li>
+                <li>Hypothesis Testing</li>
+                <li>Regression Analysis</li>
+            </ul>
+            
+            <h3>Number Theory</h3>
+            <p>Number theory is a branch of pure mathematics devoted primarily to the study of the integers and integer-valued functions.</p>
+            <ul>
+                <li>Prime Numbers</li>
+                <li>Divisibility and Modular Arithmetic</li>
+                <li>Diophantine Equations</li>
+                <li>Cryptography Applications</li>
+            </ul>
+            
+            <a href="#" class="download-btn" download>Download Mathematics Resources</a>
+        </div>
+        
+        <!-- Astronomy Section -->
+        <div id="astronomy" class="content-section">
+            <h2 class="astronomy-color">Astronomy</h2>
+            <p>Astronomy is the study of everything in the universe beyond Earth's atmosphere. That includes objects we can see with our naked eyes, like the Sun, the Moon, the planets, and the stars. It also includes objects we can only see with telescopes or other instruments, like distant galaxies and tiny particles.</p>
+            
+            <h3>The Solar System</h3>
+            <p>Our Solar System consists of the Sun and the objects that orbit it, either directly or indirectly.</p>
+            <ul>
+                <li>The Sun: Our Star</li>
+                <li>Inner Planets: Mercury, Venus, Earth, Mars</li>
+                <li>Outer Planets: Jupiter, Saturn, Uranus, Neptune</li>
+                <li>Dwarf Planets, Asteroids, and Comets</li>
+            </ul>
+            
+            <h3>Stars and Stellar Evolution</h3>
+            <p>Stars are massive, luminous spheres of plasma held together by their own gravity. The nearest star to Earth is the Sun.</p>
+            <ul>
+                <li>Star Formation and Classification</li>
+                <li>Stellar Structure and Energy Generation</li>
+                <li>Stellar Evolution: From Protostars to Supernovae</li>
+                <li>Neutron Stars, Pulsars, and Black Holes</li>
+            </ul>
+            
+            <h3>Galaxies</h3>
+            <p>A galaxy is a system of millions or billions of stars, together with gas and dust, held together by gravitational attraction.</p>
+            <ul>
+                <li>The Milky Way Galaxy</li>
+                <li>Galaxy Types and Classification</li>
+                <li>Galaxy Formation and Evolution</li>
+                <li>Galaxy Clusters and Superclusters</li>
+            </ul>
+            
+            <h3>Cosmology</h3>
+            <p>Cosmology is the study of the origin, evolution, and eventual fate of the universe.</p>
+            <ul>
+                <li>The Big Bang Theory</li>
+                <li>Cosmic Microwave Background Radiation</li>
+                <li>Dark Matter and Dark Energy</li>
+                <li>The Expanding Universe and Its Future</li>
+            </ul>
+            
+            <h3>Space Exploration</h3>
+            <p>Space exploration is the use of astronomy and space technology to explore outer space.</p>
+            <ul>
+                <li>Telescopes and Observatories</li>
+                <li>Space Missions and Probes</li>
+                <li>Human Spaceflight</li>
+                <li>Future of Space Exploration</li>
+            </ul>
+            
+            <a href="#" class="download-btn" download>Download Astronomy Resources</a>
+        </div>
+        
+        <!-- Earth Sciences Section -->
+        <div id="earth-sciences" class="content-section">
+            <h2 class="earth-sciences-color">Earth Sciences</h2>
+            <p>Earth science or geoscience includes all fields of natural science related to the planet Earth. This is a branch of science dealing with the physical, chemical, and biological complex constitutions and synergistic linkages of Earth's four spheres: the biosphere, the hydrosphere, the atmosphere, and the geosphere.</p>
+            
+            <h3>Geology</h3>
+            <p>Geology is the study of the Earth, the materials of which it is made, the structure of those materials, and the processes acting upon them.</p>
+            <ul>
+                <li>Minerals and Rocks</li>
+                <li>Plate Tectonics</li>
+                <li>Volcanoes and Earthquakes</li>
+                <li>Geological Time Scale and Earth's History</li>
+            </ul>
+            
+            <h3>Meteorology</h3>
+            <p>Meteorology is the scientific study of the atmosphere that focuses on weather processes and forecasting.</p>
+            <ul>
+                <li>Atmospheric Composition and Structure</li>
+                <li>Weather Patterns and Forecasting</li>
+                <li>Storms and Severe Weather</li>
+                <li>Climate Systems and Global Circulation</li>
+            </ul>
+            
+            <h3>Oceanography</h3>
+            <p>Oceanography is the study of the physical and biological aspects of the ocean.</p>
+            <ul>
+                <li>Ocean Currents and Circulation</li>
+                <li>Marine Ecosystems</li>
+                <li>Ocean Floor Geology</li>
+                <li>Tides and Coastal Processes</li>
+            </ul>
+            
+            <h3>Hydrology</h3>
+            <p>Hydrology is the scientific study of the movement, distribution, and management of water on Earth and other planets.</p>
+            <ul>
+                <li>The Water Cycle</li>
+                <li>Rivers and Watersheds</li>
+                <li>Groundwater Systems</li>
+                <li>Water Resources and Management</li>
+            </ul>
+            
+            <h3>Environmental Science</h3>
+            <p>Environmental science is an interdisciplinary academic field that integrates physical, biological, and information sciences to study the environment and solve environmental problems.</p>
+            <ul>
+                <li>Ecosystem Services</li>
+                <li>Pollution and Remediation</li>
+                <li>Climate Change: Causes and Impacts</li>
+                <li>Sustainable Development</li>
+            </ul>
+            
+            <a href="#" class="download-btn" download>Download Earth Sciences Resources</a>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function showContent(subject) {
+            // Hide all content sections
+            const allSections = document.querySelectorAll('.content-section');
+            allSections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show the selected section
+            const selectedSection = document.getElementById(subject);
+            selectedSection.classList.add('active');
+            
+            // Scroll to the section
+            selectedSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Show physics by default when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            showContent('physics');
+        });
+    </script>
 </body>
 </html>

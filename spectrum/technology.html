@@ -1,73 +1,819 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Archive of Infinity</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <title>Technology Archive - Archive of Infinity</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <style>
+        :root {
+            --primary: #0F172A;
+            --secondary: #1E293B;
+            --accent: #38BDF8;
+            --text: #E2E8F0;
+            --light-text: #94A3B8;
+            --background: #0F172A;
+            --card-bg: #1E293B;
+            --computing: #38BDF8;
+            --ai: #8B5CF6;
+            --engineering: #10B981;
+            --robotics: #F43F5E;
+            --software: #F59E0B;
+            --grid-1: rgba(56, 189, 248, 0.03);
+            --grid-2: rgba(56, 189, 248, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            background-image: 
+                linear-gradient(to right, var(--grid-1) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--grid-1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100vh;
+            background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.15), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: rgba(56, 189, 248, 0.1);
+            filter: blur(100px);
+            z-index: -1;
+        }
+
+        .glow-1 {
+            top: -200px;
+            left: -200px;
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .glow-2 {
+            bottom: 10%;
+            right: -200px;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(56, 189, 248, 0.1);
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent,
+                transparent,
+                transparent,
+                rgba(56, 189, 248, 0.1),
+                transparent,
+                transparent,
+                transparent
+            );
+            transform: rotate(30deg);
+            animation: shimmer 10s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%) rotate(30deg);
+            }
+            100% {
+                transform: translateX(100%) rotate(30deg);
+            }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--computing), var(--ai), var(--engineering));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            position: relative;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--light-text);
+        }
+
+        .breadcrumbs {
+            display: flex;
+            margin-bottom: 2rem;
+        }
+
+        .breadcrumbs a {
+            color: var(--light-text);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--accent);
+        }
+
+        .breadcrumbs span {
+            margin: 0 0.5rem;
+            color: var(--light-text);
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) var(--secondary);
+        }
+
+        .tabs::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .tabs::-webkit-scrollbar-track {
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+
+        .tabs::-webkit-scrollbar-thumb {
+            background-color: var(--accent);
+            border-radius: 2px;
+        }
+
+        .tab {
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            background-color: rgba(30, 41, 59, 0.5);
+            color: var(--light-text);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(56, 189, 248, 0.1);
+            flex: 1;
+            min-width: 140px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .tab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            color: var(--text);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .tab:hover::before {
+            transform: translateX(100%);
+        }
+
+        .tab.active {
+            color: var(--text);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .tab[data-tab="computing"].active {
+            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .tab[data-tab="ai"].active {
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .tab[data-tab="engineering"].active {
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .tab[data-tab="robotics"].active {
+            box-shadow: 0 10px 20px rgba(244, 63, 94, 0.1);
+            border: 1px solid rgba(244, 63, 94, 0.3);
+        }
+
+        .tab[data-tab="software"].active {
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-card {
+            background-color: rgba(30, 41, 59, 0.7);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(56, 189, 248, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, transparent 50%, rgba(56, 189, 248, 0.1) 50%);
+            border-radius: 0 0 0 16px;
+        }
+
+        .computing .content-card::after {
+            background: linear-gradient(135deg, transparent 50%, rgba(56, 189, 248, 0.1) 50%);
+        }
+
+        .ai .content-card::after {
+            background: linear-gradient(135deg, transparent 50%, rgba(139, 92, 246, 0.1) 50%);
+        }
+
+        .engineering .content-card::after {
+            background: linear-gradient(135deg, transparent 50%, rgba(16, 185, 129, 0.1) 50%);
+        }
+
+        .robotics .content-card::after {
+            background: linear-gradient(135deg, transparent 50%, rgba(244, 63, 94, 0.1) 50%);
+        }
+
+        .software .content-card::after {
+            background: linear-gradient(135deg, transparent 50%, rgba(245, 158, 11, 0.1) 50%);
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .computing h2 {
+            color: var(--computing);
+        }
+
+        .ai h2 {
+            color: var(--ai);
+        }
+
+        .engineering h2 {
+            color: var(--engineering);
+        }
+
+        .robotics h2 {
+            color: var(--robotics);
+        }
+
+        .software h2 {
+            color: var(--software);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--text);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--light-text);
+            line-height: 1.8;
+        }
+
+        ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.75rem;
+            color: var(--light-text);
+            position: relative;
+        }
+
+        li strong {
+            color: var(--text);
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            border: none;
+            cursor: pointer;
+            background: linear-gradient(90deg, rgba(56, 189, 248, 0.8), rgba(56, 189, 248, 0.6));
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(56, 189, 248, 0.4);
+        }
+
+        .download-btn:hover::before {
+            left: 100%;
+        }
+
+        .computing .download-btn {
+            background: linear-gradient(90deg, rgba(56, 189, 248, 0.8), rgba(56, 189, 248, 0.6));
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+        }
+
+        .ai .download-btn {
+            background: linear-gradient(90deg, rgba(139, 92, 246, 0.8), rgba(139, 92, 246, 0.6));
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .engineering .download-btn {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.8), rgba(16, 185, 129, 0.6));
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .robotics .download-btn {
+            background: linear-gradient(90deg, rgba(244, 63, 94, 0.8), rgba(244, 63, 94, 0.6));
+            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.3);
+        }
+
+        .software .download-btn {
+            background: linear-gradient(90deg, rgba(245, 158, 11, 0.8), rgba(245, 158, 11, 0.6));
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: row;
+                overflow-x: auto;
+                gap: 0.5rem;
+            }
+            
+            .tab {
+                min-width: 100px;
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 1.75rem;
+            }
+
+            .content-card {
+                padding: 1.5rem;
+            }
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: rgba(56, 189, 248, 0.3);
+            border-radius: 50%;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">Archive of Infinity</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#science">Science</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#philosophy">Philosophy</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#enterprise">Enterprise</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#creativity">Creativity</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#technology">Technology</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#research">Research</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#understanding">Understanding</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#medicine">Medicine</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-primary text-white ms-2" href="#login">Login</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-success text-white ms-2" href="#signup">Sign Up</a></li>
+    <div class="particles" id="particles"></div>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    
+    <div class="container">
+        <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>/</span>
+            <a href="technology.html">Technology</a>
+        </div>
+        
+        <header>
+            <h1>Technology Archive</h1>
+            <p class="subtitle">Exploring the cutting edge of human innovation and the digital frontier</p>
+        </header>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="computing">Computing</div>
+            <div class="tab" data-tab="ai">Artificial Intelligence</div>
+            <div class="tab" data-tab="engineering">Engineering</div>
+            <div class="tab" data-tab="robotics">Robotics</div>
+            <div class="tab" data-tab="software">Software</div>
+        </div>
+        
+        <div class="content computing active" id="computing">
+            <div class="content-card">
+                <h2>Computing</h2>
+                <p>Computing encompasses the study and application of computers and computational systems. The field is vast, covering hardware architecture, software systems, algorithmic design, and the theoretical foundations that underpin modern digital technology.</p>
+                
+                <h3>Quantum Computing</h3>
+                <p>Quantum computing leverages quantum-mechanical phenomena to perform computations beyond the capabilities of classical computers. Unlike classical bits, quantum bits or "qubits" can exist in multiple states simultaneously through superposition, enabling exponential parallelism.</p>
+                <ul>
+                    <li><strong>Quantum Supremacy:</strong> The point at which quantum computers can solve problems intractable for classical computers.</li>
+                    <li><strong>Quantum Algorithms:</strong> Shor's algorithm for factoring large numbers and Grover's algorithm for database search represent quantum computing's transformative potential.</li>
+                    <li><strong>Quantum Error Correction:</strong> Critical for maintaining quantum coherence and mitigating decoherence effects that threaten computation integrity.</li>
                 </ul>
+                
+                <h3>High-Performance Computing</h3>
+                <p>High-Performance Computing (HPC) aggregates computing power to deliver much higher performance than typical desktop computers for solving large-scale problems in science, engineering, and business.</p>
+                <ul>
+                    <li><strong>Supercomputers:</strong> Massive parallel systems capable of quadrillions of calculations per second.</li>
+                    <li><strong>Distributed Computing:</strong> Harnessing networks of computers to tackle computationally intensive tasks.</li>
+                    <li><strong>GPU Computing:</strong> Using graphics processing units for general-purpose processing, particularly effective for data parallelism.</li>
+                </ul>
+                
+                <h3>Edge Computing</h3>
+                <p>Edge computing moves computation and data storage closer to the location where it's needed, reducing latency and bandwidth use, and enabling real-time data processing.</p>
+                <ul>
+                    <li><strong>IoT Integration:</strong> Processing data from Internet of Things devices locally rather than in the cloud.</li>
+                    <li><strong>5G Networks:</strong> Providing the high-speed, low-latency connectivity essential for edge computing.</li>
+                    <li><strong>Distributed Intelligence:</strong> Enabling smart, autonomous decision-making at the edge of networks.</li>
+                </ul>
+                
+                <button class="download-btn">Access Computing Resources</button>
             </div>
         </div>
-    </nav>
-
-    <header class="bg-primary text-white text-center py-5">
-        <div class="container">
-            <h1>Welcome to Archive of Infinity</h1>
-            <p>Discover knowledge across endless domains</p>
+        
+        <div class="content ai" id="ai">
+            <div class="content-card">
+                <h2>Artificial Intelligence</h2>
+                <p>Artificial Intelligence (AI) is the simulation of human intelligence processes by machines, especially computer systems. These processes include learning, reasoning, problem-solving, perception, and language understanding.</p>
+                
+                <h3>Machine Learning</h3>
+                <p>Machine Learning (ML) is a subset of AI that enables systems to learn and improve from experience without being explicitly programmed. It focuses on developing algorithms that can access data and use it to learn for themselves.</p>
+                <ul>
+                    <li><strong>Supervised Learning:</strong> Models trained on labeled data to make predictions or decisions.</li>
+                    <li><strong>Unsupervised Learning:</strong> Finding patterns and relationships in unlabeled data.</li>
+                    <li><strong>Reinforcement Learning:</strong> Learning optimal actions through trial and error to maximize rewards.</li>
+                    <li><strong>Deep Learning:</strong> Neural networks with many layers capable of learning complex patterns in large amounts of data.</li>
+                </ul>
+                
+                <h3>Natural Language Processing</h3>
+                <p>Natural Language Processing (NLP) enables machines to understand, interpret, and generate human language, bridging the gap between human communication and computer understanding.</p>
+                <ul>
+                    <li><strong>Transformer Models:</strong> Revolutionary architecture for language understanding, powering models like GPT and BERT.</li>
+                    <li><strong>Sentiment Analysis:</strong> Identifying and extracting subjective information from text data.</li>
+                    <li><strong>Machine Translation:</strong> Automatically translating text or speech from one language to another.</li>
+                    <li><strong>Question Answering:</strong> Systems capable of understanding questions and retrieving relevant answers.</li>
+                </ul>
+                
+                <h3>Computer Vision</h3>
+                <p>Computer Vision trains machines to interpret and understand the visual world, enabling systems to derive meaningful information from digital images, videos, and other visual inputs.</p>
+                <ul>
+                    <li><strong>Object Detection:</strong> Identifying and locating objects within images or video streams.</li>
+                    <li><strong>Image Segmentation:</strong> Partitioning digital images into multiple segments to simplify analysis.</li>
+                    <li><strong>Facial Recognition:</strong> Identifying individuals based on facial features and patterns.</li>
+                    <li><strong>Generative Models:</strong> Creating new visual content, including photorealistic images and videos.</li>
+                </ul>
+                
+                <button class="download-btn">Access AI Resources</button>
+            </div>
         </div>
-    </header>
-
-    <section class="container my-5">
-        <div class="row text-center">
-            <div class="col-md-4">
-                <img src="https://via.placeholder.com/300" class="img-fluid rounded" alt="Science">
-                <h3 id="science">Science</h3>
-                <p>Explore Physics, Chemistry, Biology, and more.</p>
-            </div>
-            <div class="col-md-4">
-                <img src="https://via.placeholder.com/300" class="img-fluid rounded" alt="Philosophy">
-                <h3 id="philosophy">Philosophy</h3>
-                <p>Deep thoughts on history, ethics, and logic.</p>
-            </div>
-            <div class="col-md-4">
-                <img src="https://via.placeholder.com/300" class="img-fluid rounded" alt="Enterprise">
-                <h3 id="enterprise">Enterprise</h3>
-                <p>Business, finance, and entrepreneurship.</p>
+        
+        <div class="content engineering" id="engineering">
+            <div class="content-card">
+                <h2>Engineering</h2>
+                <p>Engineering applies scientific and mathematical principles to design, build, and optimize solutions to technical problems. It encompasses a broad range of disciplines, each addressing different aspects of technological development.</p>
+                
+                <h3>Materials Engineering</h3>
+                <p>Materials Engineering focuses on discovering and developing new materials with superior properties and potential applications across industries, from electronics to medicine.</p>
+                <ul>
+                    <li><strong>Nanomaterials:</strong> Materials with structures manipulated at the nanoscale to achieve enhanced properties.</li>
+                    <li><strong>Metamaterials:</strong> Engineered materials with properties not found in nature, such as negative refractive indices.</li>
+                    <li><strong>Biomaterials:</strong> Materials designed to interact with biological systems for medical applications.</li>
+                    <li><strong>Energy Materials:</strong> Advanced materials for efficient energy generation, storage, and conversion.</li>
+                </ul>
+                
+                <h3>Aerospace Engineering</h3>
+                <p>Aerospace Engineering deals with the design, development, testing, and production of aircraft, spacecraft, and related systems and equipment.</p>
+                <ul>
+                    <li><strong>Propulsion Systems:</strong> Engines and propulsion technologies for air and space travel.</li>
+                    <li><strong>Aerodynamics:</strong> Study of air flow around objects and its effects on their movement.</li>
+                    <li><strong>Space Exploration:</strong> Technologies enabling human and robotic missions beyond Earth.</li>
+                    <li><strong>Satellite Systems:</strong> Design and operation of satellites for communication, navigation, and Earth observation.</li>
+                </ul>
+                
+                <h3>Bioengineering</h3>
+                <p>Bioengineering applies engineering principles to biological systems and healthcare, creating innovations that bridge the gap between engineering and medicine.</p>
+                <ul>
+                    <li><strong>Tissue Engineering:</strong> Growing artificial organs and tissues for transplantation and research.</li>
+                    <li><strong>Neural Engineering:</strong> Developing technologies that interface with the nervous system.</li>
+                    <li><strong>Genetic Engineering:</strong> Directly manipulating an organism's genes using biotechnology.</li>
+                    <li><strong>Medical Devices:</strong> Designing and developing equipment for diagnosis, monitoring, and treatment.</li>
+                </ul>
+                
+                <button class="download-btn">Access Engineering Resources</button>
             </div>
         </div>
-    </section>
+        
+        <div class="content robotics" id="robotics">
+            <div class="content-card">
+                <h2>Robotics</h2>
+                <p>Robotics combines mechanical engineering, electrical engineering, and computer science to design, construct, and operate robots - machines capable of carrying out tasks autonomously or semi-autonomously.</p>
+                
+                <h3>Industrial Robotics</h3>
+                <p>Industrial robots automate manufacturing processes, improving efficiency, precision, and safety in production environments across diverse industries.</p>
+                <ul>
+                    <li><strong>Robotic Arms:</strong> Programmable mechanical arms designed for various industrial applications.</li>
+                    <li><strong>Automated Guided Vehicles:</strong> Mobile robots following markers or wires for material transport.</li>
+                    <li><strong>Collaborative Robots:</strong> Robots designed to work alongside humans safely, enhancing productivity.</li>
+                    <li><strong>Precision Manufacturing:</strong> Robots capable of performing tasks with microscopic precision.</li>
+                </ul>
+                
+                <h3>Autonomous Systems</h3>
+                <p>Autonomous systems can sense their environment, make decisions, and take actions without human intervention, representing a frontier in robotics research and development.</p>
+                <ul>
+                    <li><strong>Self-driving Vehicles:</strong> Cars, trucks, and other vehicles capable of navigating without human operators.</li>
+                    <li><strong>Drone Technology:</strong> Unmanned aerial vehicles for surveillance, delivery, and other applications.</li>
+                    <li><strong>SLAM Algorithms:</strong> Simultaneous Localization and Mapping for navigation in unknown environments.</li>
+                    <li><strong>Swarm Robotics:</strong> Coordinating multiple simple robots to accomplish complex tasks collectively.</li>
+                </ul>
+                
+                <h3>Humanoid Robotics</h3>
+                <p>Humanoid robots are designed to mimic human form and function, presenting unique challenges and opportunities in both research and practical applications.</p>
+                <ul>
+                    <li><strong>Bipedal Locomotion:</strong> Enabling robots to walk on two legs, navigating diverse terrain like humans.</li>
+                    <li><strong>Social Robotics:</strong> Creating robots capable of natural interaction with humans.</li>
+                    <li><strong>Dexterous Manipulation:</strong> Developing hands and grippers that approach human-level dexterity.</li>
+                    <li><strong>Emotion Recognition:</strong> Systems that can identify and respond to human emotional states.</li>
+                </ul>
+                
+                <button class="download-btn">Access Robotics Resources</button>
+            </div>
+        </div>
+        
+        <div class="content software" id="software">
+            <div class="content-card">
+                <h2>Software</h2>
+                <p>Software engineering is the systematic application of engineering approaches to the development, operation, and maintenance of software. It forms the backbone of our digital infrastructure and enables technological innovations across sectors.</p>
+                
+                <h3>Software Development Methodologies</h3>
+                <p>Software development methodologies provide structured approaches to creating software systems, balancing quality, time, and resource constraints.</p>
+                <ul>
+                    <li><strong>Agile Development:</strong> Iterative approach emphasizing flexibility, customer collaboration, and rapid delivery.</li>
+                    <li><strong>DevOps:</strong> Practices combining software development and IT operations for continuous delivery.</li>
+                    <li><strong>Microservices Architecture:</strong> Building applications as collections of loosely coupled services.</li>
+                    <li><strong>Test-Driven Development:</strong> Writing tests before code to ensure functionality and maintainability.</li>
+                </ul>
+                
+                <h3>Programming Paradigms</h3>
+                <p>Programming paradigms represent distinct approaches to structuring and organizing code, each with specific strengths for different types of problems.</p>
+                <ul>
+                    <li><strong>Object-Oriented Programming:</strong> Organizing code around objects that contain data and behavior.</li>
+                    <li><strong>Functional Programming:</strong> Treating computation as the evaluation of mathematical functions, avoiding state changes.</li>
+                    <li><strong>Declarative Programming:</strong> Expressing the logic of computation without describing its control flow.</li>
+                    <li><strong>Concurrent Programming:</strong> Writing programs with multiple simultaneous execution threads.</li>
+                </ul>
+                
+                <h3>Software Security</h3>
+                <p>Software security focuses on building systems resistant to unauthorized access and attacks, protecting data integrity, confidentiality, and availability.</p>
+                <ul>
+                    <li><strong>Cryptography:</strong> Techniques for secure communication and data protection.</li>
+                    <li><strong>Vulnerability Assessment:</strong> Identifying and addressing security weaknesses in software.</li>
+                    <li><strong>Secure Coding Practices:</strong> Techniques to prevent common security vulnerabilities.</li>
+                    <li><strong>Privacy by Design:</strong> Incorporating privacy protections into software architecture from the beginning.</li>
+                </ul>
+                
+                <button class="download-btn">Access Software Resources</button>
+            </div>
+        </div>
+    </div>
 
-    <section id="create-account" class="container text-center my-5">
-        <h2>Create an Account</h2>
-        <p>Join the Archive of Infinity to explore and contribute knowledge.</p>
-        <a href="#signup" class="btn btn-success btn-lg">Sign Up</a>
-        <a href="#login" class="btn btn-primary btn-lg">Login</a>
-    </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab functionality
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabName = tab.getAttribute('data-tab');
+                    document.getElementById(tabName).classList.add('active');
+                });
+            });
+            
+            // Download buttons
+            const downloadButtons = document.querySelectorAll('.download-btn');
+            
+            downloadButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const section = this.closest('.content').id;
+                    alert(`Download initiated for ${section} resources. This is a placeholder. Actual download functionality will be implemented later.`);
+                });
+            });
 
-    <footer class="bg-dark text-white text-center py-3">
-        <p>&copy; 2025 Archive of Infinity. All rights reserved.</p>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            // Create floating particles
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                createParticle();
+            }
+            
+            function createParticle() {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random position, size, and opacity
+                const size = Math.random() * 3 + 1;
+                const posX = Math.random() * window.innerWidth;
+                const posY = Math.random() * window.innerHeight;
+                const opacity = Math.random() * 0.5 + 0.1;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 10;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}px`;
+                particle.style.top = `${posY}px`;
+                particle.style.opacity = opacity;
+                
+                // Choose a random color based on the section colors
+                const colors = [
+                    'rgba(56, 189, 248, 0.7)', // computing
+                    'rgba(139, 92, 246, 0.7)', // ai
+                    'rgba(16, 185, 129, 0.7)', // engineering
+                    'rgba(244, 63, 94, 0.7)',  // robotics
+                    'rgba(245, 158, 11, 0.7)'  // software
+                ];
+                
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Animation
+                particle.style.animation = `
+                    float ${duration}s linear infinite ${delay}s,
+                    pulse ${Math.random() * 4 + 2}s ease-in-out infinite ${Math.random() * 2}s
+                `;
+                
+                // Add keyframes for floating animation
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes float {
+                        0% {
+                            transform: translateY(0) translateX(0);
+                        }
+                        25% {
+                            transform: translateY(-${Math.random() * 100 + 50}px) translateX(${Math.random() * 50 - 25}px);
+                        }
+                        50% {
+                            transform: translateY(-${Math.random() * 200 + 100}px) translateX(${Math.random() * 100 - 50}px);
+                        }
+                        75% {
+                            transform: translateY(-${Math.random() * 300 + 150}px) translateX(${Math.random() * 150 - 75}px);
+                        }
+                        100% {
+                            transform: translateY(-${window.innerHeight + 100}px) translateX(${Math.random() * 200 - 100}px);
+                        }
+                    }
+                    
+                    @keyframes pulse {
+                        0%, 100% {
+                            transform: scale(1);
+                            opacity: ${opacity};
+                        }
+                        50% {
+                            transform: scale(1.5);
+                            opacity: ${opacity + 0.2};
+                        }
+                    }
+                `;
+                
+                document.head.appendChild(style);
+                particlesContainer.appendChild(particle);
+                
+                // Remove and recreate particle after animation completes
+                setTimeout(() => {
+                    particle.remove();
+                    style.remove();
+                    createParticle();
+                }, (duration + delay) * 1000);
+            }
+        });
+    </script>
 </body>
 </html>

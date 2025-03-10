@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            text-align: center;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            background: #f4f4f4;
+            margin: 5px 0;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        li:hover {
+            background: #ddd;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Search PDF Files</h2>
+    <input type="text" id="searchBox" placeholder="Search for a PDF..." onkeyup="searchPDF()">
+    <ul id="pdfList"></ul>
+
+    <script>
+        // List of PDFs (Assuming these files are inside the 'pdf' folder)
+        let pdfFiles = [
+            "document1.pdf",
+            "file_example.pdf",
+            "sample_report.pdf",
+            "research_paper.pdf",
+            "guidebook.pdf",
+            "tutorial.pdf"
+        ];
+
+        // Function to display all PDFs initially
+        function displayPDFs() {
+            let list = document.getElementById("pdfList");
+            list.innerHTML = "";
+            pdfFiles.forEach(file => {
+                let li = document.createElement("li");
+                li.textContent = file;
+                li.onclick = function() {
+                    window.open(`pdf/${file}`, "_blank");
+                };
+                list.appendChild(li);
+            });
+        }
+
+        // Function to filter PDFs based on search input
+        function searchPDF() {
+            let query = document.getElementById("searchBox").value.toLowerCase();
+            let filtered = pdfFiles.filter(file => file.toLowerCase().includes(query));
+
+            let list = document.getElementById("pdfList");
+            list.innerHTML = "";
+            filtered.forEach(file => {
+                let li = document.createElement("li");
+                li.textContent = file;
+                li.onclick = function() {
+                    window.open(`pdf/${file}`, "_blank");
+                };
+                list.appendChild(li);
+            });
+        }
+
+        // Load PDFs on page load
+        displayPDFs();
+    </script>
+
+</body>
+</html>

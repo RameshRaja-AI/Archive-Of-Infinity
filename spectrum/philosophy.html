@@ -3,70 +3,458 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Philosophy Hub</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Philosophy</title>
     <style>
-        body { background: linear-gradient(135deg, #8E44AD, #3498DB, #E74C3C, #F1C40F); color: white; }
-        .hero-section { text-align: center; padding: 80px 20px; color: white; }
-        .navbar { background: rgba(0, 0, 0, 0.7); }
-        .navbar-brand { font-size: 24px; color: white; }
-        .category-card { padding: 20px; border-radius: 10px; background: rgba(255, 255, 255, 0.2); box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); text-align: center; cursor: pointer; position: relative; }
-        .category-card:hover { transform: scale(1.05); transition: 0.3s; }
-        .description { display: none; position: absolute; background: rgba(0, 0, 0, 0.7); color: white; padding: 10px; border-radius: 5px; bottom: 100%; left: 50%; transform: translateX(-50%); width: 80%; text-align: center; }
-        .category-card:hover .description { display: block; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f1f1f1;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .intro {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .subjects {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .subject-btn {
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            background-color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .subject-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Subject-specific colors */
+        .ethics { border-left: 4px solid #3F51B5; }
+        .metaphysics { border-left: 4px solid #009688; }
+        .epistemology { border-left: 4px solid #FF5722; }
+        .logic { border-left: 4px solid #673AB7; }
+        .aesthetics { border-left: 4px solid #E91E63; }
+        
+        .content-section {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f1f1f1;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            margin: 20px 0 10px;
+            color: #444;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+        
+        ul, ol {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 5px;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #0FA0CE;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .download-btn:hover {
+            background-color: #0A8AAF;
+        }
+        
+        .ethics-color { color: #3F51B5; }
+        .metaphysics-color { color: #009688; }
+        .epistemology-color { color: #FF5722; }
+        .logic-color { color: #673AB7; }
+        .aesthetics-color { color: #E91E63; }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            .subjects {
+                flex-direction: column;
+            }
+            .subject-btn {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="#">Philosophy Hub</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link text-white" href="ethics.html">Ethics</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="metaphysics.html">Metaphysics</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="epistemology.html">Epistemology</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="logic.html">Logic</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="aesthetics.html">Aesthetics</a></li>
-                </ul>
-            </div>
+    <div class="container">
+        <header>
+            <h1>Philosophy</h1>
+            <p class="intro">Explore the fundamental branches of philosophy that help us understand meaning, knowledge, and existence</p>
+        </header>
+        
+        <div class="subjects">
+            <button class="subject-btn ethics" onclick="showContent('ethics')">Ethics</button>
+            <button class="subject-btn metaphysics" onclick="showContent('metaphysics')">Metaphysics</button>
+            <button class="subject-btn epistemology" onclick="showContent('epistemology')">Epistemology</button>
+            <button class="subject-btn logic" onclick="showContent('logic')">Logic</button>
+            <button class="subject-btn aesthetics" onclick="showContent('aesthetics')">Aesthetics</button>
         </div>
-    </nav>
-    <div class="hero-section">
-        <h1>Welcome to Philosophy Hub</h1>
-        <p>Explore the depths of Ethics, Metaphysics, Epistemology, Logic, and Aesthetics.</p>
-    </div>
-    <div class="container my-5">
-        <div class="row g-4">
-            <div class="col-md-4">
-                <a href="ethics.html" class="text-decoration-none text-white">
-                    <div class="category-card">Ethics<div class="description">The study of moral principles, values, and what it means to live a good life.</div></div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="metaphysics.html" class="text-decoration-none text-white">
-                    <div class="category-card">Metaphysics<div class="description">Exploring the nature of reality, existence, and the fundamental structure of the universe.</div></div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="epistemology.html" class="text-decoration-none text-white">
-                    <div class="category-card">Epistemology<div class="description">The theory of knowledge, its nature, sources, and limits of human understanding.</div></div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="logic.html" class="text-decoration-none text-white">
-                    <div class="category-card">Logic<div class="description">The study of valid reasoning, argument structures, and the foundations of rational thought.</div></div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="aesthetics.html" class="text-decoration-none text-white">
-                    <div class="category-card">Aesthetics<div class="description">Understanding beauty, art, and the nature of artistic expression and experience.</div></div>
-                </a>
-            </div>
+        
+        <!-- Ethics Section -->
+        <div id="ethics" class="content-section">
+            <h2 class="ethics-color">Ethics</h2>
+            <p>Ethics is the branch of philosophy that examines concepts of right and wrong conduct, virtue and vice, good and evil. It explores moral principles, values, and what it means to live a good life.</p>
+            
+            <h3>Normative Ethics</h3>
+            <p>Normative ethics is concerned with the content of moral judgements and the criteria for what is right or wrong.</p>
+            <ul>
+                <li>Consequentialism: Judges actions based on their outcomes or consequences</li>
+                <li>Utilitarianism: The belief that the best action is the one that maximizes overall happiness</li>
+                <li>Deontology: Focuses on the rightness or wrongness of actions themselves rather than their consequences</li>
+                <li>Virtue Ethics: Emphasizes the role of character and virtues in moral philosophy</li>
+            </ul>
+            
+            <h3>Applied Ethics</h3>
+            <p>Applied ethics examines specific controversial issues using the conceptual tools of metaethics and normative ethics.</p>
+            <ul>
+                <li>Bioethics: Ethical issues emerging from advances in biology and medicine</li>
+                <li>Business Ethics: Ethical principles and problems that arise in a business environment</li>
+                <li>Environmental Ethics: The moral relationship of human beings to the environment</li>
+                <li>Digital Ethics: Moral problems related to data, algorithms, and digital practices</li>
+            </ul>
+            
+            <h3>Metaethics</h3>
+            <p>Metaethics investigates where our ethical principles come from and what they mean.</p>
+            <ul>
+                <li>Moral Realism: Ethical statements express propositions that refer to objective features of the world</li>
+                <li>Moral Anti-realism: Ethical statements do not express propositions and cannot be objectively true</li>
+                <li>Moral Relativism: Moral judgments are not objectively true, but true relative to some particular standpoint</li>
+                <li>Error Theory: All moral claims are false because they claim to refer to moral facts that do not exist</li>
+            </ul>
+            
+            <h3>Moral Psychology</h3>
+            <p>Moral psychology studies how people make moral judgments and decisions.</p>
+            <ul>
+                <li>Moral Development: How moral reasoning develops throughout a person's life</li>
+                <li>Moral Emotions: The role of emotions like guilt, shame, and empathy in moral judgments</li>
+                <li>Moral Intuition: The role of intuition in forming moral judgments</li>
+                <li>Moral Identity: How moral values become integrated into one's sense of self</li>
+            </ul>
+            
+            <h3>Justice and Rights</h3>
+            <p>The study of justice concerns the proper distribution of things we value and the rights of individuals.</p>
+            <ul>
+                <li>Distributive Justice: How goods should be distributed in society</li>
+                <li>Retributive Justice: The moral foundations of punishment</li>
+                <li>Human Rights: The basic rights and freedoms to which all humans are entitled</li>
+                <li>Social Contract Theory: How moral and political obligations are dependent upon an agreement among members of society</li>
+            </ul>
+            
+            <a href="#" class="download-btn" download>Download Ethics Resources</a>
+        </div>
+        
+        <!-- Metaphysics Section -->
+        <div id="metaphysics" class="content-section">
+            <h2 class="metaphysics-color">Metaphysics</h2>
+            <p>Metaphysics is the branch of philosophy that examines the fundamental nature of reality, including the relationship between mind and matter, substance and attribute, fact and value.</p>
+            
+            <h3>Ontology</h3>
+            <p>Ontology is the study of being or existence and forms the basic subject matter of metaphysics.</p>
+            <ul>
+                <li>Monism: The view that reality is one unitary organic whole with no independent parts</li>
+                <li>Dualism: The view that there are two kinds of reality: material and mental</li>
+                <li>Pluralism: The view that reality consists of many kinds of things rather than just one</li>
+                <li>Materialism: The view that matter is the fundamental substance in nature</li>
+            </ul>
+            
+            <h3>Philosophy of Mind</h3>
+            <p>Philosophy of mind studies the nature of the mind and its relationship to the physical body.</p>
+            <ul>
+                <li>Mind-Body Problem: The question of how the mind relates to the physical body</li>
+                <li>Consciousness: The nature of conscious experience and self-awareness</li>
+                <li>Personal Identity: What makes a person the same person over time</li>
+                <li>Artificial Intelligence: The possibility of machines having minds</li>
+            </ul>
+            
+            <h3>Philosophy of Space and Time</h3>
+            <p>This area examines the nature of space and time and related issues.</p>
+            <ul>
+                <li>Theories of Time: Including presentism, eternalism, and the growing block universe</li>
+                <li>The Nature of Space: Whether space is absolute or relational</li>
+                <li>Time Travel: The logical possibility and paradoxes of time travel</li>
+                <li>Relativity and Quantum Mechanics: Philosophical implications of modern physics</li>
+            </ul>
+            
+            <h3>Free Will and Determinism</h3>
+            <p>This examines whether human beings have free will or whether our actions are determined by causes outside our control.</p>
+            <ul>
+                <li>Compatibilism: The view that free will and determinism are compatible</li>
+                <li>Incompatibilism: The view that free will and determinism are incompatible</li>
+                <li>Libertarianism: The view that free will exists and determinism is false</li>
+                <li>Hard Determinism: The view that determinism is true and free will does not exist</li>
+            </ul>
+            
+            <h3>God and Religion</h3>
+            <p>Metaphysical questions about the existence and nature of God and religious concepts.</p>
+            <ul>
+                <li>Arguments for God's Existence: Ontological, cosmological, and teleological arguments</li>
+                <li>Divine Attributes: The nature of God's omniscience, omnipotence, and benevolence</li>
+                <li>Problem of Evil: How to reconcile the existence of evil with an omnipotent and good God</li>
+                <li>Religious Experience: The nature and validity of religious experiences</li>
+            </ul>
+            
+            <a href="#" class="download-btn" download>Download Metaphysics Resources</a>
+        </div>
+        
+        <!-- Epistemology Section -->
+        <div id="epistemology" class="content-section">
+            <h2 class="epistemology-color">Epistemology</h2>
+            <p>Epistemology is the branch of philosophy concerned with the theory of knowledge. It investigates the nature, origin, scope, and limits of human knowledge.</p>
+            
+            <h3>Theories of Knowledge</h3>
+            <p>These theories attempt to explain what knowledge is and how it is acquired.</p>
+            <ul>
+                <li>JTB Theory: Knowledge as justified true belief</li>
+                <li>Gettier Problems: Challenges to the JTB theory</li>
+                <li>Foundationalism: The theory that knowledge rests upon a foundation of non-inferential beliefs</li>
+                <li>Coherentism: The theory that justification of beliefs depends on their coherence with other beliefs</li>
+            </ul>
+            
+            <h3>Sources of Knowledge</h3>
+            <p>This area examines where knowledge comes from and how we acquire it.</p>
+            <ul>
+                <li>Empiricism: Knowledge comes primarily from sensory experience</li>
+                <li>Rationalism: Knowledge comes primarily from reason and innate ideas</li>
+                <li>A Priori vs. A Posteriori Knowledge: Knowledge independent of experience versus knowledge derived from experience</li>
+                <li>Testimony: Knowledge acquired from the testimony of others</li>
+            </ul>
+            
+            <h3>Skepticism</h3>
+            <p>Skepticism questions the possibility of knowledge or certainty.</p>
+            <ul>
+                <li>Global Skepticism: The view that we cannot know anything at all</li>
+                <li>Local Skepticism: Skepticism about specific areas of knowledge</li>
+                <li>Cartesian Skepticism: Descartes' method of systematic doubt</li>
+                <li>Responses to Skepticism: Including Moore's common sense response and pragmatic responses</li>
+            </ul>
+            
+            <h3>Truth and Reality</h3>
+            <p>This area explores theories of truth and how knowledge relates to reality.</p>
+            <ul>
+                <li>Correspondence Theory: Truth is correspondence with facts or reality</li>
+                <li>Coherence Theory: Truth is coherence within a system of beliefs</li>
+                <li>Pragmatic Theory: Truth is what works in practice</li>
+                <li>Deflationary Theories: Theories that deny truth has any substantive nature</li>
+            </ul>
+            
+            <h3>Social Epistemology</h3>
+            <p>This examines knowledge in social contexts and how social practices affect knowledge.</p>
+            <ul>
+                <li>Testimony and Trust: How we acquire knowledge from others</li>
+                <li>Disagreement: How to respond to disagreement with epistemic peers</li>
+                <li>Group Knowledge: Whether groups can know things that individuals cannot</li>
+                <li>Scientific Knowledge: How scientific communities construct and validate knowledge</li>
+            </ul>
+            
+            <a href="#" class="download-btn" download>Download Epistemology Resources</a>
+        </div>
+        
+        <!-- Logic Section -->
+        <div id="logic" class="content-section">
+            <h2 class="logic-color">Logic</h2>
+            <p>Logic is the systematic study of valid reasoning. It examines how conclusions follow from premises through inference and provides tools for evaluating arguments.</p>
+            
+            <h3>Formal Logic</h3>
+            <p>Formal logic is the study of inference with purely formal content, where formal refers to the structure or logical form of an argument.</p>
+            <ul>
+                <li>Propositional Logic: Studies how simple propositions combine to form more complex propositions</li>
+                <li>Predicate Logic: Extends propositional logic to include terms such as "all," "some," and "none"</li>
+                <li>Modal Logic: The study of the logic of possibility and necessity</li>
+                <li>Mathematical Logic: The application of formal logic to mathematics</li>
+            </ul>
+            
+            <h3>Informal Logic</h3>
+            <p>Informal logic studies arguments as they occur in natural language in everyday discourse and debate.</p>
+            <ul>
+                <li>Informal Fallacies: Common errors in reasoning such as ad hominem, straw man, and appeal to authority</li>
+                <li>Critical Thinking: Methods for analyzing and evaluating arguments</li>
+                <li>Argumentation Theory: The study of how arguments are used in dialogue</li>
+                <li>Rhetoric: The art of persuasion through language</li>
+            </ul>
+            
+            <h3>Philosophy of Logic</h3>
+            <p>Philosophy of logic addresses philosophical questions about logic itself.</p>
+            <ul>
+                <li>Nature of Logic: Whether logic is prescriptive or descriptive</li>
+                <li>Logical Constants: The meaning of logical operators like "and," "or," and "not"</li>
+                <li>Logical Consequence: What makes a conclusion follow from premises</li>
+                <li>Paradoxes: Logical puzzles that challenge our understanding of logic</li>
+            </ul>
+            
+            <h3>Symbolic Logic</h3>
+            <p>Symbolic logic uses symbols to represent statements and logical relations, providing a precise language for formulating and solving problems.</p>
+            <ul>
+                <li>Syntax and Semantics: The formal structure of logical languages and their interpretation</li>
+                <li>Truth Tables: Methods for determining the truth value of complex propositions</li>
+                <li>Logical Proofs: Systems for deriving conclusions from premises</li>
+                <li>Completeness and Soundness: Properties of logical systems</li>
+            </ul>
+            
+            <h3>Non-Classical Logics</h3>
+            <p>Non-classical logics depart from classical logic by rejecting one or more of its principles.</p>
+            <ul>
+                <li>Many-Valued Logic: Systems that allow for more truth values than just true and false</li>
+                <li>Fuzzy Logic: Logic that handles the concept of partial truth</li>
+                <li>Intuitionistic Logic: Logic that rejects the law of excluded middle</li>
+                <li>Relevance Logic: Logic that requires relevance between premises and conclusion</li>
+            </ul>
+            
+            <a href="#" class="download-btn" download>Download Logic Resources</a>
+        </div>
+        
+        <!-- Aesthetics Section -->
+        <div id="aesthetics" class="content-section">
+            <h2 class="aesthetics-color">Aesthetics</h2>
+            <p>Aesthetics is the branch of philosophy that deals with the nature of beauty, art, taste, and the creation and appreciation of beauty. It is more scientifically defined as the study of sensory or sensori-emotional values.</p>
+            
+            <h3>Theories of Art</h3>
+            <p>These theories attempt to define what constitutes art.</p>
+            <ul>
+                <li>Representational Theory: Art as imitation or representation of reality</li>
+                <li>Expressionist Theory: Art as an expression of emotion</li>
+                <li>Formalist Theory: Art as significant form, emphasizing elements like line, color, and composition</li>
+                <li>Institutional Theory: Art is whatever the art world accepts as art</li>
+            </ul>
+            
+            <h3>Aesthetic Experience and Judgment</h3>
+            <p>This area examines the nature of aesthetic experiences and how we make aesthetic judgments.</p>
+            <ul>
+                <li>Beauty and Taste: Philosophical perspectives on beauty and aesthetic preference</li>
+                <li>Aesthetic Properties: Qualities like grace, elegance, and sublimity</li>
+                <li>Aesthetic Attitudes: Special ways of attending to objects aesthetically</li>
+                <li>Subjectivity vs. Objectivity: Whether aesthetic judgments can be objective</li>
+            </ul>
+            
+            <h3>Philosophy of Specific Arts</h3>
+            <p>Philosophical investigations into particular art forms.</p>
+            <ul>
+                <li>Philosophy of Literature: Issues in the creation and interpretation of literary works</li>
+                <li>Philosophy of Music: The nature of musical works, expression, and meaning</li>
+                <li>Philosophy of Visual Arts: Philosophical issues in painting, sculpture, and other visual arts</li>
+                <li>Philosophy of Film: The nature of film as an art form and medium</li>
+            </ul>
+            
+            <h3>Aesthetics and Ethics</h3>
+            <p>This area explores the relationship between aesthetic and ethical values.</p>
+            <ul>
+                <li>Aestheticism: The view that aesthetic values are independent of moral values</li>
+                <li>Ethical Criticism of Art: Whether moral flaws in artworks are also aesthetic flaws</li>
+                <li>Art and Social Critique: How art can function as social or political critique</li>
+                <li>Environmental Aesthetics: Aesthetic appreciation of natural environments and ethical implications</li>
+            </ul>
+            
+            <h3>Contemporary Issues in Aesthetics</h3>
+            <p>Current debates and issues in aesthetics.</p>
+            <ul>
+                <li>Digital Art and New Media: Philosophical issues raised by new artistic media</li>
+                <li>Cultural Appropriation in Art: Ethical and aesthetic issues of borrowing from other cultures</li>
+                <li>Everyday Aesthetics: Aesthetic dimensions of ordinary experience</li>
+                <li>Feminist Aesthetics: Gender perspectives on art and aesthetic experience</li>
+            </ul>
+            
+            <a href="#" class="download-btn" download>Download Aesthetics Resources</a>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function showContent(subject) {
+            // Hide all content sections
+            const allSections = document.querySelectorAll('.content-section');
+            allSections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show the selected section
+            const selectedSection = document.getElementById(subject);
+            selectedSection.classList.add('active');
+            
+            // Scroll to the section
+            selectedSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Show ethics by default when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            showContent('ethics');
+        });
+    </script>
 </body>
 </html>

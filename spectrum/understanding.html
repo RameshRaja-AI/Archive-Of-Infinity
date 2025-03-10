@@ -1,73 +1,1062 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Archive of Infinity</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding Archive | Archive of Infinity</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f9f7fd;
+      color: #1a1a2e;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    header {
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
+      padding: 3rem 0;
+      text-align: center;
+      position: relative;
+      color: white;
+    }
+    
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    
+    h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      color: white;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      font-weight: 300;
+      max-width: 700px;
+      margin: 0 auto 1.5rem;
+      opacity: 0.9;
+    }
+    
+    .back-home {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      background-color: rgba(255,255,255,0.15);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .back-home:hover {
+      background-color: rgba(255,255,255,0.25);
+      transform: translateY(-2px);
+    }
+    
+    nav {
+      background-color: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      padding: 0 2rem;
+    }
+    
+    .nav-button {
+      padding: 1.2rem 1.5rem;
+      background: none;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1a1a2e;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-button:hover {
+      color: #7c3aed;
+    }
+    
+    .nav-button.active {
+      color: #7c3aed;
+    }
+    
+    .nav-button.active::after {
+      content: "";
+      position: absolute;
+      bottom: 0.8rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 3px;
+      background-color: #7c3aed;
+      border-radius: 2px;
+    }
+    
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+    
+    .section {
+      display: none;
+      animation: fadeIn 0.6s ease-out;
+    }
+    
+    .section.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.8rem;
+      margin-bottom: 2rem;
+      position: relative;
+      display: inline-block;
+      color: #1a1a2e;
+    }
+    
+    h2::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, #8b5cf6, #c4b5fd);
+    }
+    
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 2rem;
+    }
+    
+    .text-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .text-content p {
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+    
+    .image-container {
+      height: 100%;
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .image-container:hover img {
+      transform: scale(1.05);
+    }
+    
+    .topic-container {
+      background-color: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-top: 3rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .topic-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+    
+    h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: #1a1a2e;
+    }
+    
+    .topic-container p {
+      margin-bottom: 1.2rem;
+      font-size: 1.05rem;
+    }
+    
+    .topic-container ul {
+      list-style-position: inside;
+      margin-bottom: 1.5rem;
+    }
+    
+    .topic-container li {
+      margin-bottom: 0.7rem;
+      padding-left: 1rem;
+    }
+    
+    .highlight {
+      background: linear-gradient(90deg, rgba(139, 92, 246, 0.1), rgba(196, 181, 253, 0.1));
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+    
+    .data-point {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+    
+    .data-point-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #8b5cf6;
+      margin-right: 1rem;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .download-btn {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      background: linear-gradient(90deg, #8b5cf6, #c4b5fd);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      margin-top: 1rem;
+    }
+    
+    .download-btn:hover {
+      background: linear-gradient(90deg, #7c3aed, #8b5cf6);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
+    }
+    
+    .quote {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.6rem;
+      font-style: italic;
+      line-height: 1.4;
+      color: #7c3aed;
+      text-align: center;
+      max-width: 800px;
+      margin: 4rem auto;
+      padding: 2rem;
+      position: relative;
+    }
+    
+    .quote::before,
+    .quote::after {
+      content: "";
+      font-size: 5rem;
+      position: absolute;
+      opacity: 0.2;
+      color: #8b5cf6;
+    }
+    
+    .quote::before {
+      top: -20px;
+      left: 0;
+    }
+    
+    .quote::after {
+      bottom: -60px;
+      right: 0;
+      content: "";
+    }
+    
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    
+    .gallery-item {
+      border-radius: 8px;
+      overflow: hidden;
+      height: 250px;
+      position: relative;
+    }
+    
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+    
+    .gallery-title {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(transparent, rgba(26, 26, 46, 0.8));
+      color: white;
+      padding: 1rem;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+    
+    .gallery-item:hover .gallery-title {
+      transform: translateY(0);
+    }
+    
+    .timeline {
+      position: relative;
+      max-width: 1000px;
+      margin: 3rem auto;
+    }
+    
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background: #c4b5fd;
+      transform: translateX(-50%);
+    }
+    
+    .timeline-item {
+      margin-bottom: 60px;
+      position: relative;
+      width: 100%;
+    }
+    
+    .timeline-content {
+      position: relative;
+      width: 45%;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .timeline-content h3 {
+      margin-bottom: 10px;
+      font-size: 1.4rem;
+    }
+    
+    .timeline-date {
+      position: absolute;
+      top: 0;
+      width: 40px;
+      height: 40px;
+      background: #8b5cf6;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+    
+    .timeline-item:nth-child(odd) .timeline-content {
+      left: 55%;
+    }
+    
+    .timeline-item:nth-child(even) .timeline-content {
+      left: 0;
+    }
+    
+    .timeline-item:nth-child(odd) .timeline-date {
+      left: calc(50% - 20px);
+    }
+    
+    .timeline-item:nth-child(even) .timeline-date {
+      left: calc(50% - 20px);
+    }
+    
+    .word-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      padding: 20px;
+      margin-top: 2rem;
+    }
+    
+    .word-item {
+      padding: 5px 10px;
+      background: #f3f0ff;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      color: #8b5cf6;
+      white-space: nowrap;
+    }
+    
+    .interactive-element {
+      background-color: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 2rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .interactive-tabs {
+      display: flex;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 0.5rem;
+    }
+    
+    .interactive-tab {
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      color: #4b5563;
+      font-weight: 500;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+    
+    .interactive-tab.active {
+      color: #8b5cf6;
+      border-bottom: 2px solid #8b5cf6;
+    }
+    
+    .interactive-content {
+      display: none;
+    }
+    
+    .interactive-content.active {
+      display: block;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    footer {
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
+      color: white;
+      padding: 3rem 0;
+      margin-top: 5rem;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 0 2rem;
+    }
+    
+    .footer-content p {
+      margin: 1rem 0;
+      opacity: 0.8;
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .nav-button {
+        padding: 1rem 0.8rem;
+        font-size: 0.9rem;
+      }
+      
+      .quote {
+        font-size: 1.3rem;
+        padding: 1.5rem;
+      }
+      
+      .quote::before,
+      .quote::after {
+        font-size: 3rem;
+      }
+      
+      .timeline::before {
+        left: 20px;
+      }
+      
+      .timeline-content {
+        width: calc(100% - 60px);
+        margin-left: 60px;
+      }
+      
+      .timeline-item:nth-child(odd) .timeline-content,
+      .timeline-item:nth-child(even) .timeline-content {
+        left: 0;
+      }
+      
+      .timeline-item:nth-child(odd) .timeline-date,
+      .timeline-item:nth-child(even) .timeline-date {
+        left: 0;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+      
+      h2 {
+        font-size: 2rem;
+      }
+      
+      .nav-container {
+        flex-wrap: wrap;
+      }
+      
+      .subtitle {
+        font-size: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">Archive of Infinity</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#science">Science</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#philosophy">Philosophy</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#enterprise">Enterprise</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#creativity">Creativity</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#technology">Technology</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#research">Research</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#understanding">Understanding</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#medicine">Medicine</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-primary text-white ms-2" href="#login">Login</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-success text-white ms-2" href="#signup">Sign Up</a></li>
-                </ul>
-            </div>
+  <header>
+    <div class="header-content">
+      <h1>Understanding Archive</h1>
+      <p class="subtitle">Explore the fascinating world of human communication, language, and meaning</p>
+      <a href="/" class="back-home">Back to Home</a>
+    </div>
+  </header>
+  
+  <nav>
+    <div class="nav-container">
+      <button class="nav-button active" data-section="linguistics">Linguistics</button>
+      <button class="nav-button" data-section="languages">Languages</button>
+      <button class="nav-button" data-section="media">Media</button>
+      <button class="nav-button" data-section="communication">Communication</button>
+      <button class="nav-button" data-section="journalism">Journalism</button>
+    </div>
+  </nav>
+  
+  <main>
+    <!-- Linguistics Section -->
+    <section id="linguistics" class="section active">
+      <h2>Linguistics</h2>
+      
+      <div class="content-grid">
+        <div class="text-content">
+          <p>Linguistics is the scientific study of language and its structure, including the study of phonetics, phonology, morphology, syntax, semantics, pragmatics, and historical linguistics. It explores how <span class="highlight">language works</span>, how it is acquired, and how people use it to communicate.</p>
+          
+          <p>Modern linguistic research combines traditional analytical methods with computational approaches to better understand the complexities of human language. From analyzing ancient texts to studying brain activity during speech, linguistics continues to <span class="highlight">reveal insights</span> about one of humanity's most fundamental capabilities.</p>
         </div>
-    </nav>
-
-    <header class="bg-primary text-white text-center py-5">
-        <div class="container">
-            <h1>Welcome to Archive of Infinity</h1>
-            <p>Discover knowledge across endless domains</p>
+        
+        <div class="image-container">
+          <img src="https://images.unsplash.com/photo-1599008633840-052c7f756385" alt="Open book with text highlighting linguistics concepts">
         </div>
-    </header>
-
-    <section class="container my-5">
-        <div class="row text-center">
-            <div class="col-md-4">
-                <img src="https://via.placeholder.com/300" class="img-fluid rounded" alt="Science">
-                <h3 id="science">Science</h3>
-                <p>Explore Physics, Chemistry, Biology, and more.</p>
-            </div>
-            <div class="col-md-4">
-                <img src="https://via.placeholder.com/300" class="img-fluid rounded" alt="Philosophy">
-                <h3 id="philosophy">Philosophy</h3>
-                <p>Deep thoughts on history, ethics, and logic.</p>
-            </div>
-            <div class="col-md-4">
-                <img src="https://via.placeholder.com/300" class="img-fluid rounded" alt="Enterprise">
-                <h3 id="enterprise">Enterprise</h3>
-                <p>Business, finance, and entrepreneurship.</p>
-            </div>
+      </div>
+      
+      <div class="quote">
+        "Language is the road map of a culture. It tells you where its people come from and where they are going."
+      </div>
+      
+      <div class="topic-container">
+        <h3>Key Areas of Linguistic Research</h3>
+        <p>Linguistic research encompasses several fascinating subfields:</p>
+        
+        <ul>
+          <li><strong>Phonetics & Phonology:</strong> The study of speech sounds and their patterns within languages.</li>
+          <li><strong>Morphology:</strong> Examining how words are formed and their relationship to other words.</li>
+          <li><strong>Syntax:</strong> Investigating sentence structure and the rules that govern it.</li>
+          <li><strong>Semantics:</strong> Exploring meaning in language at word, phrase, and text levels.</li>
+          <li><strong>Pragmatics:</strong> Understanding how context influences meaning and interpretation.</li>
+          <li><strong>Historical Linguistics:</strong> Tracing the evolution of languages over time.</li>
+          <li><strong>Computational Linguistics:</strong> Using computer science to model and understand language.</li>
+        </ul>
+        
+        <p>Contemporary linguistics often draws on insights from psychology, neuroscience, anthropology, and computer science to develop comprehensive theories about language and communication.</p>
+        
+        <div class="stats-grid">
+          <div class="data-point">
+            <div class="data-point-number">7,000+</div>
+            <div>distinct languages are currently spoken worldwide</div>
+          </div>
+          <div class="data-point">
+            <div class="data-point-number">43%</div>
+            <div>of the world's languages are considered endangered</div>
+          </div>
+          <div class="data-point">
+            <div class="data-point-number">6</div>
+            <div>official languages are recognized by the United Nations</div>
+          </div>
         </div>
+        
+        <div class="word-cloud">
+          <span class="word-item">Morpheme</span>
+          <span class="word-item">Syntax</span>
+          <span class="word-item">Phonetics</span>
+          <span class="word-item">Semantics</span>
+          <span class="word-item">Pragmatics</span>
+          <span class="word-item">Grammar</span>
+          <span class="word-item">Lexicon</span>
+          <span class="word-item">Phonology</span>
+          <span class="word-item">Dialect</span>
+          <span class="word-item">Idiolect</span>
+          <span class="word-item">Sociolinguistics</span>
+          <span class="word-item">Etymology</span>
+          <span class="word-item">Discourse</span>
+          <span class="word-item">Cognition</span>
+        </div>
+        
+        <a href="#" class="download-btn">Explore Linguistic Resources</a>
+      </div>
     </section>
-
-    <section id="create-account" class="container text-center my-5">
-        <h2>Create an Account</h2>
-        <p>Join the Archive of Infinity to explore and contribute knowledge.</p>
-        <a href="#signup" class="btn btn-success btn-lg">Sign Up</a>
-        <a href="#login" class="btn btn-primary btn-lg">Login</a>
+    
+    <!-- Languages Section -->
+    <section id="languages" class="section">
+      <h2>Languages</h2>
+      
+      <div class="content-grid">
+        <div class="image-container">
+          <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8" alt="Various books in different languages with international flags">
+        </div>
+        
+        <div class="text-content">
+          <p>Languages are structured systems of communication used by humans. Each language represents a unique way of conceptualizing the world, reflecting the cultural heritage and historical evolution of its speakers. From widely spoken languages like Mandarin, English, and Spanish to endangered indigenous languages, each provides <span class="highlight">invaluable insights</span> into human cognition and cultural diversity.</p>
+          
+          <p>The study of languages has evolved from traditional comparative linguistics to include computational approaches for translation, preservation, and revival. As global connectivity increases, understanding multiple languages has become increasingly important for <span class="highlight">cross-cultural communication</span> and appreciation of diverse perspectives.</p>
+        </div>
+      </div>
+      
+      <div class="quote">
+        "To have another language is to possess a second soul."
+      </div>
+      
+      <div class="topic-container">
+        <h3>Language Families and Diversity</h3>
+        <p>Languages are classified into families based on their historical relationships and shared features:</p>
+        
+        <ul>
+          <li><strong>Indo-European:</strong> Including Germanic, Romance, and Slavic languages among others.</li>
+          <li><strong>Sino-Tibetan:</strong> Including Chinese, Tibetan, and Burmese languages.</li>
+          <li><strong>Afro-Asiatic:</strong> Including Arabic, Hebrew, and Amharic.</li>
+          <li><strong>Austronesian:</strong> Including Indonesian, Malay, and Hawaiian.</li>
+          <li><strong>Niger-Congo:</strong> Including Swahili, Yoruba, and Zulu.</li>
+          <li><strong>Language Isolates:</strong> Unique languages without demonstrable relationships to other languages, such as Basque.</li>
+        </ul>
+        
+        <p>Language study encompasses historical linguistics, comparative analysis, documentation of endangered languages, and the development of teaching methodologies for language acquisition.</p>
+        
+        <div class="interactive-element">
+          <div class="interactive-tabs">
+            <div class="interactive-tab active" data-tab="most-spoken">Most Spoken</div>
+            <div class="interactive-tab" data-tab="writing-systems">Writing Systems</div>
+            <div class="interactive-tab" data-tab="endangerment">Endangerment</div>
+          </div>
+          
+          <div class="interactive-content active" id="most-spoken-content">
+            <h3>Most Widely Spoken Languages</h3>
+            <p>These languages have the largest number of native speakers worldwide:</p>
+            <ol>
+              <li><strong>Mandarin Chinese:</strong> ~1.3 billion speakers</li>
+              <li><strong>Spanish:</strong> ~460 million speakers</li>
+              <li><strong>English:</strong> ~379 million native speakers (1.5+ billion including second language speakers)</li>
+              <li><strong>Hindi:</strong> ~341 million speakers</li>
+              <li><strong>Arabic:</strong> ~315 million speakers</li>
+            </ol>
+          </div>
+          
+          <div class="interactive-content" id="writing-systems-content">
+            <h3>Major Writing Systems</h3>
+            <p>Languages use different systems to represent spoken language visually:</p>
+            <ul>
+              <li><strong>Alphabetic:</strong> Latin, Cyrillic, Greek (symbols represent sounds)</li>
+              <li><strong>Logographic:</strong> Chinese characters (symbols represent words or morphemes)</li>
+              <li><strong>Syllabic:</strong> Japanese hiragana, Cherokee syllabary (symbols represent syllables)</li>
+              <li><strong>Abjad:</strong> Arabic, Hebrew (primarily consonants are written)</li>
+              <li><strong>Abugida:</strong> Devanagari, Thai (consonant-vowel combinations)</li>
+            </ul>
+          </div>
+          
+          <div class="interactive-content" id="endangerment-content">
+            <h3>Language Endangerment</h3>
+            <p>Many of the world's languages are facing extinction:</p>
+            <ul>
+              <li>A language disappears every 14 days on average</li>
+              <li>Over 3,000 languages are classified as endangered</li>
+              <li>96% of the world's languages are spoken by just 4% of the population</li>
+              <li>Language revitalization efforts include documentation, education programs, and community engagement</li>
+            </ul>
+          </div>
+        </div>
+        
+        <a href="#" class="download-btn">Explore Language Resources</a>
+      </div>
     </section>
-
-    <footer class="bg-dark text-white text-center py-3">
-        <p>&copy; 2025 Archive of Infinity. All rights reserved.</p>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Media Section -->
+    <section id="media" class="section">
+      <h2>Media</h2>
+      
+      <div class="content-grid">
+        <div class="text-content">
+          <p>Media encompasses the various channels and technologies used to store and deliver information or data. From traditional print publications and broadcast channels to digital platforms and social networks, media shapes how we <span class="highlight">perceive and interact</span> with the world around us.</p>
+          
+          <p>The evolution of media technologies has fundamentally transformed information access, content creation, and public discourse. Contemporary media studies examine how different media forms influence social dynamics, political processes, and cultural developments, highlighting the <span class="highlight">complex relationships</span> between media producers, consumers, and content.</p>
+        </div>
+        
+        <div class="image-container">
+          <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c" alt="Multiple screens displaying different media content">
+        </div>
+      </div>
+      
+      <div class="quote">
+        "The medium is the message."
+      </div>
+      
+      <div class="topic-container">
+        <h3>Evolution of Media Landscapes</h3>
+        <p>Media has undergone dramatic transformations throughout history:</p>
+        
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <h3>Print Era</h3>
+              <p>Beginning with Gutenberg's printing press in the 15th century, print media revolutionized information distribution through books, newspapers, and magazines.</p>
+            </div>
+            <div class="timeline-date">1</div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <h3>Broadcast Era</h3>
+              <p>The 20th century saw the rise of radio and television broadcasting, creating mass media that could reach millions simultaneously.</p>
+            </div>
+            <div class="timeline-date">2</div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <h3>Digital Revolution</h3>
+              <p>The internet's emergence in the late 20th century fundamentally changed media consumption, production, and distribution models.</p>
+            </div>
+            <div class="timeline-date">3</div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <h3>Social Media Age</h3>
+              <p>The 21st century has seen platforms like Facebook, Twitter, and Instagram transform everyday users into content creators and distributors.</p>
+            </div>
+            <div class="timeline-date">4</div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <h3>AI & Extended Reality</h3>
+              <p>Emerging technologies like AI-generated content, virtual reality, and augmented reality are reshaping media experiences and blurring reality boundaries.</p>
+            </div>
+            <div class="timeline-date">5</div>
+          </div>
+        </div>
+        
+        <p>Media studies examines the complex interplay between technology, content, audiences, and social structures, with particular attention to issues of representation, access, ownership, and regulation.</p>
+        
+        <div class="stats-grid">
+          <div class="data-point">
+            <div class="data-point-number">4.9B</div>
+            <div>people use social media worldwide (over 60% of global population)</div>
+          </div>
+          <div class="data-point">
+            <div class="data-point-number">7h</div>
+            <div>average daily media consumption across digital platforms</div>
+          </div>
+          <div class="data-point">
+            <div class="data-point-number">90%</div>
+            <div>of global data has been created in just the last two years</div>
+          </div>
+        </div>
+        
+        <a href="#" class="download-btn">Access Media Studies Resources</a>
+      </div>
+      
+      <div class="gallery">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7" alt="Person reading newspaper">
+          <div class="gallery-title">Print Media</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1595231776515-ddffb1f4eb73" alt="Radio microphone">
+          <div class="gallery-title">Broadcast Media</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1611162616475-46b635cb6868" alt="Social media apps on smartphone">
+          <div class="gallery-title">Social Media</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1626379953810-7ec3a166d0b0" alt="Person using VR headset">
+          <div class="gallery-title">Immersive Media</div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Communication Section -->
+    <section id="communication" class="section">
+      <h2>Communication</h2>
+      
+      <div class="content-grid">
+        <div class="image-container">
+          <img src="https://images.unsplash.com/photo-1521798552185-3f7c0f362823" alt="People engaged in animated conversation">
+        </div>
+        
+        <div class="text-content">
+          <p>Communication is the process of exchanging information, ideas, thoughts, feelings, and emotions through verbal and non-verbal methods. As a foundational element of human interaction, effective communication bridges differences and facilitates <span class="highlight">mutual understanding</span>, whether between individuals, groups, or across cultures.</p>
+          
+          <p>The field of communication studies examines the complex processes involved in human interaction, from interpersonal exchanges to mass communication. Research in this area explores how various factors—including cultural context, medium, and psychological state—influence how messages are <span class="highlight">created, transmitted, received, and interpreted</span> across different settings and relationships.</p>
+        </div>
+      </div>
+      
+      <div class="quote">
+        "The single biggest problem in communication is the illusion that it has taken place."
+      </div>
+      
+      <div class="topic-container">
+        <h3>Communication Processes and Forms</h3>
+        <p>Communication takes many forms across different contexts:</p>
+        
+        <ul>
+          <li><strong>Interpersonal Communication:</strong> One-to-one exchanges between individuals, including verbal and non-verbal cues.</li>
+          <li><strong>Group Communication:</strong> Interactions within and between teams, organizations, and communities.</li>
+          <li><strong>Mass Communication:</strong> Information disseminated to large audiences through media channels.</li>
+          <li><strong>Intercultural Communication:</strong> Exchanges between people of different cultural backgrounds.</li>
+          <li><strong>Nonverbal Communication:</strong> Messages conveyed through body language, facial expressions, gestures, and paralinguistics.</li>
+          <li><strong>Organizational Communication:</strong> Formal and informal information flow within structured environments.</li>
+          <li><strong>Digital Communication:</strong> Interactions mediated by technology, including social media, messaging, and video conferencing.</li>
+        </ul>
+        
+        <p>Communication research combines insights from linguistics, psychology, sociology, anthropology, and media studies to understand how meaning is constructed and negotiated in various contexts.</p>
+        
+        <div class="interactive-element">
+          <div class="interactive-tabs">
+            <div class="interactive-tab active" data-tab="verbal">Verbal</div>
+            <div class="interactive-tab" data-tab="nonverbal">Nonverbal</div>
+            <div class="interactive-tab" data-tab="digital">Digital</div>
+          </div>
+          
+          <div class="interactive-content active" id="verbal-content">
+            <h3>Verbal Communication</h3>
+            <p>The use of words to exchange information, including:</p>
+            <ul>
+              <li><strong>Spoken language:</strong> Face-to-face conversations, presentations, discussions</li>
+              <li><strong>Written language:</strong> Letters, emails, reports, books</li>
+              <li><strong>Paralanguage:</strong> Tone, pitch, volume, rate of speech</li>
+              <li><strong>Characteristics:</strong> Can be precise but ambiguous, highly dependent on context and relationship</li>
+            </ul>
+          </div>
+          
+          <div class="interactive-content" id="nonverbal-content">
+            <h3>Nonverbal Communication</h3>
+            <p>Messages conveyed without words, including:</p>
+            <ul>
+              <li><strong>Body language:</strong> Posture, gestures, facial expressions</li>
+              <li><strong>Eye contact:</strong> Direction, duration, intensity of gaze</li>
+              <li><strong>Proxemics:</strong> Use of physical space and distance</li>
+              <li><strong>Touch:</strong> Handshakes, hugs, pats, other forms of physical contact</li>
+              <li><strong>Appearance:</strong> Clothing, grooming, accessories</li>
+              <li><strong>Chronemics:</strong> Use of time, punctuality, waiting</li>
+            </ul>
+          </div>
+          
+          <div class="interactive-content" id="digital-content">
+            <h3>Digital Communication</h3>
+            <p>Technology-mediated exchanges, including:</p>
+            <ul>
+              <li><strong>Synchronous:</strong> Real-time interactions (video calls, chat)</li>
+              <li><strong>Asynchronous:</strong> Time-delayed exchanges (email, forums)</li>
+              <li><strong>Multimedia:</strong> Combining text, images, audio, and video</li>
+              <li><strong>Emojis & GIFs:</strong> Visual representations of emotions and reactions</li>
+              <li><strong>Challenges:</strong> Absence of nonverbal cues, context collapse, digital divide</li>
+            </ul>
+          </div>
+        </div>
+        
+        <a href="#" class="download-btn">Explore Communication Resources</a>
+      </div>
+    </section>
+    
+    <!-- Journalism Section -->
+    <section id="journalism" class="section">
+      <h2>Journalism</h2>
+      
+      <div class="content-grid">
+        <div class="text-content">
+          <p>Journalism is the gathering, assessing, creating, and presenting of news and information for public consumption. As the "first rough draft of history," journalism plays a vital role in democratic societies by providing citizens with the <span class="highlight">accurate information</span> they need to make informed decisions and hold power accountable.</p>
+          
+          <p>The field has evolved dramatically in the digital age, with traditional print and broadcast journalists now joined by citizen journalists, bloggers, podcasters, and social media influencers. Despite technological changes, core journalistic values of <span class="highlight">accuracy, fairness, independence, and accountability</span> remain essential for maintaining public trust.</p>
+        </div>
+        
+        <div class="image-container">
+          <img src="https://images.unsplash.com/photo-1584714268709-c3dd9c92b378" alt="Journalist working with camera and notebook">
+        </div>
+      </div>
+      
+      <div class="quote">
+        "Journalism is printing what someone else does not want printed; everything else is public relations."
+      </div>
+      
+      <div class="topic-container">
+        <h3>Principles and Practices</h3>
+        <p>Journalism encompasses various forms and approaches to news gathering and reporting:</p>
+        
+        <ul>
+          <li><strong>News Reporting:</strong> Timely factual accounts of events, focusing on who, what, when, where, why, and how.</li>
+          <li><strong>Investigative Journalism:</strong> In-depth examination of issues, often uncovering hidden information of public interest.</li>
+          <li><strong>Feature Writing:</strong> Longer-form storytelling that explores issues, trends, personalities, and human interest.</li>
+          <li><strong>Opinion Journalism:</strong> Analysis, commentary, and editorials that provide context and perspective.</li>
+          <li><strong>Photojournalism:</strong> Visual storytelling through photographs that document events and conditions.</li>
+          <li><strong>Data Journalism:</strong> Using statistics, data analysis, and visualization to uncover and tell stories.</li>
+          <li><strong>Solutions Journalism:</strong> Reporting that examines responses to social problems, not just the problems themselves.</li>
+        </ul>
+        
+        <p>Ethical journalism is guided by principles including truth-seeking, independence, fairness, minimizing harm, accountability, and transparency about methods and sources.</p>
+        
+        <div class="stats-grid">
+          <div class="data-point">
+            <div class="data-point-number">2,344</div>
+            <div>journalists killed worldwide since 1990</div>
+          </div>
+          <div class="data-point">
+            <div class="data-point-number">73%</div>
+            <div>decline in newspaper advertising revenue since 2000</div>
+          </div>
+          <div class="data-point">
+            <div class="data-point-number">57%</div>
+            <div>of Americans primarily get news from digital platforms</div>
+          </div>
+        </div>
+        
+        <div class="gallery">
+          <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c" alt="News studio">
+            <div class="gallery-title">Broadcast Journalism</div>
+          </div>
+          <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1" alt="Newspapers">
+            <div class="gallery-title">Print Journalism</div>
+          </div>
+          <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1562577309-4932fdd64cd1" alt="Podcasting equipment">
+            <div class="gallery-title">Audio Journalism</div>
+          </div>
+          <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1523292562811-7fa8cd566e72" alt="Mobile phone displaying news">
+            <div class="gallery-title">Digital Journalism</div>
+          </div>
+        </div>
+        
+        <a href="#" class="download-btn">Access Journalism Resources</a>
+      </div>
+    </section>
+  </main>
+  
+  <footer>
+    <div class="footer-content">
+      <h3>Archive of Infinity</h3>
+      <p>Exploring the boundless realms of human knowledge and discovery</p>
+      <p>&copy; 2023 Archive of Infinity. All rights reserved.</p>
+    </div>
+  </footer>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Tab navigation for main sections
+      const navButtons = document.querySelectorAll('.nav-button');
+      const sections = document.querySelectorAll('.section');
+      
+      navButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Remove active class from all buttons and sections
+          navButtons.forEach(btn => btn.classList.remove('active'));
+          sections.forEach(section => section.classList.remove('active'));
+          
+          // Add active class to clicked button
+          this.classList.add('active');
+          
+          // Show corresponding section
+          const sectionId = this.getAttribute('data-section');
+          document.getElementById(sectionId).classList.add('active');
+        });
+      });
+      
+      // Interactive tabs within sections
+      const interactiveTabs = document.querySelectorAll('.interactive-tab');
+      
+      interactiveTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          // Get parent container
+          const tabContainer = this.closest('.interactive-tabs');
+          const contentContainer = this.closest('.interactive-element');
+          
+          // Remove active class from all tabs and content in this container
+          tabContainer.querySelectorAll('.interactive-tab').forEach(t => t.classList.remove('active'));
+          contentContainer.querySelectorAll('.interactive-content').forEach(c => c.classList.remove('active'));
+          
+          // Add active class to clicked tab
+          this.classList.add('active');
+          
+          // Show corresponding content
+          const tabId = this.getAttribute('data-tab');
+          document.getElementById(tabId + '-content').classList.add('active');
+        });
+      });
+    });
+  </script>
 </body>
 </html>
+

@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archive of Infinity - Knowledge Spectrum</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #ecf0f1;
+            --text-color: #2c3e50;
+            --success-color: #27ae60;
+            --warning-color: #f1c40f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subject-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .subject-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .subject-card.completed {
+            border: 2px solid var(--success-color);
+        }
+
+        .quiz-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .quiz-container.active {
+            display: block;
+        }
+
+        .question {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .choices {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .choice-btn {
+            padding: 1rem;
+            border: 2px solid var(--secondary-color);
+            border-radius: 5px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .choice-btn:hover {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .choice-btn.correct {
+            background: var(--success-color);
+            color: white;
+            border-color: var(--success-color);
+        }
+
+        .choice-btn.wrong {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .controls {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            background: var(--secondary-color);
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: var(--primary-color);
+        }
+
+        .progress {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .results {
+            text-align: center;
+            display: none;
+        }
+
+        .results.active {
+            display: block;
+        }
+
+        .score {
+            font-size: 2rem;
+            color: var(--success-color);
+            margin: 1rem 0;
+        }
+
+        .subject-score {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .back-btn {
+            background: var(--primary-color);
+        }
+
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><a href="../index.html">Archive of Infinity</a></h1>
+            <h2>Knowledge Spectrum Quiz</h2>
+        </header>
+
+        <div class="subject-grid" id="subjectGrid"></div>
+
+        <div class="quiz-container" id="quizContainer">
+            <h3 id="subjectTitle"></h3>
+            <div class="question" id="question"></div>
+            <div class="choices" id="choices"></div>
+            <div class="controls">
+                <button class="btn back-btn" id="backBtn">Back to Subjects</button>
+                <button class="btn" id="nextBtn">Next Question</button>
+            </div>
+            <div class="progress" id="progress"></div>
+        </div>
+
+        <div class="results" id="results">
+            <h2>Quiz Results</h2>
+            <div class="score" id="score"></div>
+            <div id="subjectScores"></div>
+            <button class="btn" id="restartBtn">Return to Subjects</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = {
+            science: [
+                {
+                    question: "What is the fundamental force that holds atoms together?",
+                    choices: ["Gravity", "Strong Nuclear Force", "Electromagnetic Force", "Weak Nuclear Force"],
+                    correct: 1
+                },
+                {
+                    question: "Which particle is responsible for carrying electromagnetic force?",
+                    choices: ["Photon", "Electron", "Proton", "Neutron"],
+                    correct: 0
+                },
+                {
+                    question: "What is the process by which plants convert light energy into chemical energy?",
+                    choices: ["Respiration", "Photosynthesis", "Fermentation", "Oxidation"],
+                    correct: 1
+                },
+                {
+                    question: "Which law of thermodynamics states that energy cannot be created or destroyed?",
+                    choices: ["First Law", "Second Law", "Third Law", "Zeroth Law"],
+                    correct: 0
+                },
+                {
+                    question: "What is the smallest unit of life?",
+                    choices: ["Atom", "Cell", "Molecule", "Organelle"],
+                    correct: 1
+                },
+                {
+                    question: "What is the speed of light in vacuum?",
+                    choices: ["299,792 km/s", "300,000 km/s", "199,792 km/s", "250,000 km/s"],
+                    correct: 0
+                },
+                {
+                    question: "Which element is most abundant in Earth's atmosphere?",
+                    choices: ["Oxygen", "Carbon", "Nitrogen", "Hydrogen"],
+                    correct: 2
+                },
+                {
+                    question: "What is the process of nuclear fusion primarily powered by in stars?",
+                    choices: ["Helium fusion", "Hydrogen fusion", "Carbon fusion", "Oxygen fusion"],
+                    correct: 1
+                },
+                {
+                    question: "What is the name for the process by which species change over time?",
+                    choices: ["Natural Selection", "Evolution", "Adaptation", "Mutation"],
+                    correct: 1
+                },
+                {
+                    question: "Which particle has a negative charge?",
+                    choices: ["Proton", "Neutron", "Electron", "Positron"],
+                    correct: 2
+                }
+            ],
+            philosophy: [
+                {
+                    question: "Who wrote 'The Republic'?",
+                    choices: ["Aristotle", "Plato", "Socrates", "Pythagoras"],
+                    correct: 1
+                },
+                {
+                    question: "What is epistemology?",
+                    choices: ["Study of existence", "Study of knowledge", "Study of ethics", "Study of logic"],
+                    correct: 1
+                },
+                {
+                    question: "Which philosopher said 'I think, therefore I am'?",
+                    choices: ["Kant", "Descartes", "Nietzsche", "Hegel"],
+                    correct: 1
+                },
+                {
+                    question: "What is the study of the nature of existence called?",
+                    choices: ["Metaphysics", "Ethics", "Logic", "Aesthetics"],
+                    correct: 0
+                },
+                {
+                    question: "Who wrote 'Beyond Good and Evil'?",
+                    choices: ["Kant", "Hegel", "Nietzsche", "Sartre"],
+                    correct: 2
+                },
+                {
+                    question: "What is the philosophical study of beauty called?",
+                    choices: ["Ethics", "Logic", "Metaphysics", "Aesthetics"],
+                    correct: 3
+                },
+                {
+                    question: "Which school of philosophy emphasizes personal experience and existence?",
+                    choices: ["Rationalism", "Empiricism", "Existentialism", "Materialism"],
+                    correct: 2
+                },
+                {
+                    question: "Who is known as the father of Western philosophy?",
+                    choices: ["Plato", "Aristotle", "Socrates", "Thales"],
+                    correct: 2
+                },
+                {
+                    question: "What is the study of right and wrong behavior?",
+                    choices: ["Logic", "Ethics", "Metaphysics", "Epistemology"],
+                    correct: 1
+                },
+                {
+                    question: "Which philosopher wrote 'Critique of Pure Reason'?",
+                    choices: ["Hegel", "Kant", "Locke", "Berkeley"],
+                    correct: 1
+                }
+            ],
+            enterprise: [
+                {
+                    question: "What is the primary goal of a business enterprise?",
+                    choices: ["Profit maximization", "Social welfare", "Employee satisfaction", "Market dominance"],
+                    correct: 0
+                },
+                {
+                    question: "What is ROI?",
+                    choices: ["Rate of Interest", "Return on Investment", "Risk of Investment", "Return on Income"],
+                    correct: 1
+                },
+                {
+                    question: "What is a startup's initial funding called?",
+                    choices: ["Angel Investment", "Seed Funding", "Series A", "Venture Capital"],
+                    correct: 1
+                },
+                {
+                    question: "What is the term for a company's total market value?",
+                    choices: ["Net Worth", "Market Capitalization", "Book Value", "Enterprise Value"],
+                    correct: 1
+                },
+                {
+                    question: "What is a business plan's executive summary?",
+                    choices: ["Financial projection", "Brief overview", "Marketing strategy", "Operations plan"],
+                    correct: 1
+                },
+                {
+                    question: "What is the break-even point?",
+                    choices: ["Maximum profit", "Zero profit/loss", "Maximum loss", "Minimum investment"],
+                    correct: 1
+                },
+                {
+                    question: "What is corporate social responsibility?",
+                    choices: ["Profit sharing", "Environmental care", "Social initiatives", "All of the above"],
+                    correct: 3
+                },
+                {
+                    question: "What is market segmentation?",
+                    choices: ["Division of market", "Product pricing", "Sales strategy", "Market research"],
+                    correct: 0
+                },
+                {
+                    question: "What is intellectual property?",
+                    choices: ["Physical assets", "Human resources", "Intangible assets", "Financial assets"],
+                    correct: 2
+                },
+                {
+                    question: "What is a hostile takeover?",
+                    choices: ["Friendly merger", "Forced acquisition", "Joint venture", "Strategic alliance"],
+                    correct: 1
+                }
+            ],
+            creativity: [
+                {
+                    question: "What is brainstorming?",
+                    choices: ["Problem solving", "Idea generation", "Decision making", "Project planning"],
+                    correct: 1
+                },
+                {
+                    question: "What is lateral thinking?",
+                    choices: ["Direct approach", "Indirect approach", "Linear thinking", "Vertical thinking"],
+                    correct: 1
+                },
+                {
+                    question: "What is the primary element of creativity?",
+                    choices: ["Innovation", "Originality", "Skill", "Knowledge"],
+                    correct: 1
+                },
+                {
+                    question: "What is design thinking?",
+                    choices: ["Art creation", "Problem solving", "Technical design", "Visual thinking"],
+                    correct: 1
+                },
+                {
+                    question: "What is divergent thinking?",
+                    choices: ["Linear thought", "Multiple solutions", "Single solution", "Convergent thought"],
+                    correct: 1
+                },
+                {
+                    question: "What role does constraints play in creativity?",
+                    choices: ["Limits creativity", "Enhances creativity", "No effect", "Blocks creativity"],
+                    correct: 1
+                },
+                {
+                    question: "What is creative visualization?",
+                    choices: ["Drawing", "Mental imagery", "Photography", "Animation"],
+                    correct: 1
+                },
+                {
+                    question: "What is the importance of iteration in creativity?",
+                    choices: ["Refinement", "Completion", "Perfection", "Finalization"],
+                    correct: 0
+                },
+                {
+                    question: "What is creative block?",
+                    choices: ["Mental barrier", "Physical barrier", "Time constraint", "Resource limitation"],
+                    correct: 0
+                },
+                {
+                    question: "What is synesthesia in creativity?",
+                    choices: ["Color perception", "Sensory mixing", "Sound perception", "Visual thinking"],
+                    correct: 1
+                }
+            ],
+            technology: [
+                {
+                    question: "What is artificial intelligence?",
+                    choices: ["Machine learning", "Human simulation", "Computer programming", "Digital processing"],
+                    correct: 0
+                },
+                {
+                    question: "What is cloud computing?",
+                    choices: ["Weather forecast", "Internet storage", "Data processing", "Network security"],
+                    correct: 1
+                },
+                {
+                    question: "What is blockchain?",
+                    choices: ["Cryptocurrency", "Digital ledger", "Security system", "Database"],
+                    correct: 1
+                },
+                {
+                    question: "What is 5G?",
+                    choices: ["Mobile network", "Internet protocol", "Wireless standard", "Digital signal"],
+                    correct: 2
+                },
+                {
+                    question: "What is IoT?",
+                    choices: ["Internet protocol", "Connected devices", "Network security", "Data transfer"],
+                    correct: 1
+                },
+                {
+                    question: "What is quantum computing?",
+                    choices: ["Fast computing", "Quantum mechanics", "Digital processing", "Binary computation"],
+                    correct: 1
+                },
+                {
+                    question: "What is augmented reality?",
+                    choices: ["Virtual world", "Enhanced reality", "Digital display", "3D modeling"],
+                    correct: 1
+                },
+                {
+                    question: "What is machine learning?",
+                    choices: ["AI subset", "Programming", "Data processing", "Automation"],
+                    correct: 0
+                },
+                {
+                    question: "What is cybersecurity?",
+                    choices: ["Internet safety", "Data protection", "Network security", "All of above"],
+                    correct: 3
+                },
+                {
+                    question: "What is edge computing?",
+                    choices: ["Cloud processing", "Local processing", "Data center", "Network edge"],
+                    correct: 1
+                }
+            ],
+            research: [
+                {
+                    question: "What is the scientific method?",
+                    choices: ["Observation", "Experimentation", "Systematic approach", "All of above"],
+                    correct: 3
+                },
+                {
+                    question: "What is a hypothesis?",
+                    choices: ["Conclusion", "Prediction", "Result", "Observation"],
+                    correct: 1
+                },
+                {
+                    question: "What is peer review?",
+                    choices: ["Self evaluation", "Expert evaluation", "Public review", "Internal review"],
+                    correct: 1
+                },
+                {
+                    question: "What is empirical research?",
+                    choices: ["Theoretical study", "Practical study", "Literature review", "Data analysis"],
+                    correct: 1
+                },
+                {
+                    question: "What is qualitative research?",
+                    choices: ["Numerical data", "Descriptive data", "Statistical analysis", "Quantitative data"],
+                    correct: 1
+                },
+                {
+                    question: "What is a research methodology?",
+                    choices: ["Data collection", "Research approach", "Analysis method", "All of above"],
+                    correct: 3
+                },
+                {
+                    question: "What is sampling in research?",
+                    choices: ["Data collection", "Population subset", "Data analysis", "Research method"],
+                    correct: 1
+                },
+                {
+                    question: "What is a literature review?",
+                    choices: ["Book review", "Research summary", "Article review", "Publication review"],
+                    correct: 1
+                },
+                {
+                    question: "What is research ethics?",
+                    choices: ["Legal rules", "Moral principles", "Research guidelines", "All of above"],
+                    correct: 3
+                },
+                {
+                    question: "What is primary research?",
+                    choices: ["Original research", "Secondary research", "Literature review", "Data analysis"],
+                    correct: 0
+                }
+            ],
+            understanding: [
+                {
+                    question: "What is metacognition?",
+                    choices: ["Learning process", "Thinking about thinking", "Understanding", "Knowledge"],
+                    correct: 1
+                },
+                {
+                    question: "What is critical thinking?",
+                    choices: ["Analysis", "Evaluation", "Reasoning", "All of above"],
+                    correct: 3
+                },
+                {
+                    question: "What is cognitive bias?",
+                    choices: ["Thinking error", "Mental shortcut", "Judgment error", "All of above"],
+                    correct: 3
+                },
+                {
+                    question: "What is conceptual understanding?",
+                    choices: ["Memorization", "Deep comprehension", "Surface learning", "Fact knowing"],
+                    correct: 1
+                },
+                {
+                    question: "What is analytical thinking?",
+                    choices: ["Problem solving", "Critical analysis", "Logical thinking", "All of above"],
+                    correct: 3
+                },
+                {
+                    question: "What is knowledge acquisition?",
+                    choices: ["Learning", "Understanding", "Comprehension", "All of above"],
+                    correct: 3
+                },
+                {
+                    question: "What is cognitive load?",
+                    choices: ["Mental effort", "Memory capacity", "Learning limit", "Brain power"],
+                    correct: 0
+                },
+                {
+                    question: "What is schema in understanding?",
+                    choices: ["Mental model", "Knowledge structure", "Cognitive map", "All of above"],
+                    correct: 3
+                },
+                {
+                    question: "What is deep learning?",
+                    choices: ["Surface learning", "Comprehensive learning", "Memorization", "Rote learning"],
+                    correct: 1
+                },
+                {
+                    question: "What is comprehension monitoring?",
+                    choices: ["Understanding check", "Learning evaluation", "Knowledge test", "All of above"],
+                    correct: 0
+                }
+            ],
+            medicine: [
+                {
+                    question: "What is anatomy?",
+                    choices: ["Body structure", "Body function", "Disease study", "Health study"],
+                    correct: 0
+                },
+                {
+                    question: "What is physiology?",
+                    choices: ["Body structure", "Body function", "Disease study", "Health study"],
+                    correct: 1
+                },
+                {
+                    question: "What is pathology?",
+                    choices: ["Health study", "Disease study", "Body function", "Body structure"],
+                    correct: 1
+                },
+                {
+                    question: "What is pharmacology?",
+                    choices: ["Drug study", "Disease study", "Health study", "Body study"],
+                    correct: 0
+                },
+                {
+                    question: "What is immunology?",
+                    choices: ["Disease study", "Immune system", "Body defense", "Health protection"],
+                    correct: 1
+                },
+                {
+                    question: "What is neurology?",
+                    choices: ["Brain study", "Nerve study", "Mental study", "All of above"],
+                    correct: 3
+                },
+                {
+                    question: "What is cardiology?",
+                    choices: ["Heart study", "Blood study", "Vessel study", "All of above"],
+                    correct: 0
+                },
+                {
+                    question: "What is oncology?",
+                    choices: ["Cancer study", "Tumor study", "Cell study", "All of above"],
+                    correct: 0
+                },
+                {
+                    question: "What is pediatrics?",
+                    choices: ["Child care", "Adult care", "Elder care", "General care"],
+                    correct: 0
+                },
+                {
+                    question: "What is surgery?",
+                    choices: ["Medical treatment", "Operative treatment", "Drug treatment", "Physical treatment"],
+                    correct: 1
+                }
+            ]
+        };
+
+        let currentSubject = '';
+        let currentQuestion = 0;
+        let score = 0;
+        let subjectScores = {};
+
+        const subjectGrid = document.getElementById('subjectGrid');
+        const quizContainer = document.getElementById('quizContainer');
+        const resultsContainer = document.getElementById('results');
+        const questionElement = document.getElementById('question');
+        const choicesElement = document.getElementById('choices');
+        const progressElement = document.getElementById('progress');
+        const subjectTitle = document.getElementById('subjectTitle');
+        const scoreElement = document.getElementById('score');
+        const subjectScoresElement = document.getElementById('subjectScores');
+        const nextButton = document.getElementById('nextBtn');
+        const backButton = document.getElementById('backBtn');
+        const restartButton = document.getElementById('restartBtn');
+
+        function initializeSubjects() {
+            Object.keys(quizData).forEach(subject => {
+                const card = document.createElement('div');
+                card.className = 'subject-card';
+                card.textContent = subject.charAt(0).toUpperCase() + subject.slice(1);
+                card.addEventListener('click', () => startSubjectQuiz(subject));
+                if (subjectScores[subject] !== undefined) {
+                    card.classList.add('completed');
+                }
+                subjectGrid.appendChild(card);
+            });
+        }
+
+        function startSubjectQuiz(subject) {
+            currentSubject = subject;
+            currentQuestion = 0;
+            score = 0;
+            subjectTitle.textContent = subject.charAt(0).toUpperCase() + subject.slice(1);
+            subjectGrid.style.display = 'none';
+            quizContainer.classList.add('active');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const question = quizData[currentSubject][currentQuestion];
+            questionElement.textContent = `${currentQuestion + 1}. ${question.question}`;
+            choicesElement.innerHTML = '';
+            
+            question.choices.forEach((choice, index) => {
+                const button = document.createElement('button');
+                button.className = 'choice-btn';
+                button.textContent = choice;
+                button.addEventListener('click', () => selectChoice(index));
+                choicesElement.appendChild(button);
+            });
+
+            progressElement.textContent = `Question ${currentQuestion + 1} of ${quizData[currentSubject].length}`;
+            nextButton.style.display = 'none';
+        }
+
+        function selectChoice(choiceIndex) {
+            const correct = quizData[currentSubject][currentQuestion].correct === choiceIndex;
+            const buttons = choicesElement.getElementsByClassName('choice-btn');
+            
+            Array.from(buttons).forEach((button, index) => {
+                button.disabled = true;
+                if (index === choiceIndex) {
+                    button.classList.add(correct ? 'correct' : 'wrong');
+                }
+                if (index === quizData[currentSubject][currentQuestion].correct) {
+                    button.classList.add('correct');
+                }
+            });
+
+            if (correct) score++;
+            nextButton.style.display = 'inline-block';
+        }
+
+        nextButton.addEventListener('click', () => {
+            currentQuestion++;
+            if (currentQuestion < quizData[currentSubject].length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        });
+
+        function showResults() {
+            quizContainer.classList.remove('active');
+            resultsContainer.classList.add('active');
+            subjectScores[currentSubject] = score;
+            
+            scoreElement.textContent = `${score} out of ${quizData[currentSubject].length}`;
+            
+            subjectScoresElement.innerHTML = '';
+            Object.entries(subjectScores).forEach(([subject, score]) => {
+                const div = document.createElement('div');
+                div.className = 'subject-score';
+                div.textContent = `${subject}: ${score}/${quizData[subject].length}`;
+                subjectScoresElement.appendChild(div);
+            });
+        }
+
+        backButton.addEventListener('click', showSubjects);
+        restartButton.addEventListener('click', showSubjects);
+
+        function showSubjects() {
+            quizContainer.classList.remove('active');
+            resultsContainer.classList.remove('active');
+            subjectGrid.style.display = 'grid';
+            subjectGrid.innerHTML = '';
+            initializeSubjects();
+        }
+
+        initializeSubjects();
+    </script>
+</body>
+</html>
